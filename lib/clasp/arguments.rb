@@ -4,6 +4,34 @@ require File.join(File.dirname(__FILE__), 'arguments')
 module Clasp
 
 	class Arguments
+ 
+		private
+		class Flag
+			def initialize(arg, num_hyphens, name)
+				@arg = arg
+				@num_hyphens = num_hyphens
+				@name = name
+			end # def initialize(arg, num_hyphens, name)
+			attr_reader :name
+			attr_reader :num_hyphens
+			def to_s
+				@arg
+			end # def to_s
+		end # class Flag
+		class Option
+			def initialize(arg, num_hyphens, name, value)
+				@arg = arg
+				@num_hyphens = num_hyphens
+				@name = name
+				@value = value
+			end # def initialize(arg, num_hyphens, name, value)
+			attr_reader :name
+			attr_reader :value
+			attr_reader :num_hyphens
+			def to_s
+				@arg
+			end # def to_s
+		end # class Option
 
 		# ######################
 		# Construction
@@ -33,9 +61,9 @@ module Clasp
 
 						if value and not value.empty?
 							value = value[1 ... value.size]
-							@options << arg
+							@options << Option::new(arg, hyphens.size, name, value)
 						else
-							@flags << arg
+							@flags << Flag::new(arg, hyphens.size, name)
 						end
 					else
 						@values << arg
