@@ -1,0 +1,37 @@
+
+# directories (by name)
+
+.bzr/
+.git/
+
+doc/
+lib/bundler/man
+spec/reports
+test/tmp
+test/version_tmp
+
+# directories (by pattern)
+
+# files (by name)
+
+.DS_Store
+.bundle
+.config
+.yardoc
+_yardoc
+Gemfile.lock
+
+InstalledFiles
+coverage
+pkg
+rdoc
+
+# files (by pattern)
+
+*.*~
+*.gem
+*.rbc
+*.scc
+*.suo
+*.swp
+
