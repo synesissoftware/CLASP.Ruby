@@ -7,27 +7,32 @@ module Clasp
  
 		private
 		class Flag
-			def initialize(arg, num_hyphens, name)
+			def initialize(arg, num_hyphens, label)
 				@arg = arg
 				@num_hyphens = num_hyphens
-				@name = name
-			end # def initialize(arg, num_hyphens, name)
+				@label = label
+				@name = arg
+			end # def initialize(arg, num_hyphens, label)
+			attr_reader :label
 			attr_reader :name
 			attr_reader :num_hyphens
 			def to_s
 				@arg
 			end # def to_s
 		end # class Flag
+
 		class Option
-			def initialize(arg, num_hyphens, name, value)
+			def initialize(arg, num_hyphens, label, value)
 				@arg = arg
 				@num_hyphens = num_hyphens
-				@name = name
+				@label = label
+				@name = ('-' * num_hyphens) + label
 				@value = value
-			end # def initialize(arg, num_hyphens, name, value)
+			end # def initialize(arg, num_hyphens, label, value)
+			attr_reader :label
 			attr_reader :name
-			attr_reader :value
 			attr_reader :num_hyphens
+			attr_reader :value
 			def to_s
 				@arg
 			end # def to_s
@@ -56,14 +61,14 @@ module Clasp
 					# do regex test to see if option/flag/value
 					if arg =~ /^(-+)([^=]+)/
 						hyphens	=	$1
-						name	=	$2
+						label	=	$2
 						value	=	$'
 
 						if value and not value.empty?
 							value = value[1 ... value.size]
-							@options << Option::new(arg, hyphens.size, name, value)
+							@options << Option::new(arg, hyphens.size, label, value)
 						else
-							@flags << Flag::new(arg, hyphens.size, name)
+							@flags << Flag::new(arg, hyphens.size, label)
 						end
 					else
 						@values << arg
