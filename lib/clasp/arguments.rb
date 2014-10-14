@@ -19,6 +19,21 @@ module Clasp
 			def to_s
 				@arg
 			end # def to_s
+			def <=>(rhs)
+				return -1 if rhs.nil?
+				return @arg <=> rhs if rhs.instance_of? String
+				r = self.num_hyphens - rhs.num_hyphens
+				return r if 0 != r
+				r = self.label <=> rhs.label
+				return r
+			end # def <=>(rhs)
+			def ==(rhs)
+				return false if rhs.nil?
+				return @arg == rhs if rhs.instance_of? String
+				return false if self.num_hyphens != rhs.num_hyphens
+				return false if self.label != rhs.label
+				return true
+			end # def ==(rhs)
 		end # class Flag
 
 		class Option
