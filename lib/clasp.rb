@@ -1,14 +1,14 @@
 # ######################################################################### #
-# File:     clasp.rb
+# File:         clasp.rb
 #
-# Purpose:	Top-level include for clasp.ruby library
+# Purpose:      Top-level source for clasp.ruby library
 #
-# Created:	13th October 2014
-# Updated:	13th October 2014
+# Created:      13th October 2014
+# Updated:      25th October 2014
 #
-# Author:	Matthew Wilson
+# Author:       Matthew Wilson
 #
-# Copyright:	<<TBD>>
+# Copyright:    <<TBD>>
 #
 # ######################################################################### #
 
@@ -17,3 +17,4 @@
 require File.join(File.dirname(__FILE__), 'clasp/clasp')
 
 # ############################## end of file ############################# #
+

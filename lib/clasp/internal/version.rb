@@ -13,6 +13,9 @@
 # ######################################################################### #
 
 
+# ######################################################################### #
+# module
+
 module Recls
 
 	# Current version of the clasp.ruby library
@@ -25,7 +28,10 @@ module Recls
 	VERSION_MINOR		=	VERSION_PARTS_[1] # :nodoc:
 	VERSION_REVISION	=	VERSION_PARTS_[2] # :nodoc:
 
-end
+# ######################################################################### #
+# module
+
+end # module Recls
 
 # ############################## end of file ############################# #
 
