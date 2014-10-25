@@ -3,7 +3,7 @@ $:.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib')
 
 require 'clasp'
 
-Args = Clasp::Arguments::new(ARGV)
+Args = Clasp::Arguments.new(ARGV)
 
 puts
 puts "flags #{Args.flags.size}:"

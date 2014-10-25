@@ -99,9 +99,9 @@ class Arguments
 
 					if value and not value.empty?
 						value = value[1 ... value.size]
-						@options << Option::new(arg, hyphens.size, label, value)
+						@options << Option.new(arg, hyphens.size, label, value)
 					else
-						@flags << Flag::new(arg, hyphens.size, label)
+						@flags << Flag.new(arg, hyphens.size, label)
 					end
 				else
 					@values << arg
