@@ -22,25 +22,31 @@ module Clasp
 # classes
 
 class Arguments
- 
+
 	private
 	class Flag
-		def initialize(arg, num_hyphens, label)
-			@arg = arg
-			@num_hyphens = num_hyphens
-			@label = label
-			@name = arg
-		end # def initialize(arg, num_hyphens, label)
+		def initialize(arg, index, given_name, argument_alias, given_hyphens, label)
+			@arg			=	arg
+			@index			=	index
+			@given_name		=	given_name
+			@argument_alias	=	argument_alias
+			@given_hyphens	=	given_hyphens
+			@label			=	label
+			@name			=	argument_alias ? argument_alias.name : given_name
+		end # def initialize()
+		attr_reader :index
+		attr_reader :given_name
+		attr_reader :argument_alias
+		attr_reader :given_hyphens
 		attr_reader :label
 		attr_reader :name
-		attr_reader :num_hyphens
 		def to_s
 			@arg
 		end # def to_s
 		def <=>(rhs)
 			return -1 if rhs.nil?
 			return @arg <=> rhs if rhs.instance_of? String
-			r = self.num_hyphens - rhs.num_hyphens
+			r = self.given_hyphens - rhs.given_hyphens
 			return r if 0 != r
 			r = self.label <=> rhs.label
 			return r
@@ -48,23 +54,29 @@ class Arguments
 		def ==(rhs)
 			return false if rhs.nil?
 			return @arg == rhs if rhs.instance_of? String
-			return false if self.num_hyphens != rhs.num_hyphens
+			return false if self.given_hyphens != rhs.given_hyphens
 			return false if self.label != rhs.label
 			return true
 		end # def ==(rhs)
 	end # class Flag
 
 	class Option
-		def initialize(arg, num_hyphens, label, value)
-			@arg = arg
-			@num_hyphens = num_hyphens
-			@label = label
-			@name = ('-' * num_hyphens) + label
-			@value = value
-		end # def initialize(arg, num_hyphens, label, value)
+		def initialize(arg, index, given_name, argument_alias, given_hyphens, label, value)
+			@arg			=	arg
+			@index			=	index
+			@given_name		=	given_name
+			@argument_alias	=	argument_alias
+			@given_hyphens	=	given_hyphens
+			@label			=	label
+			@value			=	value
+			@name			=	argument_alias ? argument_alias.name : given_name
+		end # def initialize()
+		attr_reader :index
+		attr_reader :given_name
+		attr_reader :argument_alias
+		attr_reader :given_hyphens
 		attr_reader :label
 		attr_reader :name
-		attr_reader :num_hyphens
 		attr_reader :value
 		def to_s
 			@arg
@@ -77,35 +89,57 @@ class Arguments
 	public
 	def initialize(argv = ARGV, aliases = nil)
 
-		@flags = []
-		@options = []
-		@values = []
+		@aliases	=	aliases
 
-		forced_value = false
+		@flags		=	[]
+		@options	=	[]
+		@values		=	[]
 
-		argv.each do |arg|
+		forced_value		=	false
+		want_option_value	=	false
 
-			if forced_value
-				@values << arg
-			elsif '--' == arg
-				# all subsequent arguments are values
-				forced_value = true
-			else
+		argv.each_with_index do |arg, index|
+
+			if not forced_value
+				if '--' == arg
+					# all subsequent arguments are values
+					forced_value = true
+					next
+				end
+
 				# do regex test to see if option/flag/value
 				if arg =~ /^(-+)([^=]+)/
-					hyphens	=	$1
-					label	=	$2
-					value	=	$'
+					hyphens			=	$1
+					label			=	$2
+					given_name		=	"#$1#$2"
+					value			=	($' and not $'.empty?) ? $'[1 ... $'.size] : nil
+					argument_alias	=	nil
 
-					if value and not value.empty?
-						value = value[1 ... value.size]
-						@options << Option.new(arg, hyphens.size, label, value)
-					else
-						@flags << Flag.new(arg, hyphens.size, label)
+					(aliases || []).each do |a|
+						if a.name == given_name or a.aliases.include? given_name
+							argument_alias = a
+							break
+						end
 					end
-				else
-					@values << arg
+
+					if argument_alias and argument_alias.is_a? Clasp::Option and not value
+						want_option_value = true
+						@options << Option.new(arg, index, given_name, argument_alias, hyphens.size, label, nil)
+					elsif value
+						@options << Option.new(arg, index, given_name, argument_alias, hyphens.size, label, value)
+					else
+						@flags << Flag.new(arg, index, given_name, argument_alias, hyphens.size, label)
+					end
+					next
 				end
+			end
+
+			if want_option_value
+				option	=	@options[-1]
+				option.instance_eval("@value='#{arg}'")
+				want_option_value = false
+			else
+				@values << arg
 			end
 		end
 
@@ -115,6 +149,10 @@ class Arguments
 	# Attributes
 
 	public
+	def aliases
+		@aliases.dup
+	end # def aliases
+
 	def flags
 		@flags.dup
 	end # def flags

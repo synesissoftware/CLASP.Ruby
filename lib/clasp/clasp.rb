@@ -14,6 +14,7 @@
 
 
 require File.join(File.dirname(__FILE__), 'arguments')
+require File.join(File.dirname(__FILE__), 'aliases')
 
 # ############################## end of file ############################# #
 
