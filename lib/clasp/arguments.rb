@@ -81,6 +81,8 @@ class Arguments
 
 	class ImmutableArray
 
+		include Enumerable
+
 		def initialize(a)
 			@a = a
 		end
@@ -88,6 +90,7 @@ class Arguments
 		def each
 			@a.each { |i| yield i }
 		end
+
 		def size
 			@a.size
 		end
@@ -243,17 +246,6 @@ class Arguments
 	def values
 		@values
 	end # def values
-
-	# ######################
-	# Interrogation
-
-	public
-	def include_flag? f
-		@flags.each do |f_|
-			return true if f_ == f
-		end
-		false
-	end
 
 end # class Arguments
 
