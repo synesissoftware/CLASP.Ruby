@@ -2,17 +2,19 @@
 #
 # executes all other tests
 
-ThisDir = File.expand_path(File.dirname(__FILE__))
+this_file	=	File.expand_path(__FILE__)
+this_dir	=	File.expand_path(File.dirname(__FILE__))
 $:.unshift File.join(File.dirname(__FILE__), '../..', 'lib')
 
+puts "executing all test cases in directory #{this_dir}"
 
-puts "executing all test cases in directory #{ThisDir}"
+Dir["#{this_dir}/*.rb"].each do |file|
 
-
-
-Dir["#{ThisDir}/*.rb"].each do |file|
-
-	next if __FILE__ == file
+#puts "file: [#{file}]"
+#puts "FILE: [#{this_file}]"
+#puts
+#
+	next if this_file == file
 
 	require file
 

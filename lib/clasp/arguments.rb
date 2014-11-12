@@ -43,20 +43,15 @@ class Arguments
 		def to_s
 			@name
 		end # def to_s
-		def <=>(rhs)
-			return -1 if rhs.nil?
-			return @arg <=> rhs if rhs.instance_of? String
-			r = self.given_hyphens - rhs.given_hyphens
-			return r if 0 != r
-			r = self.given_label <=> rhs.given_label
-			return r
-		end # def <=>(rhs)
 		def ==(rhs)
 			return false if rhs.nil?
-			return @arg == rhs if rhs.instance_of? String
-			return false if self.given_hyphens != rhs.given_hyphens
-			return false if self.given_label != rhs.given_label
-			return true
+			if not rhs.instance_of? String
+				rhs = rhs.name
+			end
+			# check name and aliases
+			return true if @name == rhs
+			return argument_alias.aliases.include? rhs if argument_alias
+			return false
 		end # def ==(rhs)
 	end # class Flag
 
@@ -224,6 +219,17 @@ class Arguments
 		@values.dup
 	end # def values
 
+	# ######################
+	# Interrogation
+
+	public
+	def include_flag? f
+		@flags.each do |f_|
+			return true if f_ == f
+		end
+		false
+	end
+
 end # class Arguments
 
 # ######################################################################### #
@@ -231,5 +237,5 @@ end # class Arguments
 
 end # module Clasp
 
-# ############################## end of file ############################# #
+# ############################## end of file ############################## #
 
