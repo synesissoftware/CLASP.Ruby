@@ -79,6 +79,23 @@ class Arguments
 		end # def to_s
 	end # class Option
 
+	class ImmutableArray
+
+		def initialize(a)
+			@a = a
+		end
+
+		def each
+			@a.each { |i| yield i }
+		end
+		def size
+			@a.size
+		end
+		def [](index)
+			@a[index]
+		end
+	end
+
 	# ######################
 	# Construction
 
@@ -89,7 +106,11 @@ class Arguments
 
 		aliases		=	nil if aliases and aliases.empty?
 
-		@flags, @options, @values = Arguments.parse(argv, aliases)
+		flags, options, values = Arguments.parse(argv, aliases)
+
+		@flags		=	ImmutableArray.new(flags)
+		@options	=	ImmutableArray.new(options)
+		@values		=	ImmutableArray.new(values)
 
 	end
 
@@ -203,20 +224,24 @@ class Arguments
 	# Attributes
 
 	public
+	# an immutable array of aliases
 	def aliases
-		@aliases.dup
+		@aliases
 	end # def aliases
 
+	# an immutable array of flags
 	def flags
-		@flags.dup
+		@flags
 	end # def flags
 
+	# an immutable array of options
 	def options
-		@options.dup
+		@options
 	end # def options
 
+	# an immutable array of values
 	def values
-		@values.dup
+		@values
 	end # def values
 
 	# ######################

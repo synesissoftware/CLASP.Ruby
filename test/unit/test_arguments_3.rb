@@ -7,7 +7,7 @@ require 'test/unit'
 
 class Test_Arguments_3 < Test::Unit::TestCase
 
-	def test_flag_specified_1
+	def test_include_flag_1
 
 		args	=	Clasp::Arguments.new [ '-f1', 'value1', '--option1=value1', '--flag2' ], nil
 
@@ -17,7 +17,7 @@ class Test_Arguments_3 < Test::Unit::TestCase
 		assert not(args.include_flag? '--option1')
 	end
 
-	def test_flag_specified_2
+	def test_include_flag_2
 
 		aliases	=	[
 			Clasp.Flag('--flag1', :alias => '-f1'),
