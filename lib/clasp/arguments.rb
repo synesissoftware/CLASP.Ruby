@@ -121,6 +121,14 @@ class Arguments
 						if a.name == given_name or a.aliases.include? given_name
 							argument_alias	=	a
 							resolved_name	=	a.name
+
+							# need to check whether the alias is a default-option
+							# and, if so, expand out its name and value, and replace
+							# the name and (if none previously specified) the value
+							if resolved_name =~ /^(-+)([^=]+)=/
+								resolved_name	=	"#$1#$2"
+								value			=	value || $'
+							end
 							break
 						end
 					end
