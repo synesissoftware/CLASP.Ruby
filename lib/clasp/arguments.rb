@@ -25,14 +25,14 @@ class Arguments
 
 	private
 	class Flag
-		def initialize(arg, index, given_name, argument_alias, given_hyphens, given_label)
+		def initialize(arg, index, given_name, resolved_name, argument_alias, given_hyphens, given_label)
 			@arg			=	arg
 			@index			=	index
 			@given_name		=	given_name
 			@argument_alias	=	argument_alias
 			@given_hyphens	=	given_hyphens
 			@given_label	=	given_label
-			@name			=	argument_alias ? argument_alias.name : given_name
+			@name			=	resolved_name || given_name
 		end # def initialize()
 		attr_reader :index
 		attr_reader :given_name
@@ -61,7 +61,7 @@ class Arguments
 	end # class Flag
 
 	class Option
-		def initialize(arg, index, given_name, argument_alias, given_hyphens, given_label, value)
+		def initialize(arg, index, given_name, resolved_name, argument_alias, given_hyphens, given_label, value)
 			@arg			=	arg
 			@index			=	index
 			@given_name		=	given_name
@@ -69,7 +69,7 @@ class Arguments
 			@given_hyphens	=	given_hyphens
 			@given_label	=	given_label
 			@value			=	value
-			@name			=	argument_alias ? argument_alias.name : given_name
+			@name			=	resolved_name || given_name
 		end # def initialize()
 		attr_reader :index
 		attr_reader :given_name
@@ -115,23 +115,25 @@ class Arguments
 					given_name		=	"#$1#$2"
 					value			=	($' and not $'.empty?) ? $'[1 ... $'.size] : nil
 					argument_alias	=	nil
+					resolved_name	=	nil
 
 					(aliases || []).each do |a|
 						if a.name == given_name or a.aliases.include? given_name
-							argument_alias = a
+							argument_alias	=	a
+							resolved_name	=	a.name
 							break
 						end
 					end
 
 					if argument_alias and argument_alias.is_a? Clasp::Option and not value
 						want_option_value = true
-						@options << Option.new(arg, index, given_name, argument_alias, hyphens.size, given_label, nil)
+						@options << Option.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, nil)
 					elsif value
 						want_option_value = false
-						@options << Option.new(arg, index, given_name, argument_alias, hyphens.size, given_label, value)
+						@options << Option.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, value)
 					else
 						want_option_value = false
-						@flags << Flag.new(arg, index, given_name, argument_alias, hyphens.size, given_label)
+						@flags << Flag.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label)
 					end
 
 					next
