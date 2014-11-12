@@ -64,6 +64,7 @@ class Test_Arguments < Test::Unit::TestCase
 		args	=	Clasp::Arguments.new([ '-f1' ])
 
 		assert_equal 1, args.flags.size
+		assert_equal 0, args.flags[0].given_index
 		assert_equal '-f1', args.flags[0].to_s
 		assert_equal '-f1', args.flags[0].name
 		assert_equal 'f1', args.flags[0].given_label
@@ -81,12 +82,14 @@ class Test_Arguments < Test::Unit::TestCase
 		args	=	Clasp::Arguments.new([ '-f1', '--flag2' ])
 
 		assert_equal 2, args.flags.size
+		assert_equal 0, args.flags[0].given_index
 		assert_equal '-f1', args.flags[0].to_s
 		assert_equal '-f1', args.flags[0].name
 		assert_equal 'f1', args.flags[0].given_label
 		assert_equal '-f1', args.flags[0].given_name
 		assert_equal 1, args.flags[0].given_hyphens
 		assert_nil args.flags[0].argument_alias
+		assert_equal 1, args.flags[1].given_index
 		assert_equal '--flag2', args.flags[1].to_s
 		assert_equal '--flag2', args.flags[1].name
 		assert_equal 'flag2', args.flags[1].given_label
@@ -104,18 +107,21 @@ class Test_Arguments < Test::Unit::TestCase
 		args	=	Clasp::Arguments.new([ '-f1', '--flag2', '---x' ])
 
 		assert_equal 3, args.flags.size
+		assert_equal 0, args.flags[0].given_index
 		assert_equal '-f1', args.flags[0].to_s
 		assert_equal '-f1', args.flags[0].name
 		assert_equal 'f1', args.flags[0].given_label
 		assert_equal '-f1', args.flags[0].given_name
 		assert_equal 1, args.flags[0].given_hyphens
 		assert_nil args.flags[0].argument_alias
+		assert_equal 1, args.flags[1].given_index
 		assert_equal '--flag2', args.flags[1].to_s
 		assert_equal '--flag2', args.flags[1].name
 		assert_equal 'flag2', args.flags[1].given_label
 		assert_equal '--flag2', args.flags[1].given_name
 		assert_equal 2, args.flags[1].given_hyphens
 		assert_nil args.flags[1].argument_alias
+		assert_equal 2, args.flags[2].given_index
 		assert_equal '---x', args.flags[2].to_s
 		assert_equal '---x', args.flags[2].name
 		assert_equal 'x', args.flags[2].given_label
@@ -135,6 +141,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 0, args.flags.size
 
 		assert_equal 1, args.options.size
+		assert_equal 0, args.options[0].given_index
 		assert_equal '-o1=v1', args.options[0].to_s
 		assert_equal '-o1', args.options[0].name
 		assert_equal 'o1', args.options[0].given_label

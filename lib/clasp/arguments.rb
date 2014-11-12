@@ -25,16 +25,16 @@ class Arguments
 
 	private
 	class Flag
-		def initialize(arg, index, given_name, resolved_name, argument_alias, given_hyphens, given_label)
+		def initialize(arg, given_index, given_name, resolved_name, argument_alias, given_hyphens, given_label)
 			@arg			=	arg
-			@index			=	index
+			@given_index	=	given_index
 			@given_name		=	given_name
 			@argument_alias	=	argument_alias
 			@given_hyphens	=	given_hyphens
 			@given_label	=	given_label
 			@name			=	resolved_name || given_name
 		end # def initialize()
-		attr_reader :index
+		attr_reader :given_index
 		attr_reader :given_name
 		attr_reader :argument_alias
 		attr_reader :given_hyphens
@@ -61,9 +61,9 @@ class Arguments
 	end # class Flag
 
 	class Option
-		def initialize(arg, index, given_name, resolved_name, argument_alias, given_hyphens, given_label, value)
+		def initialize(arg, given_index, given_name, resolved_name, argument_alias, given_hyphens, given_label, value)
 			@arg			=	arg
-			@index			=	index
+			@given_index	=	given_index
 			@given_name		=	given_name
 			@argument_alias	=	argument_alias
 			@given_hyphens	=	given_hyphens
@@ -71,7 +71,7 @@ class Arguments
 			@value			=	value
 			@name			=	resolved_name || given_name
 		end # def initialize()
-		attr_reader :index
+		attr_reader :given_index
 		attr_reader :given_name
 		attr_reader :argument_alias
 		attr_reader :given_hyphens
