@@ -25,20 +25,20 @@ class Arguments
 
 	private
 	class Flag
-		def initialize(arg, index, given_name, argument_alias, given_hyphens, label)
+		def initialize(arg, index, given_name, argument_alias, given_hyphens, given_label)
 			@arg			=	arg
 			@index			=	index
 			@given_name		=	given_name
 			@argument_alias	=	argument_alias
 			@given_hyphens	=	given_hyphens
-			@label			=	label
+			@given_label	=	given_label
 			@name			=	argument_alias ? argument_alias.name : given_name
 		end # def initialize()
 		attr_reader :index
 		attr_reader :given_name
 		attr_reader :argument_alias
 		attr_reader :given_hyphens
-		attr_reader :label
+		attr_reader :given_label
 		attr_reader :name
 		def to_s
 			@name
@@ -48,26 +48,26 @@ class Arguments
 			return @arg <=> rhs if rhs.instance_of? String
 			r = self.given_hyphens - rhs.given_hyphens
 			return r if 0 != r
-			r = self.label <=> rhs.label
+			r = self.given_label <=> rhs.given_label
 			return r
 		end # def <=>(rhs)
 		def ==(rhs)
 			return false if rhs.nil?
 			return @arg == rhs if rhs.instance_of? String
 			return false if self.given_hyphens != rhs.given_hyphens
-			return false if self.label != rhs.label
+			return false if self.given_label != rhs.given_label
 			return true
 		end # def ==(rhs)
 	end # class Flag
 
 	class Option
-		def initialize(arg, index, given_name, argument_alias, given_hyphens, label, value)
+		def initialize(arg, index, given_name, argument_alias, given_hyphens, given_label, value)
 			@arg			=	arg
 			@index			=	index
 			@given_name		=	given_name
 			@argument_alias	=	argument_alias
 			@given_hyphens	=	given_hyphens
-			@label			=	label
+			@given_label	=	given_label
 			@value			=	value
 			@name			=	argument_alias ? argument_alias.name : given_name
 		end # def initialize()
@@ -75,10 +75,11 @@ class Arguments
 		attr_reader :given_name
 		attr_reader :argument_alias
 		attr_reader :given_hyphens
-		attr_reader :label
+		attr_reader :given_label
 		attr_reader :name
 		attr_reader :value
 		def to_s
+			return "#{name}=#{value}" if argument_alias
 			@arg
 		end # def to_s
 	end # class Option
@@ -110,7 +111,7 @@ class Arguments
 				# do regex test to see if option/flag/value
 				if arg =~ /^(-+)([^=]+)/
 					hyphens			=	$1
-					label			=	$2
+					given_label		=	$2
 					given_name		=	"#$1#$2"
 					value			=	($' and not $'.empty?) ? $'[1 ... $'.size] : nil
 					argument_alias	=	nil
@@ -124,12 +125,13 @@ class Arguments
 
 					if argument_alias and argument_alias.is_a? Clasp::Option and not value
 						want_option_value = true
-						@options << Option.new(arg, index, given_name, argument_alias, hyphens.size, label, nil)
+						@options << Option.new(arg, index, given_name, argument_alias, hyphens.size, given_label, nil)
 					elsif value
-						@options << Option.new(arg, index, given_name, argument_alias, hyphens.size, label, value)
+						@options << Option.new(arg, index, given_name, argument_alias, hyphens.size, given_label, value)
 					else
-						@flags << Flag.new(arg, index, given_name, argument_alias, hyphens.size, label)
+						@flags << Flag.new(arg, index, given_name, argument_alias, hyphens.size, given_label)
 					end
+
 					next
 				end
 			end
