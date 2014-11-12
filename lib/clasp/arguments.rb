@@ -73,6 +73,16 @@ class Arguments
 		attr_reader :given_label
 		attr_reader :name
 		attr_reader :value
+		def ==(rhs)
+			return false if rhs.nil?
+			if not rhs.instance_of? String
+				rhs = rhs.name
+			end
+			# check name and aliases
+			return true if @name == rhs
+			return argument_alias.aliases.include? rhs if argument_alias
+			return false
+		end # def ==
 		def to_s
 			return "#{name}=#{value}" if argument_alias
 			@arg
