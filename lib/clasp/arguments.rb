@@ -92,9 +92,18 @@ class Arguments
 
 		@aliases	=	aliases
 
-		@flags		=	[]
-		@options	=	[]
-		@values		=	[]
+		aliases		=	nil if aliases and aliases.empty?
+
+		@flags, @options, @values = Arguments.parse(argv, aliases)
+
+	end
+
+	private
+	def self.parse(argv, aliases)
+
+		flags	=	[]
+		options	=	[]
+		values	=	[]
 
 		forced_value		=	false
 		want_option_value	=	false
@@ -133,15 +142,49 @@ class Arguments
 						end
 					end
 
+					# Here we intercept and (potentially) cater to grouped flags
+					if not argument_alias and not value and aliases and 1 == hyphens.size
+						# Must match all
+						flag_aliases = []
+						given_label[0 ... given_label.size].each_char do |c|
+							new_flag	=	"-#{c.chr}"
+							flag_alias	=	aliases.detect { |a| a.aliases.include? new_flag }
+							if not flag_alias
+								flag_aliases	=	nil
+								break
+							else
+								flag_aliases	<<	flag_alias
+							end
+						end
+						if flag_aliases
+							# got them all, so now have to process them all
+							# as normal. Note: is this susceptible to
+							# infinite recursion
+
+							# convert to argv and invoke
+							flags_argv = flag_aliases.map { |a| a.name }
+
+							grp_flags, grp_options, grp_value = Arguments.parse flags_argv, aliases
+
+							grp_flags.map! { |f| Flag.new(arg, index, given_name, f.name, f.argument_alias, hyphens.size, given_label) }
+
+							flags.push(*grp_flags)
+							options.push(*grp_options)
+							values.push(*grp_value)
+
+							next
+						end
+					end
+
 					if argument_alias and argument_alias.is_a? Clasp::Option and not value
 						want_option_value = true
-						@options << Option.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, nil)
+						options << Option.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, nil)
 					elsif value
 						want_option_value = false
-						@options << Option.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, value)
+						options << Option.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, value)
 					else
 						want_option_value = false
-						@flags << Flag.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label)
+						flags << Flag.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label)
 					end
 
 					next
@@ -149,13 +192,15 @@ class Arguments
 			end
 
 			if want_option_value
-				option	=	@options[-1]
+				option	=	options[-1]
 				option.instance_eval("@value='#{arg}'")
 				want_option_value = false
 			else
-				@values << arg
+				values << arg
 			end
 		end
+
+		return flags, options, values
 
 	end # def initialize(argv)
 
