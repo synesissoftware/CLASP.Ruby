@@ -265,6 +265,110 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '--option1=v1', args.values[3]
 	end
 
+	def test_aliases_1
+
+		aliases	=	[
+		]
+		args	=	Clasp::Arguments.new [ '-f1', 'value1', '-x', '--delete' ], aliases
+
+		assert_equal 3, args.flags.size
+		assert_equal '-f1', args.flags[0].to_s
+		assert_equal '-f1', args.flags[0].name
+		assert_equal 'f1', args.flags[0].label
+		assert_equal '-f1', args.flags[0].given_name
+		assert_equal 1, args.flags[0].given_hyphens
+		assert_nil args.flags[0].argument_alias
+		assert_equal '-x', args.flags[1].to_s
+		assert_equal '-x', args.flags[1].name
+		assert_equal 'x', args.flags[1].label
+		assert_equal '-x', args.flags[1].given_name
+		assert_equal 1, args.flags[1].given_hyphens
+		assert_nil args.flags[1].argument_alias
+		assert_equal '--delete', args.flags[2].to_s
+		assert_equal '--delete', args.flags[2].name
+		assert_equal 'delete', args.flags[2].label
+		assert_equal '--delete', args.flags[2].given_name
+		assert_equal 2, args.flags[2].given_hyphens
+		assert_nil args.flags[2].argument_alias
+
+		assert_equal 0, args.options.size
+
+		assert_equal 1, args.values.size
+		assert_equal 'value1', args.values[0]
+	end
+
+	def test_aliases_2
+
+		aliases	=	[
+			Clasp.Flag('--expand', :alias => '-x')
+		]
+		args	=	Clasp::Arguments.new [ '-f1', 'value1', '-x', '--delete' ], aliases
+
+		assert_equal 3, args.flags.size
+		assert_equal '-f1', args.flags[0].to_s
+		assert_equal '-f1', args.flags[0].name
+		assert_equal 'f1', args.flags[0].label
+		assert_equal '-f1', args.flags[0].given_name
+		assert_equal 1, args.flags[0].given_hyphens
+		assert_nil args.flags[0].argument_alias
+		assert_equal '--expand', args.flags[1].to_s
+		assert_equal '--expand', args.flags[1].name
+		assert_equal 'x', args.flags[1].label
+		assert_equal '-x', args.flags[1].given_name
+		assert_equal 1, args.flags[1].given_hyphens
+		assert_equal aliases[0], args.flags[1].argument_alias
+		assert_equal '--delete', args.flags[2].to_s
+		assert_equal '--delete', args.flags[2].name
+		assert_equal 'delete', args.flags[2].label
+		assert_equal '--delete', args.flags[2].given_name
+		assert_equal 2, args.flags[2].given_hyphens
+		assert_nil args.flags[2].argument_alias
+
+		assert_equal 0, args.options.size
+
+		assert_equal 1, args.values.size
+		assert_equal 'value1', args.values[0]
+	end
+
+	def test_aliases_3
+
+		aliases	=	[
+			Clasp.Flag('--expand', :aliases => [ '-x', '--x' ])
+		]
+		args	=	Clasp::Arguments.new [ '-f1', 'value1', '-x', '--delete', '--x' ], aliases
+
+		assert_equal 4, args.flags.size
+		assert_equal '-f1', args.flags[0].to_s
+		assert_equal '-f1', args.flags[0].name
+		assert_equal 'f1', args.flags[0].label
+		assert_equal '-f1', args.flags[0].given_name
+		assert_equal 1, args.flags[0].given_hyphens
+		assert_nil args.flags[0].argument_alias
+		assert_equal '--expand', args.flags[1].to_s
+		assert_equal '--expand', args.flags[1].name
+		assert_equal 'x', args.flags[1].label
+		assert_equal '-x', args.flags[1].given_name
+		assert_equal 1, args.flags[1].given_hyphens
+		assert_equal aliases[0], args.flags[1].argument_alias
+		assert_equal '--delete', args.flags[2].to_s
+		assert_equal '--delete', args.flags[2].name
+		assert_equal 'delete', args.flags[2].label
+		assert_equal '--delete', args.flags[2].given_name
+		assert_equal 2, args.flags[2].given_hyphens
+		assert_nil args.flags[2].argument_alias
+		assert_equal '--expand', args.flags[3].to_s
+		assert_equal '--expand', args.flags[3].name
+		assert_equal 'x', args.flags[3].label
+		assert_equal '--x', args.flags[3].given_name
+		assert_equal 2, args.flags[3].given_hyphens
+		assert_equal aliases[0], args.flags[3].argument_alias
+
+		assert_equal 0, args.options.size
+
+		assert_equal 1, args.values.size
+		assert_equal 'value1', args.values[0]
+	end
+
 end
 
 

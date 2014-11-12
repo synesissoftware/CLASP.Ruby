@@ -41,7 +41,7 @@ class Arguments
 		attr_reader :label
 		attr_reader :name
 		def to_s
-			@arg
+			@name
 		end # def to_s
 		def <=>(rhs)
 			return -1 if rhs.nil?

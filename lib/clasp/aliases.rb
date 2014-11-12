@@ -35,10 +35,11 @@ class Flag
 	attr_reader	:aliases
 	attr_reader	:help
 
-#	def to_s
-#
-#
-#	end # def to_s
+	def to_s
+
+		"{#{name}; aliases=#{aliases.join(', ')}; help='#{help}'}"
+
+	end # def to_s
 
 end # class Flag
 
