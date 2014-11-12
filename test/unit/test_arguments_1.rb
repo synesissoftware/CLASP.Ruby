@@ -420,6 +420,32 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'value1', args.values[0]
 	end
 
+	def test_option_aliases_3
+
+		aliases	=	[
+			Clasp.Option('--option', :aliases => [ '-o' ])
+		]
+		args	=	Clasp::Arguments.new [ '-f1', 'value1', '-o', 'value' ], aliases
+
+		assert_equal 1, args.flags.size
+		assert_equal '-f1', args.flags[0].to_s
+		assert_equal '-f1', args.flags[0].name
+		assert_equal 'f1', args.flags[0].given_label
+		assert_equal '-f1', args.flags[0].given_name
+		assert_equal 1, args.flags[0].given_hyphens
+
+		assert_equal 1, args.options.size
+		assert_equal '--option=value', args.options[0].to_s
+		assert_equal '--option', args.options[0].name
+		assert_equal 'o', args.options[0].given_label
+		assert_equal 'value', args.options[0].value
+		assert_equal '-o', args.options[0].given_name
+		assert_equal 1, args.options[0].given_hyphens
+
+		assert_equal 1, args.values.size
+		assert_equal 'value1', args.values[0]
+	end
+
 end
 
 

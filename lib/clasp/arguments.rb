@@ -127,8 +127,10 @@ class Arguments
 						want_option_value = true
 						@options << Option.new(arg, index, given_name, argument_alias, hyphens.size, given_label, nil)
 					elsif value
+						want_option_value = false
 						@options << Option.new(arg, index, given_name, argument_alias, hyphens.size, given_label, value)
 					else
+						want_option_value = false
 						@flags << Flag.new(arg, index, given_name, argument_alias, hyphens.size, given_label)
 					end
 
