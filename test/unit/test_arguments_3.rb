@@ -31,5 +31,17 @@ class Test_Arguments_3 < Test::Unit::TestCase
 		assert not(args.flags.include? '--option1')
 	end
 
+	def test_combined_flags_1
+
+		aliases	=	[
+			Clasp.Flag('--delete', :alias => '-d'),
+			Clasp.Flag('--update', :alias => '-u'),
+		]
+		args	=	Clasp::Arguments.new [ '-du' ], aliases
+
+		assert args.flags.include? '--delete'
+		assert args.flags.include? '--update'
+	end
+
 end
 
