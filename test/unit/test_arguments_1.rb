@@ -225,6 +225,46 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'value1', args.values[0]
 	end
 
+	def test_double_hyphen_1
+
+		args	=	Clasp::Arguments.new [ '-f1', 'value1', '--', '-f2' ]
+
+		assert_equal 1, args.flags.size
+		assert_equal '-f1', args.flags[0].to_s
+		assert_equal '-f1', args.flags[0].name
+		assert_equal 'f1', args.flags[0].label
+		assert_equal '-f1', args.flags[0].given_name
+		assert_equal 1, args.flags[0].given_hyphens
+		assert_nil args.flags[0].argument_alias
+
+		assert_equal 0, args.options.size
+
+		assert_equal 2, args.values.size
+		assert_equal 'value1', args.values[0]
+		assert_equal '-f2', args.values[1]
+	end
+
+	def test_double_hyphen_2
+
+		args	=	Clasp::Arguments.new [ '-f1', 'value1', '--', '-f2', '--', '--option1=v1' ]
+
+		assert_equal 1, args.flags.size
+		assert_equal '-f1', args.flags[0].to_s
+		assert_equal '-f1', args.flags[0].name
+		assert_equal 'f1', args.flags[0].label
+		assert_equal '-f1', args.flags[0].given_name
+		assert_equal 1, args.flags[0].given_hyphens
+		assert_nil args.flags[0].argument_alias
+
+		assert_equal 0, args.options.size
+
+		assert_equal 4, args.values.size
+		assert_equal 'value1', args.values[0]
+		assert_equal '-f2', args.values[1]
+		assert_equal '--', args.values[2]
+		assert_equal '--option1=v1', args.values[3]
+	end
+
 end
 
 
