@@ -265,7 +265,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '--option1=v1', args.values[3]
 	end
 
-	def test_aliases_1
+	def test_flag_aliases_1
 
 		aliases	=	[
 		]
@@ -297,7 +297,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'value1', args.values[0]
 	end
 
-	def test_aliases_2
+	def test_flag_aliases_2
 
 		aliases	=	[
 			Clasp.Flag('--expand', :alias => '-x')
@@ -330,7 +330,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'value1', args.values[0]
 	end
 
-	def test_aliases_3
+	def test_flag_aliases_3
 
 		aliases	=	[
 			Clasp.Flag('--expand', :aliases => [ '-x', '--x' ])
