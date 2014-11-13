@@ -165,7 +165,7 @@ class Arguments
 							# the name and (if none previously specified) the value
 							if resolved_name =~ /^(-+)([^=]+)=/
 								resolved_name	=	"#$1#$2"
-								value			=	value || $'
+								value			||=	$'
 							end
 							break
 						end
