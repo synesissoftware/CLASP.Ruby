@@ -274,6 +274,34 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '--option1=v1', args.values[3]
 	end
 
+	def test_double_hyphen_3
+
+		aliases	=	[
+			Clasp.Option('--password', :alias => '-p'),
+		]
+		args	=	Clasp::Arguments.new [ '-f1', 'value1', '-p', '--', 'value2' ], aliases
+
+		assert_equal 1, args.flags.size
+		assert_equal '-f1', args.flags[0].to_s
+		assert_equal '-f1', args.flags[0].name
+		assert_equal 'f1', args.flags[0].given_label
+		assert_equal '-f1', args.flags[0].given_name
+		assert_equal 1, args.flags[0].given_hyphens
+		assert_nil args.flags[0].argument_alias
+
+		assert_equal 1, args.options.size
+		assert_equal '--password=', args.options[0].to_s
+		assert_equal '--password', args.options[0].name
+		assert_equal 'p', args.options[0].given_label
+		assert_nil args.options[0].value
+		assert_equal '-p', args.options[0].given_name
+		assert_equal 1, args.options[0].given_hyphens
+
+		assert_equal 2, args.values.size
+		assert_equal 'value1', args.values[0]
+		assert_equal 'value2', args.values[1]
+	end
+
 	def test_flag_aliases_1
 
 		aliases	=	[

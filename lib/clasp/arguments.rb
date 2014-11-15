@@ -220,7 +220,7 @@ class Arguments
 				end
 			end
 
-			if want_option_value
+			if want_option_value and not forced_value
 				option	=	options[-1]
 				option.instance_eval("@value='#{arg}'")
 				want_option_value = false
