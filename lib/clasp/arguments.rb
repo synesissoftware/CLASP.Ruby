@@ -120,6 +120,9 @@ class Arguments
 		def size
 			@a.size
 		end
+		def empty?
+			@a.empty?
+		end
 		def [](index)
 			@a[index]
 		end
