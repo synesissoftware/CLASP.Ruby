@@ -134,7 +134,20 @@ class Arguments
 	# Construction
 
 	public
-	def initialize(argv = ARGV, aliases = nil)
+	#
+	# @param options
+	#
+	# @option :mutate_argv [Boolean] Determines whether the argv argument
+	#   will be mutated, by removing all its elements and placing in the
+	#   parsed +values+. If not specified, +true+ is assumed
+	def initialize(argv = ARGV, aliases = nil, options = {})
+
+		# have to do this name-swap, as 'options' has CLASP-specific
+		# meaning
+		init_opts, options	=	options, nil
+
+		init_opts[:mutate_argv] = true unless init_opts.has_key? :mutate_argv
+
 
 		@argv				=	argv
 		@argv_original_copy	=	ImmutableArray.new(argv.dup)
@@ -149,11 +162,15 @@ class Arguments
 		@options	=	ImmutableArray.new(options)
 		@values		=	ImmutableArray.new(values)
 
-		while not argv.empty?
-			argv.shift
-		end
-		@values.each do |v|
-			argv << v
+
+		# do argv-mutation, if required
+		if init_opts[:mutate_argv]
+			while not argv.empty?
+				argv.shift
+			end
+			@values.each do |v|
+				argv << v
+			end
 		end
 	end
 
