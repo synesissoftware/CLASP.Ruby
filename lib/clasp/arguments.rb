@@ -43,16 +43,24 @@ class Arguments
 		def to_s
 			@name
 		end # def to_s
+		def eql?(rhs)
+			return false if rhs.nil?
+
+			# check name and aliases
+			return true if @name == rhs
+			return argument_alias.aliases.include? rhs if argument_alias
+			return false
+		end # eql?
 		def ==(rhs)
 			return false if rhs.nil?
 			if not rhs.instance_of? String
 				rhs = rhs.name
 			end
-			# check name and aliases
-			return true if @name == rhs
-			return argument_alias.aliases.include? rhs if argument_alias
-			return false
+			eql? rhs
 		end # def ==(rhs)
+		def hash
+			@arg.hash
+		end # def hash
 	end # class Flag
 
 	class Option
@@ -73,16 +81,24 @@ class Arguments
 		attr_reader :given_label
 		attr_reader :name
 		attr_reader :value
+		def eql?(rhs)
+			return false if rhs.nil?
+
+			# check name and aliases
+			return true if @name == rhs
+			return argument_alias.aliases.include? rhs if argument_alias
+			return false
+		end # def eql?
 		def ==(rhs)
 			return false if rhs.nil?
 			if not rhs.instance_of? String
 				rhs = rhs.name
 			end
-			# check name and aliases
-			return true if @name == rhs
-			return argument_alias.aliases.include? rhs if argument_alias
-			return false
+			eql? rhs
 		end # def ==
+		def hash
+			@arg.hash
+		end # def hash
 		def to_s
 			return "#{name}=#{value}" if argument_alias
 			@arg
