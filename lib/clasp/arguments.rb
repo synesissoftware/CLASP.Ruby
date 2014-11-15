@@ -123,6 +123,11 @@ class Arguments
 		def [](index)
 			@a[index]
 		end
+
+		def ==(rhs)
+			return rhs == @a if rhs.is_a? self.class
+			return @a == rhs
+		end
 	end
 
 	# ######################
@@ -130,6 +135,9 @@ class Arguments
 
 	public
 	def initialize(argv = ARGV, aliases = nil)
+
+		@argv				=	argv
+		@argv_original_copy	=	ImmutableArray.new(argv.dup)
 
 		@aliases	=	aliases
 
@@ -141,6 +149,12 @@ class Arguments
 		@options	=	ImmutableArray.new(options)
 		@values		=	ImmutableArray.new(values)
 
+		while not argv.empty?
+			argv.shift
+		end
+		@values.each do |v|
+			argv << v
+		end
 	end
 
 	private
@@ -273,12 +287,44 @@ class Arguments
 		@values
 	end # def values
 
+	# the (possibly mutated) array of arguments instance passed to new
+	def argv
+		@argv
+	end # def argv
+
+	# unchanged copy of the original array of arguments passed to new
+	def argv_original_copy
+		@argv_original_copy
+	end # def argv_original_copy
+
 end # class Arguments
 
 # ######################################################################### #
 # module
 
 end # module Clasp
+
+# ######################################################################### #
+# extensions
+
+class Array
+
+
+	# Monkey-patch ==() in order to handle comparison with ImmutableArray,
+	# but DO NOT do so for eql?
+
+	alias_method :old_equal, :==
+
+	undef :==
+
+	def ==(rhs)
+
+		return rhs == self if rhs.is_a? Clasp::Arguments::ImmutableArray
+
+		old_equal rhs
+	end # def ==()
+
+end # class Array
 
 # ############################## end of file ############################## #
 
