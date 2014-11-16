@@ -4,7 +4,7 @@
 # Purpose:      Alias classes
 #
 # Created:      25th October 2014
-# Updated:      25th October 2014
+# Updated:      16th November 2014
 #
 # Author:       Matthew Wilson
 #
@@ -40,6 +40,19 @@ class Flag
 		"{#{name}; aliases=#{aliases.join(', ')}; help='#{help}'}"
 
 	end # def to_s
+
+  private
+	@@Help_		=	self.new('--help', [], 'shows this help and terminates')
+	@@Version_	=	self.new('--version', [], 'shows version and terminates')
+  public
+	# An instance of Flag that provides default '--help' information
+	def self.Help
+		@@Help_
+	end # def self.Help
+	# An instance of Flag that provides default '--version' information
+	def self.Version
+		@@Version_
+	end # def self.Version
 
 end # class Flag
 
