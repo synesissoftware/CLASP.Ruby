@@ -4,7 +4,7 @@
 # Purpose:      Top-level source for clasp.ruby library
 #
 # Created:      13th October 2014
-# Updated:      25th October 2014
+# Updated:      19th June 2015
 #
 # Author:       Matthew Wilson
 #
@@ -14,7 +14,7 @@
 
 
 # clasp.rb -> clasp/clasp.rb
-require File.join(File.dirname(__FILE__), 'clasp/clasp')
+require 'clasp/clasp'
 
 # ############################## end of file ############################# #
 

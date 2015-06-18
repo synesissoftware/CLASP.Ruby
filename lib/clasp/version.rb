@@ -1,10 +1,10 @@
 # ######################################################################### #
-# File:         clasp/internal/version.rb
+# File:         clasp/version.rb
 #
 # Purpose:      Version for CLASP.Ruby library
 #
 # Created:      16th November 2014
-# Updated:      16th November 2014
+# Updated:      19th June 201$
 #
 # Author:       Matthew Wilson
 #
@@ -16,7 +16,7 @@
 module Clasp
 
 	# Current version of the CLASP.Ruby library
-	VERSION				=	'0.4.1'
+	VERSION				=	'0.4.2'
 
 	private
 	VERSION_PARTS_		=	VERSION.split(/[.]/).collect { |n| n.to_i } # :nodoc:
