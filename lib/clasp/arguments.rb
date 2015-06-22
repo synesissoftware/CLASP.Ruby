@@ -4,7 +4,7 @@
 # Purpose:      ;
 #
 # Created:      14th February 2014
-# Updated:      13th October 2014
+# Updated:      25th April 2015
 #
 # Author:       Matthew Wilson
 #
@@ -147,7 +147,7 @@ class Arguments
 
 		# have to do this name-swap, as 'options' has CLASP-specific
 		# meaning
-		init_opts, options	=	options, nil
+		init_opts, options	=	options.dup, nil
 
 		init_opts[:mutate_argv] = true unless init_opts.has_key? :mutate_argv
 
