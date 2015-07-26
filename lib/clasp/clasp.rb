@@ -15,6 +15,7 @@
 
 require 'clasp/arguments'
 require 'clasp/aliases'
+require 'clasp/cli'
 require 'clasp/version'
 
 # ############################## end of file ############################# #
