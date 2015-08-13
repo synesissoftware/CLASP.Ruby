@@ -4,7 +4,7 @@
 # Purpose:      Command-line interface
 #
 # Created:      27th July 2015
-# Updated:      27th July 2015
+# Updated:      13th August 2015
 #
 # Author:       Matthew Wilson
 #
@@ -29,6 +29,11 @@ module Clasp
 #  +:suppress_blank_lines_between_options+ - does exactly what it says on the tin
 #  +:values+                               - appends this string to USAGE line if specified
 def self.show_usage aliases, options={}
+
+	raise ArgumentError, "aliases may not be nil" if aliases.nil?
+	raise TypeError, "aliases must be an array or must respond to each" unless ::Array === aliases || aliases.respond_to?(:each)
+
+	aliases.each { |a| raise TypeError, "each element in aliases must be a Flag or an Option" unless a.is_a?(::Clasp::Flag) || a.is_a?(::Clasp::Option) }
 
 	stream			=	options[:stream] || $stdout
 	program_name	=	options[:program_name] || File.basename($0)
