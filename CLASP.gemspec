@@ -4,7 +4,7 @@
 # Purpose:      Gemspec for CLASP library
 #
 # Created:      22nd June 2015
-# Updated:      22nd June 2015
+# Updated:      18th August 2015
 #
 # Author:       Matthew Wilson
 #
@@ -20,7 +20,7 @@ require 'clasp'
 Gem::Specification.new do |gs|
 
 	gs.name			=	'clasp'
-	gs.version		=	Clasp::VERSION
+	gs.version		=	CLASP::VERSION
 	gs.date			=	Date.today.to_s
 	gs.summary		=	'CLASP'
 	gs.description	=	'CLASP Ruby library'

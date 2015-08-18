@@ -5,13 +5,13 @@ require 'clasp'
 
 Aliases = [
 
-	Clasp.Flag('--help', :help => 'shows this help and quits'),
-	Clasp.Flag('--version', :alias => '-v', :help => 'shows this version and quits'),
+	CLASP.Flag('--help', :help => 'shows this help and quits'),
+	CLASP.Flag('--version', :alias => '-v', :help => 'shows this version and quits'),
 
-	Clasp.Option('--verbosity', :aliases => %w{ -V --verbose }),
+	CLASP.Option('--verbosity', :aliases => %w{ -V --verbose }),
 ]
 
-Args = Clasp::Arguments.new(ARGV, Aliases)
+Args = CLASP::Arguments.new(ARGV, Aliases)
 
 puts
 puts "flags #{Args.flags.size}:"

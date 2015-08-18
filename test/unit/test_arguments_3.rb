@@ -10,7 +10,7 @@ class Test_Arguments_3 < Test::Unit::TestCase
 
 	def test_include_flag_1
 
-		args	=	Clasp::Arguments.new [ '-f1', 'value1', '--option1=value1', '--flag2' ], nil
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '--option1=value1', '--flag2' ], nil
 
 		assert args.flags.include? '-f1'
 		assert not(args.flags.include? '-f2')
@@ -21,9 +21,9 @@ class Test_Arguments_3 < Test::Unit::TestCase
 	def test_include_flag_2
 
 		aliases	=	[
-			Clasp.Flag('--flag1', :alias => '-f1'),
+			CLASP.Flag('--flag1', :alias => '-f1'),
 		]
-		args	=	Clasp::Arguments.new [ '-f1', 'value1', '--option1=value1', '--flag2' ], aliases
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '--option1=value1', '--flag2' ], aliases
 
 		assert args.flags.include? '-f1'
 		assert args.flags.include? '--flag1'
@@ -35,10 +35,10 @@ class Test_Arguments_3 < Test::Unit::TestCase
 	def test_combined_flags_1
 
 		aliases	=	[
-			Clasp.Flag('--delete', :alias => '-d'),
-			Clasp.Flag('--update', :alias => '-u'),
+			CLASP.Flag('--delete', :alias => '-d'),
+			CLASP.Flag('--update', :alias => '-u'),
 		]
-		args	=	Clasp::Arguments.new [ '-du' ], aliases
+		args	=	CLASP::Arguments.new [ '-du' ], aliases
 
 		assert args.flags.include? '--delete'
 		assert args.flags.include? '--update'
@@ -46,7 +46,7 @@ class Test_Arguments_3 < Test::Unit::TestCase
 
 	def test_get_option_1
 
-		args	=	Clasp::Arguments.new [ '-f1', 'value1', '--option1=value1', '--flag2' ], nil
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '--option1=value1', '--flag2' ], nil
 
 		assert args.options.include? '--option1'
 		assert not(args.options.include? '--option1=value1')
@@ -57,10 +57,10 @@ class Test_Arguments_3 < Test::Unit::TestCase
 	def test_get_option_2
 
 		aliases	=	[
-			Clasp.Flag('--flag1', :alias => '-f1'),
-			Clasp.Option('--option1', :alias => '-o1'),
+			CLASP.Flag('--flag1', :alias => '-f1'),
+			CLASP.Option('--option1', :alias => '-o1'),
 		]
-		args	=	Clasp::Arguments.new [ '-f1', 'value1', '-o1=value1', '--flag2' ], aliases
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o1=value1', '--flag2' ], aliases
 
 		assert args.options.include? '-o1'
 		assert args.options.include? '--option1'
@@ -72,12 +72,12 @@ class Test_Arguments_3 < Test::Unit::TestCase
 	def test_combined_flags_and_options_1
 
 		aliases	=	[
-			Clasp.Flag('--delete', :alias => '-d'),
-			Clasp.Flag('--update', :alias => '-u'),
-			Clasp.Option('--encryption', :alias => '-e'),
-			Clasp.Option('--encryption=blowfish', :alias => '-b'),
+			CLASP.Flag('--delete', :alias => '-d'),
+			CLASP.Flag('--update', :alias => '-u'),
+			CLASP.Option('--encryption', :alias => '-e'),
+			CLASP.Option('--encryption=blowfish', :alias => '-b'),
 		]
-		args	=	Clasp::Arguments.new [ '-du', '-e', 'sha' ], aliases
+		args	=	CLASP::Arguments.new [ '-du', '-e', 'sha' ], aliases
 
 		assert args.flags.include? '--delete'
 		assert args.flags.include? '--update'

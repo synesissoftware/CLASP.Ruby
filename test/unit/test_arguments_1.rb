@@ -10,7 +10,7 @@ class Test_Arguments < Test::Unit::TestCase
 
 	def test_empty_args
 
-		args	=	Clasp::Arguments.new([])
+		args	=	CLASP::Arguments.new([])
 
 		assert_equal 0, args.flags.size
 
@@ -21,7 +21,7 @@ class Test_Arguments < Test::Unit::TestCase
 
 	def test_one_value
 
-		args	=	Clasp::Arguments.new([ 'value1' ])
+		args	=	CLASP::Arguments.new([ 'value1' ])
 
 		assert_equal 0, args.flags.size
 
@@ -33,7 +33,7 @@ class Test_Arguments < Test::Unit::TestCase
 
 	def test_two_values
 
-		args	=	Clasp::Arguments.new([ 'value1', 'val2' ])
+		args	=	CLASP::Arguments.new([ 'value1', 'val2' ])
 
 		assert_equal 0, args.flags.size
 
@@ -48,7 +48,7 @@ class Test_Arguments < Test::Unit::TestCase
 
 		argv	=	(0 .. 10).map { |n| "value#{n}" }
 
-		args	=	Clasp::Arguments.new(argv)
+		args	=	CLASP::Arguments.new(argv)
 
 		assert_equal 0, args.flags.size
 
@@ -62,7 +62,7 @@ class Test_Arguments < Test::Unit::TestCase
 
 	def test_one_flag
 
-		args	=	Clasp::Arguments.new([ '-f1' ])
+		args	=	CLASP::Arguments.new([ '-f1' ])
 
 		assert_equal 1, args.flags.size
 		assert_equal 0, args.flags[0].given_index
@@ -80,7 +80,7 @@ class Test_Arguments < Test::Unit::TestCase
 
 	def test_two_flags
 
-		args	=	Clasp::Arguments.new([ '-f1', '--flag2' ])
+		args	=	CLASP::Arguments.new([ '-f1', '--flag2' ])
 
 		assert_equal 2, args.flags.size
 		assert_equal 0, args.flags[0].given_index
@@ -105,7 +105,7 @@ class Test_Arguments < Test::Unit::TestCase
 
 	def test_three_flags
 
-		args	=	Clasp::Arguments.new([ '-f1', '--flag2', '---x' ])
+		args	=	CLASP::Arguments.new([ '-f1', '--flag2', '---x' ])
 
 		assert_equal 3, args.flags.size
 		assert_equal 0, args.flags[0].given_index
@@ -137,7 +137,7 @@ class Test_Arguments < Test::Unit::TestCase
 
 	def test_one_option
 
-		args	=	Clasp::Arguments.new([ '-o1=v1' ])
+		args	=	CLASP::Arguments.new([ '-o1=v1' ])
 
 		assert_equal 0, args.flags.size
 
@@ -156,7 +156,7 @@ class Test_Arguments < Test::Unit::TestCase
 
 	def test_two_options
 
-		args	=	Clasp::Arguments.new([ '-o1=v1', '--option2=value2' ])
+		args	=	CLASP::Arguments.new([ '-o1=v1', '--option2=value2' ])
 
 		assert_equal 0, args.flags.size
 
@@ -181,7 +181,7 @@ class Test_Arguments < Test::Unit::TestCase
 
 	def test_three_options
 
-		args	=	Clasp::Arguments.new([ '-o1=v1', '--option2=value2', '---the-third-option=the third value' ])
+		args	=	CLASP::Arguments.new([ '-o1=v1', '--option2=value2', '---the-third-option=the third value' ])
 
 		assert_equal 0, args.flags.size
 
@@ -213,7 +213,7 @@ class Test_Arguments < Test::Unit::TestCase
 
 	def test_one_flag_and_one_option_and_one_value
 
-		args	=	Clasp::Arguments.new [ '-f1', 'value1', '--first-option=val1' ]
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '--first-option=val1' ]
 
 		assert_equal 1, args.flags.size
 		assert_equal '-f1', args.flags[0].to_s
@@ -237,7 +237,7 @@ class Test_Arguments < Test::Unit::TestCase
 
 	def test_double_hyphen_1
 
-		args	=	Clasp::Arguments.new [ '-f1', 'value1', '--', '-f2' ]
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '--', '-f2' ]
 
 		assert_equal 1, args.flags.size
 		assert_equal '-f1', args.flags[0].to_s
@@ -256,7 +256,7 @@ class Test_Arguments < Test::Unit::TestCase
 
 	def test_double_hyphen_2
 
-		args	=	Clasp::Arguments.new [ '-f1', 'value1', '--', '-f2', '--', '--option1=v1' ]
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '--', '-f2', '--', '--option1=v1' ]
 
 		assert_equal 1, args.flags.size
 		assert_equal '-f1', args.flags[0].to_s
@@ -278,9 +278,9 @@ class Test_Arguments < Test::Unit::TestCase
 	def test_double_hyphen_3
 
 		aliases	=	[
-			Clasp.Option('--password', :alias => '-p'),
+			CLASP.Option('--password', :alias => '-p'),
 		]
-		args	=	Clasp::Arguments.new [ '-f1', 'value1', '-p', '--', 'value2' ], aliases
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-p', '--', 'value2' ], aliases
 
 		assert_equal 1, args.flags.size
 		assert_equal '-f1', args.flags[0].to_s
@@ -307,7 +307,7 @@ class Test_Arguments < Test::Unit::TestCase
 
 		aliases	=	[
 		]
-		args	=	Clasp::Arguments.new [ '-f1', 'value1', '-x', '--delete' ], aliases
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-x', '--delete' ], aliases
 
 		assert_equal 3, args.flags.size
 		assert_equal '-f1', args.flags[0].to_s
@@ -338,9 +338,9 @@ class Test_Arguments < Test::Unit::TestCase
 	def test_flag_aliases_2
 
 		aliases	=	[
-			Clasp.Flag('--expand', :alias => '-x')
+			CLASP.Flag('--expand', :alias => '-x')
 		]
-		args	=	Clasp::Arguments.new [ '-f1', 'value1', '-x', '--delete' ], aliases
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-x', '--delete' ], aliases
 
 		assert_equal 3, args.flags.size
 		assert_equal '-f1', args.flags[0].to_s
@@ -371,9 +371,9 @@ class Test_Arguments < Test::Unit::TestCase
 	def test_flag_aliases_3
 
 		aliases	=	[
-			Clasp.Flag('--expand', :aliases => [ '-x', '--x' ])
+			CLASP.Flag('--expand', :aliases => [ '-x', '--x' ])
 		]
-		args	=	Clasp::Arguments.new [ '-f1', 'value1', '-x', '--delete', '--x' ], aliases
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-x', '--delete', '--x' ], aliases
 
 		assert_equal 4, args.flags.size
 		assert_equal '-f1', args.flags[0].to_s
@@ -411,7 +411,7 @@ class Test_Arguments < Test::Unit::TestCase
 
 		aliases	=	[
 		]
-		args	=	Clasp::Arguments.new [ '-f1', 'value1', '-o=value' ], aliases
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o=value' ], aliases
 
 		assert_equal 1, args.flags.size
 		assert_equal '-f1', args.flags[0].to_s
@@ -435,9 +435,9 @@ class Test_Arguments < Test::Unit::TestCase
 	def test_option_aliases_2
 
 		aliases	=	[
-			Clasp.Option('--option', :aliases => [ '-o' ])
+			CLASP.Option('--option', :aliases => [ '-o' ])
 		]
-		args	=	Clasp::Arguments.new [ '-f1', 'value1', '-o=value' ], aliases
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o=value' ], aliases
 
 		assert_equal 1, args.flags.size
 		assert_equal '-f1', args.flags[0].to_s
@@ -461,9 +461,9 @@ class Test_Arguments < Test::Unit::TestCase
 	def test_option_aliases_3
 
 		aliases	=	[
-			Clasp.Option('--option', :aliases => [ '-o' ])
+			CLASP.Option('--option', :aliases => [ '-o' ])
 		]
-		args	=	Clasp::Arguments.new [ '-f1', 'value1', '-o', 'value' ], aliases
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o', 'value' ], aliases
 
 		assert_equal 1, args.flags.size
 		assert_equal '-f1', args.flags[0].to_s
@@ -487,10 +487,10 @@ class Test_Arguments < Test::Unit::TestCase
 	def test_option_default_aliases_1
 
 		aliases	=	[
-			Clasp.Option('--option', :aliases => [ '-o' ]),
-			Clasp.Option('--option=special-value', :alias => '-s')
+			CLASP.Option('--option', :aliases => [ '-o' ]),
+			CLASP.Option('--option=special-value', :alias => '-s')
 		]
-		args	=	Clasp::Arguments.new [ '-f1', 'value1', '-o', 'value', '-s', '-s=explicit-value' ], aliases
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o', 'value', '-s', '-s=explicit-value' ], aliases
 
 		assert_equal 1, args.flags.size
 		assert_equal '-f1', args.flags[0].to_s

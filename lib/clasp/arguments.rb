@@ -4,7 +4,7 @@
 # Purpose:      ;
 #
 # Created:      14th February 2014
-# Updated:      25th April 2015
+# Updated:      18th August 2015
 #
 # Author:       Matthew Wilson
 #
@@ -16,7 +16,7 @@
 # ######################################################################### #
 # module
 
-module Clasp
+module CLASP
 
 # ######################################################################### #
 # classes
@@ -255,7 +255,7 @@ class Arguments
 						end
 					end
 
-					if argument_alias and argument_alias.is_a? Clasp::Option and not value
+					if argument_alias and argument_alias.is_a? CLASP::Option and not value
 						want_option_value = true
 						options << Option.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, nil)
 					elsif value
@@ -322,7 +322,7 @@ end # class Arguments
 # ######################################################################### #
 # module
 
-end # module Clasp
+end # module CLASP
 
 # ######################################################################### #
 # extensions
@@ -339,7 +339,7 @@ class Array
 
 	def ==(rhs)
 
-		return rhs == self if rhs.is_a? Clasp::Arguments::ImmutableArray
+		return rhs == self if rhs.is_a? CLASP::Arguments::ImmutableArray
 
 		old_equal rhs
 	end # def ==()

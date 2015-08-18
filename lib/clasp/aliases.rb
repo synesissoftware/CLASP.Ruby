@@ -4,7 +4,7 @@
 # Purpose:      Alias classes
 #
 # Created:      25th October 2014
-# Updated:      16th November 2014
+# Updated:      18th August 2015
 #
 # Author:       Matthew Wilson
 #
@@ -16,7 +16,7 @@
 # ######################################################################### #
 # module
 
-module Clasp
+module CLASP
 
 # ######################################################################### #
 # classes
@@ -79,7 +79,7 @@ end # class Option
 # ######################################################################### #
 # functions
 
-def Clasp.Flag(name, options = {})
+def CLASP.Flag(name, options = {})
 
 	aliases	=	nil
 	help	=	nil
@@ -103,11 +103,10 @@ def Clasp.Flag(name, options = {})
 		end
 	end
 
-	Clasp::Flag.new(name, aliases, help)
+	CLASP::Flag.new(name, aliases, help)
+end
 
-end # def Clasp.Flag
-
-def Clasp.Option(name, options = {})
+def CLASP.Option(name, options = {})
 
 	aliases			=	nil
 	help			=	nil
@@ -137,14 +136,14 @@ def Clasp.Option(name, options = {})
 		end
 	end
 
-	Clasp::Option.new(name, aliases, help, values_range, default_value)
+	CLASP::Option.new(name, aliases, help, values_range, default_value)
 
-end # def Clasp.Option
+end
 
 # ######################################################################### #
 # module
 
-end # module Clasp
+end # module CLASP
 
 # ############################## end of file ############################## #
 

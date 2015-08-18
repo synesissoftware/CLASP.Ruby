@@ -12,7 +12,7 @@ class Test_Arguments_2 < Test::Unit::TestCase
 
 		aliases	=	[
 		]
-		args	=	Clasp::Arguments.new [ '-abc' ], aliases
+		args	=	CLASP::Arguments.new [ '-abc' ], aliases
 
 		assert_equal 1, args.flags.size
 		assert_equal '-abc', args.flags[0].name
@@ -29,11 +29,11 @@ class Test_Arguments_2 < Test::Unit::TestCase
 	def test_combined_flags_1
 
 		aliases	=	[
-			Clasp.Flag('--a', :alias => '-a'),
-			Clasp.Flag('--b', :alias => '-b'),
-			Clasp.Flag('--c', :alias => '-c'),
+			CLASP.Flag('--a', :alias => '-a'),
+			CLASP.Flag('--b', :alias => '-b'),
+			CLASP.Flag('--c', :alias => '-c'),
 		]
-		args	=	Clasp::Arguments.new [ '-abc' ], aliases
+		args	=	CLASP::Arguments.new [ '-abc' ], aliases
 
 		assert_equal 3, args.flags.size
 		assert_equal '--a', args.flags[0].name
