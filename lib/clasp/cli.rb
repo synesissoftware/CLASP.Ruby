@@ -46,9 +46,11 @@ def self.show_usage aliases, options={}
 
 		case a
 		when Flag
+
 			a.aliases.each { |al| stream.puts "\t#{al}" }
 			stream.puts "\t#{a.name}"
 		when Option
+
 			a.aliases.each { |al| stream.puts "\t#{al} <value>" }
 			stream.puts "\t#{a.name}=<value>"
 		end

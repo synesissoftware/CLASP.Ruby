@@ -4,7 +4,7 @@
 # Purpose:      Version for CLASP.Ruby library
 #
 # Created:      16th November 2014
-# Updated:      18th August 2015
+# Updated:      28th December 2015
 #
 # Author:       Matthew Wilson
 #
@@ -13,10 +13,11 @@
 # ######################################################################### #
 
 
+# Main module for CLASP library
 module CLASP
 
 	# Current version of the CLASP.Ruby library
-	VERSION				=	'0.6.2'
+	VERSION				=	'0.6.3'
 
 	private
 	VERSION_PARTS_		=	VERSION.split(/[.]/).collect { |n| n.to_i } # :nodoc:

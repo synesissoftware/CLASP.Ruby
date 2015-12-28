@@ -26,6 +26,7 @@ class Arguments
 	private
 	class Flag
 		def initialize(arg, given_index, given_name, resolved_name, argument_alias, given_hyphens, given_label)
+
 			@arg			=	arg
 			@given_index	=	given_index
 			@given_name		=	given_name
@@ -33,38 +34,49 @@ class Arguments
 			@given_hyphens	=	given_hyphens
 			@given_label	=	given_label
 			@name			=	resolved_name || given_name
-		end # def initialize()
+		end
+
 		attr_reader :given_index
 		attr_reader :given_name
 		attr_reader :argument_alias
 		attr_reader :given_hyphens
 		attr_reader :given_label
 		attr_reader :name
+
 		def to_s
+
 			@name
-		end # def to_s
+		end
+
 		def eql?(rhs)
+
 			return false if rhs.nil?
 
 			# check name and aliases
 			return true if @name == rhs
 			return argument_alias.aliases.include? rhs if argument_alias
 			return false
-		end # eql?
+		end
+
 		def ==(rhs)
+
 			return false if rhs.nil?
 			if not rhs.instance_of? String
+
 				rhs = rhs.name
 			end
 			eql? rhs
-		end # def ==(rhs)
+		end
+
 		def hash
+
 			@arg.hash
-		end # def hash
-	end # class Flag
+		end
+	end
 
 	class Option
 		def initialize(arg, given_index, given_name, resolved_name, argument_alias, given_hyphens, given_label, value)
+
 			@arg			=	arg
 			@given_index	=	given_index
 			@given_name		=	given_name
@@ -73,7 +85,8 @@ class Arguments
 			@given_label	=	given_label
 			@value			=	value
 			@name			=	resolved_name || given_name
-		end # def initialize()
+		end
+
 		attr_reader :given_index
 		attr_reader :given_name
 		attr_reader :argument_alias
@@ -81,53 +94,70 @@ class Arguments
 		attr_reader :given_label
 		attr_reader :name
 		attr_reader :value
+
 		def eql?(rhs)
+
 			return false if rhs.nil?
 
 			# check name and aliases
 			return true if @name == rhs
 			return argument_alias.aliases.include? rhs if argument_alias
 			return false
-		end # def eql?
+		end
+
 		def ==(rhs)
+
 			return false if rhs.nil?
 			if not rhs.instance_of? String
+
 				rhs = rhs.name
 			end
 			eql? rhs
-		end # def ==
+		end
+
 		def hash
+
 			@arg.hash
-		end # def hash
+		end
+
 		def to_s
+
 			return "#{name}=#{value}" if argument_alias
 			@arg
-		end # def to_s
-	end # class Option
+		end
+	end
 
 	class ImmutableArray
 
 		include Enumerable
 
 		def initialize(a)
+
 			@a = a
 		end
 
 		def each
+
 			@a.each { |i| yield i }
 		end
 
 		def size
+
 			@a.size
 		end
+
 		def empty?
+
 			@a.empty?
 		end
+
 		def [](index)
+
 			@a[index]
 		end
 
 		def ==(rhs)
+
 			return rhs == @a if rhs.is_a? self.class
 			return @a == rhs
 		end
@@ -168,10 +198,14 @@ class Arguments
 
 		# do argv-mutation, if required
 		if init_opts[:mutate_argv]
+
 			while not argv.empty?
+
 				argv.shift
 			end
+
 			@values.each do |v|
+
 				argv << v
 			end
 		end
@@ -190,7 +224,9 @@ class Arguments
 		argv.each_with_index do |arg, index|
 
 			if not forced_value
+
 				if '--' == arg
+
 					# all subsequent arguments are values
 					forced_value = true
 					next
@@ -206,7 +242,9 @@ class Arguments
 					resolved_name	=	nil
 
 					(aliases || []).each do |a|
+
 						if a.name == given_name or a.aliases.include? given_name
+
 							argument_alias	=	a
 							resolved_name	=	a.name
 
@@ -214,6 +252,7 @@ class Arguments
 							# and, if so, expand out its name and value, and replace
 							# the name and (if none previously specified) the value
 							if resolved_name =~ /^(-+)([^=]+)=/
+
 								resolved_name	=	"#$1#$2"
 								value			||=	$'
 							end
@@ -223,19 +262,25 @@ class Arguments
 
 					# Here we intercept and (potentially) cater to grouped flags
 					if not argument_alias and not value and aliases and 1 == hyphens.size
+
 						# Must match all
 						flag_aliases = []
 						given_label[0 ... given_label.size].each_char do |c|
+
 							new_flag	=	"-#{c.chr}"
 							flag_alias	=	aliases.detect { |a| a.aliases.include? new_flag }
 							if not flag_alias
+
 								flag_aliases	=	nil
 								break
 							else
+
 								flag_aliases	<<	flag_alias
 							end
 						end
+
 						if flag_aliases
+
 							# got them all, so now have to process them all
 							# as normal. Note: is this susceptible to
 							# infinite recursion
@@ -256,12 +301,15 @@ class Arguments
 					end
 
 					if argument_alias and argument_alias.is_a? CLASP::Option and not value
+
 						want_option_value = true
 						options << Option.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, nil)
 					elsif value
+
 						want_option_value = false
 						options << Option.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, value)
 					else
+
 						want_option_value = false
 						flags << Flag.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label)
 					end
@@ -271,17 +319,19 @@ class Arguments
 			end
 
 			if want_option_value and not forced_value
+
 				option	=	options[-1]
 				option.instance_eval("@value='#{arg}'")
 				want_option_value = false
 			else
+
 				values << arg
 			end
 		end
 
 		return flags, options, values
 
-	end # def initialize(argv)
+	end
 
 	# ######################
 	# Attributes
@@ -289,35 +339,40 @@ class Arguments
 	public
 	# an immutable array of aliases
 	def aliases
+
 		@aliases
-	end # def aliases
+	end
 
 	# an immutable array of flags
 	def flags
+
 		@flags
-	end # def flags
+	end
 
 	# an immutable array of options
 	def options
+
 		@options
-	end # def options
+	end
 
 	# an immutable array of values
 	def values
+
 		@values
-	end # def values
+	end
 
 	# the (possibly mutated) array of arguments instance passed to new
 	def argv
+
 		@argv
-	end # def argv
+	end
 
 	# unchanged copy of the original array of arguments passed to new
 	def argv_original_copy
-		@argv_original_copy
-	end # def argv_original_copy
 
-end # class Arguments
+		@argv_original_copy
+	end
+end
 
 # ######################################################################### #
 # module
@@ -328,7 +383,6 @@ end # module CLASP
 # extensions
 
 class Array
-
 
 	# Monkey-patch ==() in order to handle comparison with ImmutableArray,
 	# but DO NOT do so for eql?
@@ -342,9 +396,8 @@ class Array
 		return rhs == self if rhs.is_a? CLASP::Arguments::ImmutableArray
 
 		old_equal rhs
-	end # def ==()
-
-end # class Array
+	end
+end
 
 # ############################## end of file ############################## #
 

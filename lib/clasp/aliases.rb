@@ -28,8 +28,7 @@ class Flag
 		@name			=	name
 		@aliases		=	(aliases || []).select { |a| a and not a.empty? }
 		@help			=	help
-
-	end # def initialize()
+	end
 
 	attr_reader	:name
 	attr_reader	:aliases
@@ -38,8 +37,7 @@ class Flag
 	def to_s
 
 		"{#{name}; aliases=#{aliases.join(', ')}; help='#{help}'}"
-
-	end # def to_s
+	end
 
   private
 	@@Help_		=	self.new('--help', [], 'shows this help and terminates')
@@ -53,8 +51,7 @@ class Flag
 	def self.Version
 		@@Version_
 	end # def self.Version
-
-end # class Flag
+end
 
 class Option
 
@@ -65,16 +62,14 @@ class Option
 		@help			=	help
 		@values_range	=	values_range
 		@default_value	=	default_value
-
-	end # def initialize()
+	end
 
 	attr_reader	:name
 	attr_reader	:aliases
 	attr_reader	:help
 	attr_reader	:values_range
 	attr_reader	:default_value
-
-end # class Option
+end
 
 # ######################################################################### #
 # functions
@@ -137,7 +132,6 @@ def CLASP.Option(name, options = {})
 	end
 
 	CLASP::Option.new(name, aliases, help, values_range, default_value)
-
 end
 
 # ######################################################################### #
