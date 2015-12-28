@@ -1,10 +1,10 @@
 # ######################################################################### #
 # File:         clasp.rb
 #
-# Purpose:      Top-level source for clasp.ruby library
+# Purpose:      Top-level source for CLASP.ruby library
 #
 # Created:      13th October 2014
-# Updated:      18th August 2015
+# Updated:      28th December 2015
 #
 # Author:       Matthew Wilson
 #
@@ -16,6 +16,7 @@
 # clasp.rb -> clasp/clasp.rb
 require 'clasp/clasp'
 
+# Backwards-compatible alias for the CLASP library's CLASP module
 Clasp = CLASP
 
 # ############################## end of file ############################# #

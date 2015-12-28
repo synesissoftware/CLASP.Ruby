@@ -4,7 +4,7 @@
 # Purpose:      Command-line interface
 #
 # Created:      27th July 2015
-# Updated:      18th August 2015
+# Updated:      28th December 2015
 #
 # Author:       Matthew Wilson
 #
@@ -21,6 +21,7 @@ module CLASP
 # ######################################################################### #
 # methods
 
+# Displays usage for the program according to the given aliases and options
 #
 # options:
 #  +:exit+                                 - a program exit code; exit() not called if not specified

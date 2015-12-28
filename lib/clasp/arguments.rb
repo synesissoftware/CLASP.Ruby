@@ -4,7 +4,7 @@
 # Purpose:      ;
 #
 # Created:      14th February 2014
-# Updated:      18th August 2015
+# Updated:      28th December 2015
 #
 # Author:       Matthew Wilson
 #
@@ -21,6 +21,7 @@ module CLASP
 # ######################################################################### #
 # classes
 
+# The arguments class
 class Arguments
 
 	private
@@ -167,6 +168,7 @@ class Arguments
 	# Construction
 
 	public
+	# Constructs an instance of the class, according to the given parameters
 	#
 	# @param options
 	#
@@ -382,6 +384,7 @@ end # module CLASP
 # ######################################################################### #
 # extensions
 
+# The Array class
 class Array
 
 	# Monkey-patch ==() in order to handle comparison with ImmutableArray,

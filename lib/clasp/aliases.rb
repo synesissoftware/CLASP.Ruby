@@ -4,7 +4,7 @@
 # Purpose:      Alias classes
 #
 # Created:      25th October 2014
-# Updated:      18th August 2015
+# Updated:      28th December 2015
 #
 # Author:       Matthew Wilson
 #
@@ -21,8 +21,11 @@ module CLASP
 # ######################################################################### #
 # classes
 
+# A class that represents the specification for a command-line flag
 class Flag
 
+	# Creates a Flag instance from the given name, aliases, and help
+	#
 	def initialize(name, aliases, help)
 
 		@name			=	name
@@ -30,8 +33,11 @@ class Flag
 		@help			=	help
 	end
 
+	# The flag's name string
 	attr_reader	:name
+	# The flag's aliases array
 	attr_reader	:aliases
+	# The flag's help string
 	attr_reader	:help
 
 	def to_s
@@ -53,8 +59,12 @@ class Flag
 	end # def self.Version
 end
 
+# A class that represents the specification for a command-line option
 class Option
 
+	# Creates an Option instance from the given name, aliases, help,
+	# values_range, and default_value
+	#
 	def initialize(name, aliases, help, values_range, default_value)
 
 		@name			=	name
@@ -64,8 +74,11 @@ class Option
 		@default_value	=	default_value
 	end
 
+	# The option's name string
 	attr_reader	:name
+	# The option's aliases array
 	attr_reader	:aliases
+	# The option's help string
 	attr_reader	:help
 	attr_reader	:values_range
 	attr_reader	:default_value
@@ -74,6 +87,7 @@ end
 # ######################################################################### #
 # functions
 
+# Generator method that obtains a Flag according to the given parameters
 def CLASP.Flag(name, options = {})
 
 	aliases	=	nil
@@ -101,6 +115,7 @@ def CLASP.Flag(name, options = {})
 	CLASP::Flag.new(name, aliases, help)
 end
 
+# Generator method that obtains an Option according to the given parameters
 def CLASP.Option(name, options = {})
 
 	aliases			=	nil
