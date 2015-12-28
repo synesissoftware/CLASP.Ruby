@@ -85,6 +85,5 @@ class Test_Arguments_3 < Test::Unit::TestCase
 		assert_not_nil args.options.detect { |o| o == '--encryption' }
 		assert_nil args.options.detect { |o| o == '--blah' }
 	end
-
 end
 

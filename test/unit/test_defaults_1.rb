@@ -17,6 +17,7 @@ class Test_defaults < Test::Unit::TestCase
 	end
 
 	def test_Help_is_idempotent
+
 		help_1	=	CLASP::Flag.Help
 		help_2	=	CLASP::Flag.Help
 
@@ -39,6 +40,7 @@ class Test_defaults < Test::Unit::TestCase
 	end
 
 	def test_Version_is_idempotent
+
 		version_1	=	CLASP::Flag.Version
 		version_2	=	CLASP::Flag.Version
 

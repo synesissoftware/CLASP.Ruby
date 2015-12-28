@@ -10,14 +10,9 @@ puts "executing all test cases in directory #{this_dir}"
 
 Dir["#{this_dir}/*.rb"].each do |file|
 
-#puts "file: [#{file}]"
-#puts "FILE: [#{this_file}]"
-#puts
-#
 	next if this_file == file
 
 	require file
-
 end
 
 require 'test/unit'

@@ -53,7 +53,6 @@ class Test_Arguments_4 < Test::Unit::TestCase
 		assert_equal args.argv_original_copy, argv_c
 		assert_equal argv_c, args.argv_original_copy
 	end
-
 end
 
 

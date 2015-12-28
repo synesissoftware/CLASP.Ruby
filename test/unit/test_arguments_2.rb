@@ -56,7 +56,6 @@ class Test_Arguments_2 < Test::Unit::TestCase
 
 		assert_equal 0, args.values.size
 	end
-
 end
 
 
