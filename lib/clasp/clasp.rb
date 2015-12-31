@@ -4,7 +4,7 @@
 # Purpose:      ;
 #
 # Created:      14th February 2014
-# Updated:      19th June 2015
+# Updated:      31st December 2015
 #
 # Author:       Matthew Wilson
 #
@@ -18,5 +18,5 @@ require 'clasp/aliases'
 require 'clasp/cli'
 require 'clasp/version'
 
-# ############################## end of file ############################# #
+# ############################## end of file ############################## #
 

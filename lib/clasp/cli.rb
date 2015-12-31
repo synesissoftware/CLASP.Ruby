@@ -41,6 +41,20 @@ def self.show_usage aliases, options={}
 	stream			=	options[:stream] || $stdout
 	program_name	=	options[:program_name] || File.basename($0)
 
+	# sift the aliases to sort out which are value-option aliases (VOAs)
+
+	voas			=	{}
+
+	aliases.select { |a| a.name =~ /^-+[a-zA-Z0-3_-]+[=:].+/ }.each do |a|
+
+		a.name =~ /^(-+[a-zA-Z0-3_-]+)[=:](.+)$/
+
+		voas[$1]	=	[] unless voas.has_key? $1
+		voas[$1]	<<	[ a, $2 ]
+	end
+
+	aliases			=	aliases.reject { |a| a.name =~ /^-+[a-zA-Z0-3_-]+[=:].+/ }
+
 	stream.puts "USAGE: #{program_name} [ ... flags and options ... ] #{options[:values]}"
 	stream.puts
 	stream.puts "flags/options:"
@@ -54,6 +68,13 @@ def self.show_usage aliases, options={}
 			stream.puts "\t#{a.name}"
 		when Option
 
+			if voas.has_key? a.name
+
+				voas[a.name].each do |ar|
+
+					ar[0].aliases.each { |al| stream.puts "\t#{al} #{ar[0].name}" }
+				end
+			end
 			a.aliases.each { |al| stream.puts "\t#{al} <value>" }
 			stream.puts "\t#{a.name}=<value>"
 		end
@@ -69,6 +90,6 @@ end
 
 end # module CLASP
 
-# ############################## end of file ############################# #
+# ############################## end of file ############################## #
 
 
