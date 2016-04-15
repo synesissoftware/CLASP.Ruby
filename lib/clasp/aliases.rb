@@ -103,7 +103,7 @@ class Option
 		@name			=	name
 		@aliases		=	(aliases || []).select { |a| a and not a.empty? }
 		@help			=	help
-		@values_range	=	values_range
+		@values_range	=	values_range || []
 		@default_value	=	default_value
 	end
 

@@ -98,6 +98,7 @@ def self.show_usage aliases, options={}
 
 			a.aliases.each { |al| stream.puts "\t#{al}" }
 			stream.puts "\t#{a.name}"
+			stream.puts "\t\t#{a.help}"
 		when Option
 
 			if voas.has_key? a.name
@@ -109,8 +110,13 @@ def self.show_usage aliases, options={}
 			end
 			a.aliases.each { |al| stream.puts "\t#{al} <value>" }
 			stream.puts "\t#{a.name}=<value>"
+			stream.puts "\t\t#{a.help}"
+			unless a.values_range.empty?
+
+				stream.puts "\t\twhere <value> one of:"
+				a.values_range.each { |v| stream.puts "\t\t\t#{v}" }
+			end
 		end
-		stream.puts "\t\t#{a.help}"
 		stream.puts unless options[:suppress_blank_lines_between_options]
 	end
 
