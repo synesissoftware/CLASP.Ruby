@@ -138,7 +138,12 @@ def self.show_version aliases, options = {}
 
 	if options[:version]
 
-		version = options[:version]
+		case	options[:version]
+		when	::Array
+			version	=	options[:version].join('.')
+		else
+			version = options[:version]
+		end
 	else
 
 		version_major	=	options[:version_major] or raise ArgumentError, "options must specify :version or :version_major [ + :version_minor [ + :version_revision [ + :version_build ]]]"

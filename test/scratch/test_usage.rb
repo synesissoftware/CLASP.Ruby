@@ -25,7 +25,8 @@ CLASP.show_usage(Aliases)
 puts
 puts '*' * 40
 puts 'version:'
-#CLASP.show_version(Aliases, version: '1.2.3.4')
-CLASP.show_version(Aliases, version_major: 1, version_minor: 2)
+#CLASP.show_version Aliases, version: '1.2.3.4'
+#CLASP.show_version Aliases, version_major: 1, version_minor: 2
+CLASP.show_version Aliases, version: [ 1, 2, 3 ]
 
 
