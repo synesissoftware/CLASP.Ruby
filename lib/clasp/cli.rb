@@ -158,6 +158,8 @@ def self.show_version aliases, options = {}
 	end
 
 	stream.puts "#{program_name} #{version}"
+
+	exit options[:exit] if options[:exit]
 end
 
 # ######################################################################## #
