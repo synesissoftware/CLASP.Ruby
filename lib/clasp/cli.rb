@@ -5,7 +5,7 @@
 # Purpose:      Command-line interface
 #
 # Created:      27th July 2015
-# Updated:      16th April 2016
+# Updated:      18th April 2016
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -66,7 +66,7 @@ def self.show_usage aliases, options={}
 	options	||=	{}
 
 	raise ArgumentError, "aliases may not be nil" if aliases.nil?
-	raise TypeError, "aliases must be an array or must respond to each" unless ::Array === aliases || aliases.respond_to?(:each)
+	raise TypeError, "aliases must be an array or must respond to each, reject and select" unless ::Array === aliases || (aliases.respond_to?(:each) && aliases.respond_to?(:reject) && aliases.respond_to?(:select))
 
 	aliases.each { |a| raise TypeError, "each element in aliases must be a Flag or an Option" unless a.is_a?(::CLASP::Flag) || a.is_a?(::CLASP::Option) }
 
@@ -121,6 +121,38 @@ def self.show_usage aliases, options={}
 	end
 
 	exit options[:exit] if options[:exit]
+end
+
+def self.show_version aliases, options = {}
+
+	options	||=	{}
+
+	raise ArgumentError, "aliases may not be nil" if aliases.nil?
+	raise TypeError, "aliases must be an array or must respond to each, reject and select" unless ::Array === aliases || (aliases.respond_to?(:each) && aliases.respond_to?(:reject) && aliases.respond_to?(:select))
+
+	aliases.each { |a| raise TypeError, "each element in aliases must be a Flag or an Option" unless a.is_a?(::CLASP::Flag) || a.is_a?(::CLASP::Option) }
+
+	stream			=	options[:stream] || $stdout
+	program_name	=	options[:program_name] || File.basename($0)
+
+
+	if options[:version]
+
+		version = options[:version]
+	else
+
+		version_major	=	options[:version_major] or raise ArgumentError, "options must specify :version or :version_major [ + :version_minor [ + :version_revision [ + :version_build ]]]"
+		version_minor	=	options[:version_minor]
+		version_rev		=	options[:version_revision]
+		version_build	=	options[:version_build]
+
+		version			=	version_major.to_s
+		version			+=	".#{version_minor}" if version_minor
+		version			+=	".#{version_rev}" if version_rev
+		version			+=	".#{version_build}" if version_build
+	end
+
+	stream.puts "#{program_name} #{version}"
 end
 
 # ######################################################################## #
