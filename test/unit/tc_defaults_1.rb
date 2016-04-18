@@ -1,7 +1,4 @@
-#!/usr/bin/ruby
-#
-# File:     test/unit/test_defaults_1.rb
-#
+#! /usr/bin/ruby
 
 $:.unshift File.join(File.dirname(__FILE__), '../..', 'lib')
 
