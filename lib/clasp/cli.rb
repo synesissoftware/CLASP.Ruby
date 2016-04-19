@@ -5,7 +5,7 @@
 # Purpose:      Command-line interface
 #
 # Created:      27th July 2015
-# Updated:      18th April 2016
+# Updated:      19th April 2016
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -69,6 +69,9 @@ def self.show_usage aliases, options={}
 	raise TypeError, "aliases must be an array or must respond to each, reject and select" unless ::Array === aliases || (aliases.respond_to?(:each) && aliases.respond_to?(:reject) && aliases.respond_to?(:select))
 
 	aliases.each { |a| raise TypeError, "each element in aliases must be a Flag or an Option" unless a.is_a?(::CLASP::Flag) || a.is_a?(::CLASP::Option) }
+
+	alias_dups = {}
+	aliases.each { |a| a.aliases.each { |aa| warn "WARNING: alias '#{aa}' is already used for alias '#{a}'" if alias_dups.has_key? aa; alias_dups[aa] = a; } }
 
 	stream			=	options[:stream] || $stdout
 	program_name	=	options[:program_name] || File.basename($0)
