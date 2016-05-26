@@ -10,7 +10,7 @@ Aliases = [
 
 	CLASP.Option('--verbosity', :help => 'the verbosity', values: [ 'silent', 'quiet', 'succinct', 'chatty', 'verbose' ]),
 	CLASP.Option('--length', :alias => '-l', :help => 'specifies the length'),
-	CLASP.Flag('--verbosity=succinct', aliases: [ '--succinct', '-s' ]
+	CLASP.Flag('--verbosity=succinct', aliases: [ '--succinct', '-s' ]),
 	CLASP.Flag('--verbosity=verbose', alias: '--verbose'),
 ]
 
@@ -19,13 +19,14 @@ Arguments	=	CLASP::Arguments.new(ARGV, Aliases)
 puts
 puts '*' * 40
 puts 'usage:'
-CLASP.show_usage(Aliases)
-
 puts
+CLASP.show_usage(Aliases)
 puts '*' * 40
+
 puts 'version:'
+puts
 #CLASP.show_version Aliases, version: '1.2.3.4'
 #CLASP.show_version Aliases, version_major: 1, version_minor: 2
 CLASP.show_version Aliases, version: [ 1, 2, 3 ]
-
+puts '*' * 40
 

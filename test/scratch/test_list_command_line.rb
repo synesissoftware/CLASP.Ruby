@@ -18,14 +18,14 @@ puts
 puts "flags #{Args.flags.size}:"
 Args.flags.each do |flag|
 
-	puts "\t#{flag}\t[#{flag.index}, #{flag.given_name}, #{flag.argument_alias}, #{flag.given_hyphens}, #{flag.label}, #{flag.name}]"
+	puts "\t#{flag}\t[#{flag.given_index}, #{flag.given_name}, #{flag.argument_alias}, #{flag.given_hyphens}, #{flag.given_label}, #{flag.name}]"
 end
 
 puts
 puts "options #{Args.options.size}:"
 Args.options.each do |option|
 
-	puts "\t#{option}\t[#{option.index}, #{option.given_name}, #{option.argument_alias}, #{option.given_hyphens}, #{option.label}, #{option.name}, #{option.value}]"
+	puts "\t#{option}\t[#{option.given_index}, #{option.given_name}, #{option.argument_alias}, #{option.given_hyphens}, #{option.given_label}, #{option.name}, #{option.value}]"
 end
 
 puts
