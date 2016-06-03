@@ -5,7 +5,7 @@
 # Purpose:      Command-line interface
 #
 # Created:      27th July 2015
-# Updated:      19th April 2016
+# Updated:      3rd June 2016
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -137,7 +137,6 @@ def self.show_version aliases, options = {}
 
 	stream			=	options[:stream] || $stdout
 	program_name	=	options[:program_name] || File.basename($0)
-
 
 	if options[:version]
 

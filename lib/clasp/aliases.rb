@@ -5,7 +5,7 @@
 # Purpose:      Alias classes
 #
 # Created:      25th October 2014
-# Updated:      16th April 2016
+# Updated:      3rd June 2016
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -84,10 +84,12 @@ class Flag
   public
 	# An instance of Flag that provides default '--help' information
 	def self.Help
+
 		@@Help_
 	end # def self.Help
 	# An instance of Flag that provides default '--version' information
 	def self.Version
+
 		@@Version_
 	end # def self.Version
 end
@@ -132,15 +134,20 @@ def CLASP.Flag(name, options = {})
 		when	Symbol
 			case	k
 			when	:alias
+
 				aliases	=	[ v ]
 			when	:aliases
+
 				aliases	=	v
 			when	:help
+
 				help	=	v
 			else
+
 				raise ArgumentError, "invalid option for flag: '#{k}' => '#{v}'"
 			end
 		else
+
 			raise ArgumentError, "invalid option type for flag: '#{k}' (#{k.class}) => '#{v}'"
 		end
 	end
@@ -162,19 +169,26 @@ def CLASP.Option(name, options = {})
 		when	Symbol
 			case	k
 			when	:alias
+
 				aliases	=	[ v ]
 			when	:aliases
+
 				aliases	=	v
 			when	:help
+
 				help	=	v
 			when	:values_range, :values
+
 				values_range	=	v
 			when	:default_value, :default
+
 				default_value	=	v
 			else
+
 				raise ArgumentError, "invalid option for flag: '#{k}' => '#{v}'"
 			end
 		else
+
 			raise ArgumentError, "invalid option type for flag: '#{k}' (#{k.class}) => '#{v}'"
 		end
 	end

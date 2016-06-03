@@ -6,7 +6,7 @@
 #               CLASP.Ruby
 #
 # Created:      14th February 2014
-# Updated:      16th April 2016
+# Updated:      3rd June 2016
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -60,6 +60,7 @@ class Arguments
 
 	private
 	class Flag
+
 		def initialize(arg, given_index, given_name, resolved_name, argument_alias, given_hyphens, given_label)
 
 			@arg			=	arg
@@ -90,7 +91,7 @@ class Arguments
 			# check name and aliases
 			return true if @name == rhs
 			return argument_alias.aliases.include? rhs if argument_alias
-			return false
+			false
 		end
 
 		def ==(rhs)
@@ -137,7 +138,7 @@ class Arguments
 			# check name and aliases
 			return true if @name == rhs
 			return argument_alias.aliases.include? rhs if argument_alias
-			return false
+			false
 		end
 
 		def ==(rhs)
@@ -194,7 +195,7 @@ class Arguments
 		def ==(rhs)
 
 			return rhs == @a if rhs.is_a? self.class
-			return @a == rhs
+			@a == rhs
 		end
 	end
 
@@ -270,6 +271,7 @@ class Arguments
 
 				# do regex test to see if option/flag/value
 				if arg =~ /^(-+)([^=]+)/
+
 					hyphens			=	$1
 					given_label		=	$2
 					given_name		=	"#$1#$2"
