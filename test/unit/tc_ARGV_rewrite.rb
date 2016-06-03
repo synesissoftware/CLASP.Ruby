@@ -35,7 +35,7 @@ class Test_Arguments_4 < Test::Unit::TestCase
 		aliases	=	nil
 		argv	=	[ 'val1', '-f1', 'val2', '--' ]
 		argv_c	=	argv.dup
-		args	=	CLASP::Arguments.new argv, aliases, :mutate_argv => false
+		args	=	CLASP::Arguments.new argv, aliases, mutate_argv: false
 
 		assert_equal 1, args.flags.size
 

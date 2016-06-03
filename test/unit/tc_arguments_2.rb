@@ -29,9 +29,9 @@ class Test_Arguments_2 < Test::Unit::TestCase
 	def test_combined_flags_1
 
 		aliases	=	[
-			CLASP.Flag('--a', :alias => '-a'),
-			CLASP.Flag('--b', :alias => '-b'),
-			CLASP.Flag('--c', :alias => '-c'),
+			CLASP.Flag('--a', alias: '-a'),
+			CLASP.Flag('--b', alias: '-b'),
+			CLASP.Flag('--c', alias: '-c'),
 		]
 		args	=	CLASP::Arguments.new [ '-abc' ], aliases
 

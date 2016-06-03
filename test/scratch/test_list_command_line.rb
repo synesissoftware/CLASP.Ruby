@@ -6,10 +6,10 @@ require 'clasp'
 
 Aliases = [
 
-	CLASP.Flag('--help', :help => 'shows this help and quits'),
-	CLASP.Flag('--version', :alias => '-v', :help => 'shows this version and quits'),
+	CLASP.Flag('--help', help: 'shows this help and quits'),
+	CLASP.Flag('--version', alias: '-v', help: 'shows this version and quits'),
 
-	CLASP.Option('--verbosity', :aliases => %w{ -V --verbose }),
+	CLASP.Option('--verbosity', aliases: %w{ -V --verbose }),
 ]
 
 Args = CLASP::Arguments.new(ARGV, Aliases)

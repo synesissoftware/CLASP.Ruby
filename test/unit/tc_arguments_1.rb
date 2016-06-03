@@ -278,7 +278,7 @@ class Test_Arguments < Test::Unit::TestCase
 	def test_double_hyphen_3
 
 		aliases	=	[
-			CLASP.Option('--password', :alias => '-p'),
+			CLASP.Option('--password', alias: '-p'),
 		]
 		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-p', '--', 'value2' ], aliases
 
@@ -338,7 +338,7 @@ class Test_Arguments < Test::Unit::TestCase
 	def test_flag_aliases_2
 
 		aliases	=	[
-			CLASP.Flag('--expand', :alias => '-x')
+			CLASP.Flag('--expand', alias: '-x')
 		]
 		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-x', '--delete' ], aliases
 
@@ -371,7 +371,7 @@ class Test_Arguments < Test::Unit::TestCase
 	def test_flag_aliases_3
 
 		aliases	=	[
-			CLASP.Flag('--expand', :aliases => [ '-x', '--x' ])
+			CLASP.Flag('--expand', aliases: [ '-x', '--x' ])
 		]
 		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-x', '--delete', '--x' ], aliases
 
@@ -435,7 +435,7 @@ class Test_Arguments < Test::Unit::TestCase
 	def test_option_aliases_2
 
 		aliases	=	[
-			CLASP.Option('--option', :aliases => [ '-o' ])
+			CLASP.Option('--option', aliases: [ '-o' ])
 		]
 		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o=value' ], aliases
 
@@ -461,7 +461,7 @@ class Test_Arguments < Test::Unit::TestCase
 	def test_option_aliases_3
 
 		aliases	=	[
-			CLASP.Option('--option', :aliases => [ '-o' ])
+			CLASP.Option('--option', aliases: [ '-o' ])
 		]
 		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o', 'value' ], aliases
 
@@ -487,8 +487,8 @@ class Test_Arguments < Test::Unit::TestCase
 	def test_option_default_aliases_1
 
 		aliases	=	[
-			CLASP.Option('--option', :aliases => [ '-o' ]),
-			CLASP.Option('--option=special-value', :alias => '-s')
+			CLASP.Option('--option', aliases: [ '-o' ]),
+			CLASP.Option('--option=special-value', alias: '-s')
 		]
 		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o', 'value', '-s', '-s=explicit-value' ], aliases
 

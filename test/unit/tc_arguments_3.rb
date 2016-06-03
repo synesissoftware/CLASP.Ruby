@@ -21,7 +21,7 @@ class Test_Arguments_3 < Test::Unit::TestCase
 	def test_include_flag_2
 
 		aliases	=	[
-			CLASP.Flag('--flag1', :alias => '-f1'),
+			CLASP.Flag('--flag1', alias: '-f1'),
 		]
 		args	=	CLASP::Arguments.new [ '-f1', 'value1', '--option1=value1', '--flag2' ], aliases
 
@@ -35,8 +35,8 @@ class Test_Arguments_3 < Test::Unit::TestCase
 	def test_combined_flags_1
 
 		aliases	=	[
-			CLASP.Flag('--delete', :alias => '-d'),
-			CLASP.Flag('--update', :alias => '-u'),
+			CLASP.Flag('--delete', alias: '-d'),
+			CLASP.Flag('--update', alias: '-u'),
 		]
 		args	=	CLASP::Arguments.new [ '-du' ], aliases
 
@@ -57,8 +57,8 @@ class Test_Arguments_3 < Test::Unit::TestCase
 	def test_get_option_2
 
 		aliases	=	[
-			CLASP.Flag('--flag1', :alias => '-f1'),
-			CLASP.Option('--option1', :alias => '-o1'),
+			CLASP.Flag('--flag1', alias: '-f1'),
+			CLASP.Option('--option1', alias: '-o1'),
 		]
 		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o1=value1', '--flag2' ], aliases
 
@@ -72,10 +72,10 @@ class Test_Arguments_3 < Test::Unit::TestCase
 	def test_combined_flags_and_options_1
 
 		aliases	=	[
-			CLASP.Flag('--delete', :alias => '-d'),
-			CLASP.Flag('--update', :alias => '-u'),
-			CLASP.Option('--encryption', :alias => '-e'),
-			CLASP.Option('--encryption=blowfish', :alias => '-b'),
+			CLASP.Flag('--delete', alias: '-d'),
+			CLASP.Flag('--update', alias: '-u'),
+			CLASP.Option('--encryption', alias: '-e'),
+			CLASP.Option('--encryption=blowfish', alias: '-b'),
 		]
 		args	=	CLASP::Arguments.new [ '-du', '-e', 'sha' ], aliases
 
