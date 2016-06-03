@@ -72,6 +72,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '-f1', args.flags[0].given_name
 		assert_equal 1, args.flags[0].given_hyphens
 		assert_nil args.flags[0].argument_alias
+		assert_equal Hash.new, args.flags[0].extras
 
 		assert_equal 0, args.options.size
 
@@ -90,6 +91,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '-f1', args.flags[0].given_name
 		assert_equal 1, args.flags[0].given_hyphens
 		assert_nil args.flags[0].argument_alias
+		assert_equal Hash.new, args.flags[0].extras
 		assert_equal 1, args.flags[1].given_index
 		assert_equal '--flag2', args.flags[1].to_s
 		assert_equal '--flag2', args.flags[1].name
@@ -97,6 +99,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '--flag2', args.flags[1].given_name
 		assert_equal 2, args.flags[1].given_hyphens
 		assert_nil args.flags[1].argument_alias
+		assert_equal Hash.new, args.flags[1].extras
 
 		assert_equal 0, args.options.size
 
@@ -115,6 +118,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '-f1', args.flags[0].given_name
 		assert_equal 1, args.flags[0].given_hyphens
 		assert_nil args.flags[0].argument_alias
+		assert_equal Hash.new, args.flags[0].extras
 		assert_equal 1, args.flags[1].given_index
 		assert_equal '--flag2', args.flags[1].to_s
 		assert_equal '--flag2', args.flags[1].name
@@ -122,6 +126,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '--flag2', args.flags[1].given_name
 		assert_equal 2, args.flags[1].given_hyphens
 		assert_nil args.flags[1].argument_alias
+		assert_equal Hash.new, args.flags[1].extras
 		assert_equal 2, args.flags[2].given_index
 		assert_equal '---x', args.flags[2].to_s
 		assert_equal '---x', args.flags[2].name
@@ -129,6 +134,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '---x', args.flags[2].given_name
 		assert_equal 3, args.flags[2].given_hyphens
 		assert_nil args.flags[2].argument_alias
+		assert_equal Hash.new, args.flags[2].extras
 
 		assert_equal 0, args.options.size
 
@@ -150,6 +156,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '-o1', args.options[0].given_name
 		assert_equal 1, args.options[0].given_hyphens
 		assert_nil args.options[0].argument_alias
+		assert_equal Hash.new, args.options[0].extras
 
 		assert_equal 0, args.values.size
 	end
@@ -168,6 +175,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '-o1', args.options[0].given_name
 		assert_equal 1, args.options[0].given_hyphens
 		assert_nil args.options[0].argument_alias
+		assert_equal Hash.new, args.options[0].extras
 		assert_equal '--option2=value2', args.options[1].to_s
 		assert_equal '--option2', args.options[1].name
 		assert_equal 'option2', args.options[1].given_label
@@ -175,6 +183,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '--option2', args.options[1].given_name
 		assert_equal 2, args.options[1].given_hyphens
 		assert_nil args.options[1].argument_alias
+		assert_equal Hash.new, args.options[1].extras
 
 		assert_equal 0, args.values.size
 	end
@@ -193,6 +202,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '-o1', args.options[0].given_name
 		assert_equal 1, args.options[0].given_hyphens
 		assert_nil args.options[0].argument_alias
+		assert_equal Hash.new, args.options[0].extras
 		assert_equal '--option2=value2', args.options[1].to_s
 		assert_equal '--option2', args.options[1].name
 		assert_equal 'option2', args.options[1].given_label
@@ -200,6 +210,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '--option2', args.options[1].given_name
 		assert_equal 2, args.options[1].given_hyphens
 		assert_nil args.options[1].argument_alias
+		assert_equal Hash.new, args.options[1].extras
 		assert_equal '---the-third-option=the third value', args.options[2].to_s
 		assert_equal '---the-third-option', args.options[2].name
 		assert_equal 'the-third-option', args.options[2].given_label
@@ -207,6 +218,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '---the-third-option', args.options[2].given_name
 		assert_equal 3, args.options[2].given_hyphens
 		assert_nil args.options[2].argument_alias
+		assert_equal Hash.new, args.options[2].extras
 
 		assert_equal 0, args.values.size
 	end
@@ -222,6 +234,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '-f1', args.flags[0].given_name
 		assert_equal 1, args.flags[0].given_hyphens
 		assert_nil args.flags[0].argument_alias
+		assert_equal Hash.new, args.flags[0].extras
 
 		assert_equal 1, args.options.size
 		assert_equal '--first-option=val1', args.options[0].to_s
@@ -230,6 +243,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'val1', args.options[0].value
 		assert_equal '--first-option', args.options[0].given_name
 		assert_equal 2, args.options[0].given_hyphens
+		assert_equal Hash.new, args.options[0].extras
 
 		assert_equal 1, args.values.size
 		assert_equal 'value1', args.values[0]
@@ -246,6 +260,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '-f1', args.flags[0].given_name
 		assert_equal 1, args.flags[0].given_hyphens
 		assert_nil args.flags[0].argument_alias
+		assert_equal Hash.new, args.flags[0].extras
 
 		assert_equal 0, args.options.size
 
@@ -265,6 +280,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '-f1', args.flags[0].given_name
 		assert_equal 1, args.flags[0].given_hyphens
 		assert_nil args.flags[0].argument_alias
+		assert_equal Hash.new, args.flags[0].extras
 
 		assert_equal 0, args.options.size
 
@@ -278,7 +294,7 @@ class Test_Arguments < Test::Unit::TestCase
 	def test_double_hyphen_3
 
 		aliases	=	[
-			CLASP.Option('--password', alias: '-p'),
+			CLASP.Option('--password', alias: '-p', extras: 'extra'),
 		]
 		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-p', '--', 'value2' ], aliases
 
@@ -289,6 +305,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '-f1', args.flags[0].given_name
 		assert_equal 1, args.flags[0].given_hyphens
 		assert_nil args.flags[0].argument_alias
+		assert_equal Hash.new, args.flags[0].extras
 
 		assert_equal 1, args.options.size
 		assert_equal '--password=', args.options[0].to_s
@@ -297,6 +314,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_nil args.options[0].value
 		assert_equal '-p', args.options[0].given_name
 		assert_equal 1, args.options[0].given_hyphens
+		assert_equal 'extra', args.options[0].extras
 
 		assert_equal 2, args.values.size
 		assert_equal 'value1', args.values[0]
@@ -316,18 +334,21 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '-f1', args.flags[0].given_name
 		assert_equal 1, args.flags[0].given_hyphens
 		assert_nil args.flags[0].argument_alias
+		assert_equal Hash.new, args.flags[0].extras
 		assert_equal '-x', args.flags[1].to_s
 		assert_equal '-x', args.flags[1].name
 		assert_equal 'x', args.flags[1].given_label
 		assert_equal '-x', args.flags[1].given_name
 		assert_equal 1, args.flags[1].given_hyphens
 		assert_nil args.flags[1].argument_alias
+		assert_equal Hash.new, args.flags[1].extras
 		assert_equal '--delete', args.flags[2].to_s
 		assert_equal '--delete', args.flags[2].name
 		assert_equal 'delete', args.flags[2].given_label
 		assert_equal '--delete', args.flags[2].given_name
 		assert_equal 2, args.flags[2].given_hyphens
 		assert_nil args.flags[2].argument_alias
+		assert_equal Hash.new, args.flags[2].extras
 
 		assert_equal 0, args.options.size
 
@@ -349,18 +370,21 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '-f1', args.flags[0].given_name
 		assert_equal 1, args.flags[0].given_hyphens
 		assert_nil args.flags[0].argument_alias
+		assert_equal Hash.new, args.flags[0].extras
 		assert_equal '--expand', args.flags[1].to_s
 		assert_equal '--expand', args.flags[1].name
 		assert_equal 'x', args.flags[1].given_label
 		assert_equal '-x', args.flags[1].given_name
 		assert_equal 1, args.flags[1].given_hyphens
 		assert_equal aliases[0], args.flags[1].argument_alias
+		assert_equal Hash.new, args.flags[1].extras
 		assert_equal '--delete', args.flags[2].to_s
 		assert_equal '--delete', args.flags[2].name
 		assert_equal 'delete', args.flags[2].given_label
 		assert_equal '--delete', args.flags[2].given_name
 		assert_equal 2, args.flags[2].given_hyphens
 		assert_nil args.flags[2].argument_alias
+		assert_equal Hash.new, args.flags[2].extras
 
 		assert_equal 0, args.options.size
 
@@ -371,7 +395,7 @@ class Test_Arguments < Test::Unit::TestCase
 	def test_flag_aliases_3
 
 		aliases	=	[
-			CLASP.Flag('--expand', aliases: [ '-x', '--x' ])
+			CLASP.Flag('--expand', aliases: [ '-x', '--x' ], extras: %w{ e x t r a })
 		]
 		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-x', '--delete', '--x' ], aliases
 
@@ -382,24 +406,28 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '-f1', args.flags[0].given_name
 		assert_equal 1, args.flags[0].given_hyphens
 		assert_nil args.flags[0].argument_alias
+		assert_equal Hash.new, args.flags[0].extras
 		assert_equal '--expand', args.flags[1].to_s
 		assert_equal '--expand', args.flags[1].name
 		assert_equal 'x', args.flags[1].given_label
 		assert_equal '-x', args.flags[1].given_name
 		assert_equal 1, args.flags[1].given_hyphens
 		assert_equal aliases[0], args.flags[1].argument_alias
+		assert_equal [ 'e', 'x', 't', 'r', 'a' ], args.flags[1].extras
 		assert_equal '--delete', args.flags[2].to_s
 		assert_equal '--delete', args.flags[2].name
 		assert_equal 'delete', args.flags[2].given_label
 		assert_equal '--delete', args.flags[2].given_name
 		assert_equal 2, args.flags[2].given_hyphens
 		assert_nil args.flags[2].argument_alias
+		assert_equal Hash.new, args.flags[2].extras
 		assert_equal '--expand', args.flags[3].to_s
 		assert_equal '--expand', args.flags[3].name
 		assert_equal 'x', args.flags[3].given_label
 		assert_equal '--x', args.flags[3].given_name
 		assert_equal 2, args.flags[3].given_hyphens
 		assert_equal aliases[0], args.flags[3].argument_alias
+		assert_equal [ 'e', 'x', 't', 'r', 'a' ], args.flags[3].extras
 
 		assert_equal 0, args.options.size
 
@@ -419,6 +447,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'f1', args.flags[0].given_label
 		assert_equal '-f1', args.flags[0].given_name
 		assert_equal 1, args.flags[0].given_hyphens
+		assert_equal Hash.new, args.flags[0].extras
 
 		assert_equal 1, args.options.size
 		assert_equal '-o=value', args.options[0].to_s
@@ -427,6 +456,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'value', args.options[0].value
 		assert_equal '-o', args.options[0].given_name
 		assert_equal 1, args.options[0].given_hyphens
+		assert_equal Hash.new, args.options[0].extras
 
 		assert_equal 1, args.values.size
 		assert_equal 'value1', args.values[0]
@@ -445,6 +475,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'f1', args.flags[0].given_label
 		assert_equal '-f1', args.flags[0].given_name
 		assert_equal 1, args.flags[0].given_hyphens
+		assert_equal Hash.new, args.flags[0].extras
 
 		assert_equal 1, args.options.size
 		assert_equal '--option=value', args.options[0].to_s
@@ -453,6 +484,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'value', args.options[0].value
 		assert_equal '-o', args.options[0].given_name
 		assert_equal 1, args.options[0].given_hyphens
+		assert_equal Hash.new, args.options[0].extras
 
 		assert_equal 1, args.values.size
 		assert_equal 'value1', args.values[0]
@@ -471,6 +503,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'f1', args.flags[0].given_label
 		assert_equal '-f1', args.flags[0].given_name
 		assert_equal 1, args.flags[0].given_hyphens
+		assert_equal Hash.new, args.flags[0].extras
 
 		assert_equal 1, args.options.size
 		assert_equal '--option=value', args.options[0].to_s
@@ -479,6 +512,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'value', args.options[0].value
 		assert_equal '-o', args.options[0].given_name
 		assert_equal 1, args.options[0].given_hyphens
+		assert_equal Hash.new, args.options[0].extras
 
 		assert_equal 1, args.values.size
 		assert_equal 'value1', args.values[0]
@@ -498,6 +532,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'f1', args.flags[0].given_label
 		assert_equal '-f1', args.flags[0].given_name
 		assert_equal 1, args.flags[0].given_hyphens
+		assert_equal Hash.new, args.flags[0].extras
 
 		assert_equal 3, args.options.size
 		assert_equal '--option=value', args.options[0].to_s
@@ -506,18 +541,21 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'value', args.options[0].value
 		assert_equal '-o', args.options[0].given_name
 		assert_equal 1, args.options[0].given_hyphens
+		assert_equal Hash.new, args.options[0].extras
 		assert_equal '--option=special-value', args.options[1].to_s
 		assert_equal '--option', args.options[1].name
 		assert_equal 's', args.options[1].given_label
 		assert_equal 'special-value', args.options[1].value
 		assert_equal '-s', args.options[1].given_name
 		assert_equal 1, args.options[1].given_hyphens
+		assert_equal Hash.new, args.options[1].extras
 		assert_equal '--option=explicit-value', args.options[2].to_s
 		assert_equal '--option', args.options[2].name
 		assert_equal 's', args.options[2].given_label
 		assert_equal 'explicit-value', args.options[2].value
 		assert_equal '-s', args.options[2].given_name
 		assert_equal 1, args.options[2].given_hyphens
+		assert_equal Hash.new, args.options[2].extras
 
 		assert_equal 1, args.values.size
 		assert_equal 'value1', args.values[0]

@@ -5,7 +5,7 @@
 # Purpose:      Alias classes
 #
 # Created:      25th October 2014
-# Updated:      3rd June 2016
+# Updated:      4th June 2016
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -59,11 +59,12 @@ class Flag
 
 	# Creates a Flag instance from the given name, aliases, and help
 	#
-	def initialize(name, aliases, help)
+	def initialize(name, aliases, help, extras = nil)
 
 		@name			=	name
 		@aliases		=	(aliases || []).select { |a| a and not a.empty? }
 		@help			=	help
+		@extras			=	extras || {}
 	end
 
 	# The flag's name string
@@ -72,6 +73,8 @@ class Flag
 	attr_reader	:aliases
 	# The flag's help string
 	attr_reader	:help
+	# The flag's extras
+	attr_reader :extras
 
 	def to_s
 
@@ -86,12 +89,13 @@ class Flag
 	def self.Help
 
 		@@Help_
-	end # def self.Help
+	end
+
 	# An instance of Flag that provides default '--version' information
 	def self.Version
 
 		@@Version_
-	end # def self.Version
+	end
 end
 
 # A class that represents the specification for a command-line option
@@ -100,13 +104,14 @@ class Option
 	# Creates an Option instance from the given name, aliases, help,
 	# values_range, and default_value
 	#
-	def initialize(name, aliases, help, values_range, default_value)
+	def initialize(name, aliases, help, values_range, default_value, extras = nil)
 
 		@name			=	name
 		@aliases		=	(aliases || []).select { |a| a and not a.empty? }
 		@help			=	help
 		@values_range	=	values_range || []
 		@default_value	=	default_value
+		@extras			=	extras || {}
 	end
 
 	# The option's name string
@@ -117,6 +122,8 @@ class Option
 	attr_reader	:help
 	attr_reader	:values_range
 	attr_reader	:default_value
+	# The flag's extras
+	attr_reader :extras
 end
 
 # ######################################################################## #
@@ -127,6 +134,7 @@ def CLASP.Flag(name, options = {})
 
 	aliases	=	nil
 	help	=	nil
+	extras	=	nil
 
 	options.each do |k, v|
 
@@ -142,6 +150,9 @@ def CLASP.Flag(name, options = {})
 			when	:help
 
 				help	=	v
+			when	:extras
+
+				extras	=	v
 			else
 
 				raise ArgumentError, "invalid option for flag: '#{k}' => '#{v}'"
@@ -152,7 +163,7 @@ def CLASP.Flag(name, options = {})
 		end
 	end
 
-	CLASP::Flag.new(name, aliases, help)
+	CLASP::Flag.new(name, aliases, help, extras)
 end
 
 # Generator method that obtains an Option according to the given parameters
@@ -162,6 +173,7 @@ def CLASP.Option(name, options = {})
 	help			=	nil
 	values_range	=	nil
 	default_value	=	nil
+	extras			=	nil
 
 	options.each do |k, v|
 
@@ -183,6 +195,9 @@ def CLASP.Option(name, options = {})
 			when	:default_value, :default
 
 				default_value	=	v
+			when	:extras
+
+				extras	=	v
 			else
 
 				raise ArgumentError, "invalid option for flag: '#{k}' => '#{v}'"
@@ -193,7 +208,7 @@ def CLASP.Option(name, options = {})
 		end
 	end
 
-	CLASP::Option.new(name, aliases, help, values_range, default_value)
+	CLASP::Option.new(name, aliases, help, values_range, default_value, extras)
 end
 
 # ######################################################################## #

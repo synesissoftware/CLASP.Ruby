@@ -20,6 +20,7 @@ class Test_Arguments_2 < Test::Unit::TestCase
 		assert_equal 'abc', args.flags[0].given_label
 		assert_equal 1, args.flags[0].given_hyphens
 		assert_nil args.flags[0].argument_alias
+		assert_equal Hash.new, args.flags[0].extras
 
 		assert_equal 0, args.options.size
 
@@ -41,16 +42,19 @@ class Test_Arguments_2 < Test::Unit::TestCase
 		assert_equal 'abc', args.flags[0].given_label
 		assert_equal 1, args.flags[0].given_hyphens
 		assert_equal aliases[0], args.flags[0].argument_alias
+		assert_equal Hash.new, args.flags[0].extras
 		assert_equal '--b', args.flags[1].name
 		assert_equal '--b', args.flags[1].to_s
 		assert_equal 'abc', args.flags[1].given_label
 		assert_equal 1, args.flags[1].given_hyphens
 		assert_equal aliases[1], args.flags[1].argument_alias
+		assert_equal Hash.new, args.flags[1].extras
 		assert_equal '--c', args.flags[2].name
 		assert_equal '--c', args.flags[2].to_s
 		assert_equal 'abc', args.flags[2].given_label
 		assert_equal 1, args.flags[2].given_hyphens
 		assert_equal aliases[2], args.flags[2].argument_alias
+		assert_equal Hash.new, args.flags[2].extras
 
 		assert_equal 0, args.options.size
 

@@ -16,6 +16,7 @@ class Test_Arguments_4 < Test::Unit::TestCase
 		args	=	CLASP::Arguments.new argv, aliases
 
 		assert_equal 1, args.flags.size
+		assert_equal Hash.new, args.flags[0].extras
 
 		assert_equal 0, args.options.size
 
@@ -38,6 +39,7 @@ class Test_Arguments_4 < Test::Unit::TestCase
 		args	=	CLASP::Arguments.new argv, aliases, mutate_argv: false
 
 		assert_equal 1, args.flags.size
+		assert_equal Hash.new, args.flags[0].extras
 
 		assert_equal 0, args.options.size
 
