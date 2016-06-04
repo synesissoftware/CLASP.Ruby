@@ -6,7 +6,7 @@
 #               CLASP.Ruby
 #
 # Created:      14th February 2014
-# Updated:      16th April 2016
+# Updated:      4th June 2016
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -60,7 +60,8 @@ class Arguments
 
 	private
 	class Flag
-		def initialize(arg, given_index, given_name, resolved_name, argument_alias, given_hyphens, given_label)
+
+		def initialize(arg, given_index, given_name, resolved_name, argument_alias, given_hyphens, given_label, extras)
 
 			@arg			=	arg
 			@given_index	=	given_index
@@ -69,6 +70,7 @@ class Arguments
 			@given_hyphens	=	given_hyphens
 			@given_label	=	given_label
 			@name			=	resolved_name || given_name
+			@extras			=	extras.nil? ? {} : extras
 		end
 
 		attr_reader :given_index
@@ -77,6 +79,7 @@ class Arguments
 		attr_reader :given_hyphens
 		attr_reader :given_label
 		attr_reader :name
+		attr_reader :extras
 
 		def to_s
 
@@ -90,7 +93,7 @@ class Arguments
 			# check name and aliases
 			return true if @name == rhs
 			return argument_alias.aliases.include? rhs if argument_alias
-			return false
+			false
 		end
 
 		def ==(rhs)
@@ -110,7 +113,8 @@ class Arguments
 	end
 
 	class Option
-		def initialize(arg, given_index, given_name, resolved_name, argument_alias, given_hyphens, given_label, value)
+
+		def initialize(arg, given_index, given_name, resolved_name, argument_alias, given_hyphens, given_label, value, extras)
 
 			@arg			=	arg
 			@given_index	=	given_index
@@ -120,6 +124,7 @@ class Arguments
 			@given_label	=	given_label
 			@value			=	value
 			@name			=	resolved_name || given_name
+			@extras			=	extras.nil? ? {} : extras
 		end
 
 		attr_reader :given_index
@@ -129,6 +134,7 @@ class Arguments
 		attr_reader :given_label
 		attr_reader :name
 		attr_reader :value
+		attr_reader :extras
 
 		def eql?(rhs)
 
@@ -137,7 +143,7 @@ class Arguments
 			# check name and aliases
 			return true if @name == rhs
 			return argument_alias.aliases.include? rhs if argument_alias
-			return false
+			false
 		end
 
 		def ==(rhs)
@@ -194,7 +200,7 @@ class Arguments
 		def ==(rhs)
 
 			return rhs == @a if rhs.is_a? self.class
-			return @a == rhs
+			@a == rhs
 		end
 	end
 
@@ -270,6 +276,7 @@ class Arguments
 
 				# do regex test to see if option/flag/value
 				if arg =~ /^(-+)([^=]+)/
+
 					hyphens			=	$1
 					given_label		=	$2
 					given_name		=	"#$1#$2"
@@ -326,7 +333,7 @@ class Arguments
 
 							grp_flags, grp_options, grp_value = Arguments.parse flags_argv, aliases
 
-							grp_flags.map! { |f| Flag.new(arg, index, given_name, f.name, f.argument_alias, hyphens.size, given_label) }
+							grp_flags.map! { |f| Flag.new(arg, index, given_name, f.name, f.argument_alias, hyphens.size, given_label, argument_alias ? argument_alias.extras : nil) }
 
 							flags.push(*grp_flags)
 							options.push(*grp_options)
@@ -339,15 +346,15 @@ class Arguments
 					if argument_alias and argument_alias.is_a? CLASP::Option and not value
 
 						want_option_value = true
-						options << Option.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, nil)
+						options << Option.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, nil, argument_alias ? argument_alias.extras : nil)
 					elsif value
 
 						want_option_value = false
-						options << Option.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, value)
+						options << Option.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, value, argument_alias ? argument_alias.extras : nil)
 					else
 
 						want_option_value = false
-						flags << Flag.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label)
+						flags << Flag.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, argument_alias ? argument_alias.extras : nil)
 					end
 
 					next

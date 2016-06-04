@@ -6,10 +6,10 @@ require 'clasp'
 
 Aliases = [
 
-	CLASP.Flag('--version', :alias => '-v', :help => 'shows the program version and quits'),
+	CLASP.Flag('--version', alias: '-v', help: 'shows the program version and quits'),
 
-	CLASP.Option('--verbosity', :help => 'the verbosity', values: [ 'silent', 'quiet', 'succinct', 'chatty', 'verbose' ]),
-	CLASP.Option('--length', :alias => '-l', :help => 'specifies the length'),
+	CLASP.Option('--verbosity', help: 'the verbosity', values: [ 'silent', 'quiet', 'succinct', 'chatty', 'verbose' ]),
+	CLASP.Option('--length', alias: '-l', help: 'specifies the length'),
 	CLASP.Flag('--verbosity=succinct', aliases: [ '--succinct', '-s' ]),
 	CLASP.Flag('--verbosity=verbose', alias: '--verbose'),
 ]
