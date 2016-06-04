@@ -49,7 +49,7 @@
 module CLASP
 
 	# Current version of the CLASP.Ruby library
-	VERSION				=	'0.8.1'
+	VERSION				=	'0.8.2'
 
 	private
 	VERSION_PARTS_		=	VERSION.split(/[.]/).collect { |n| n.to_i } # :nodoc:
