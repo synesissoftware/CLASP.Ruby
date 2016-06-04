@@ -30,6 +30,14 @@ class Test_defaults < Test::Unit::TestCase
 		assert_equal 'shows this help and terminates', CLASP::Flag.Help.help
 	end
 
+	def test_Help_extras
+
+		help1	=	CLASP::Flag.Help
+		help2	=	CLASP::Flag.Help(v1: 'v', v2: 2)
+
+		assert_equal Hash.new, help1.extras
+		assert_equal Hash[ [ [ :v1, 'v' ], [ :v2, 2 ] ] ], help2.extras
+	end
 
 	def test_responds_to_Version
 
@@ -51,6 +59,15 @@ class Test_defaults < Test::Unit::TestCase
 		assert_equal [], CLASP::Flag.Version.aliases
 
 		assert_equal 'shows version and terminates', CLASP::Flag.Version.help
+	end
+
+	def test_Version_extras
+
+		version1	=	CLASP::Flag.Version
+		version2	=	CLASP::Flag.Version(v1: 'v', v2: 2)
+
+		assert_equal Hash.new, version1.extras
+		assert_equal Hash[ [ [ :v1, 'v' ], [ :v2, 2 ] ] ], version2.extras
 	end
 end
 
