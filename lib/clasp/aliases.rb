@@ -86,15 +86,23 @@ class Flag
 	@@Version_	=	self.new('--version', [], 'shows version and terminates')
   public
 	# An instance of Flag that provides default '--help' information
-	def self.Help
+	def self.Help(extras = nil)
 
-		@@Help_
+		h = @@Help_
+
+		return self.new(h.name, h.aliases, h.help, extras) if extras
+
+		h
 	end
 
 	# An instance of Flag that provides default '--version' information
-	def self.Version
+	def self.Version(extras = nil)
 
-		@@Version_
+		h = @@Version_
+
+		return self.new(h.name, h.aliases, h.help, extras) if extras
+
+		h
 	end
 end
 
