@@ -5,7 +5,7 @@
 # Purpose:      Version for CLASP.Ruby library
 #
 # Created:      16th November 2014
-# Updated:      4th June 2016
+# Updated:      9th June 2016
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -49,7 +49,7 @@
 module CLASP
 
 	# Current version of the CLASP.Ruby library
-	VERSION				=	'0.9.1'
+	VERSION				=	'0.9.2'
 
 	private
 	VERSION_PARTS_		=	VERSION.split(/[.]/).collect { |n| n.to_i } # :nodoc:
