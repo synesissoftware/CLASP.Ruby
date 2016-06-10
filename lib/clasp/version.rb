@@ -45,7 +45,10 @@
 
 
 
-# Main module for CLASP library
+=begin
+=end
+
+# Main module for CLASP.Ruby library
 module CLASP
 
 	# Current version of the CLASP.Ruby library

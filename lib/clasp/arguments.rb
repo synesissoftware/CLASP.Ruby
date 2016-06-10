@@ -6,7 +6,7 @@
 #               CLASP.Ruby
 #
 # Created:      14th February 2014
-# Updated:      4th June 2016
+# Updated:      10th June 2016
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -50,17 +50,22 @@
 # ######################################################################## #
 # module
 
+=begin
+=end
+
 module CLASP
 
 # ######################################################################## #
 # classes
 
-# The arguments class
+# The main class for processing command-line arguments
 class Arguments
 
+	#:stopdoc:
 	private
-	class Flag
+	class Flag #:nodoc: all
 
+		#:nodoc:
 		def initialize(arg, given_index, given_name, resolved_name, argument_alias, given_hyphens, given_label, extras)
 
 			@arg			=	arg
@@ -81,11 +86,13 @@ class Arguments
 		attr_reader :name
 		attr_reader :extras
 
+		#:nodoc:
 		def to_s
 
 			@name
 		end
 
+		#:nodoc:
 		def eql?(rhs)
 
 			return false if rhs.nil?
@@ -96,6 +103,7 @@ class Arguments
 			false
 		end
 
+		#:nodoc:
 		def ==(rhs)
 
 			return false if rhs.nil?
@@ -106,14 +114,16 @@ class Arguments
 			eql? rhs
 		end
 
+		#:nodoc:
 		def hash
 
 			@arg.hash
 		end
 	end
 
-	class Option
+	class Option #:nodoc: all
 
+		#:nodoc:
 		def initialize(arg, given_index, given_name, resolved_name, argument_alias, given_hyphens, given_label, value, extras)
 
 			@arg			=	arg
@@ -136,6 +146,7 @@ class Arguments
 		attr_reader :value
 		attr_reader :extras
 
+		#:nodoc:
 		def eql?(rhs)
 
 			return false if rhs.nil?
@@ -146,6 +157,7 @@ class Arguments
 			false
 		end
 
+		#:nodoc:
 		def ==(rhs)
 
 			return false if rhs.nil?
@@ -156,11 +168,13 @@ class Arguments
 			eql? rhs
 		end
 
+		#:nodoc:
 		def hash
 
 			@arg.hash
 		end
 
+		#:nodoc:
 		def to_s
 
 			return "#{name}=#{value}" if argument_alias
@@ -168,35 +182,41 @@ class Arguments
 		end
 	end
 
-	class ImmutableArray
+	class ImmutableArray #:nodoc: all
 
 		include Enumerable
 
+		#:nodoc:
 		def initialize(a)
 
 			@a = a
 		end
 
+		#:nodoc:
 		def each
 
 			@a.each { |i| yield i }
 		end
 
+		#:nodoc:
 		def size
 
 			@a.size
 		end
 
+		#:nodoc:
 		def empty?
 
 			@a.empty?
 		end
 
+		#:nodoc:
 		def [](index)
 
 			@a[index]
 		end
 
+		#:nodoc:
 		def ==(rhs)
 
 			return rhs == @a if rhs.is_a? self.class
@@ -204,17 +224,54 @@ class Arguments
 		end
 	end
 
+	#:startdoc:
+
 	# ######################
 	# Construction
 
 	public
 	# Constructs an instance of the class, according to the given parameters
 	#
-	# @param options
+	# === Signature
 	#
-	# @option :mutate_argv [Boolean] Determines whether the argv argument
-	#   will be mutated, by removing all its elements and placing in the
-	#   parsed +values+. If not specified, +true+ is assumed
+	# * *Parameters*:
+	#   - +argv+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+.
+	#   - +aliases+:: (+Array+) The aliases array. Defaults to +nil+. If none supplied, no aliasing will be performed.
+	#   - +options+:: An options hash, containing any of the following options.
+	#
+	# * *Options*:
+	#   - +mutate_arg:+:: (+Boolean+) Determines if the library should mutate +argv+. Defaults to +true+. This is essential when using CLASP in conjunction with <tt>$\<</tt>.
+	#
+	# === Examples
+	#
+	# ==== Simple command-line, no aliases
+	#
+	#     argv = %w{ --show-all=true -c infile outfile }
+	#
+	#     args = CLASP::Arguments.new(argv)
+	#
+	#     puts args.flags.size # => 1
+	#     puts args.flags[0]   # => "#<CLASP::Arguments::Flag:0x007fd23aa3aa98 @arg="-c", @given_index=1, @given_name="-c", @argument_alias=nil, @given_hyphens=1, @given_label="c", @name="-c", @extras={}>"
+	#     puts args.options.size # => 1
+	#     puts args.options[0]   # => "#<CLASP::Arguments::Option:0x007fd23aa3aca0 @arg="--show-all=true", @given_index=0, @given_name="--show-all", @argument_alias=nil, @given_hyphens=2, @given_label="show-all", @value="true", @name="--show-all", @extras={}>"
+	#     puts args.values.size # => 2
+	#     puts args.values[0]   # => "infile"
+	#     puts args.values[1]   # => "outfile"
+	#
+	# ==== Use of de-facto -- special flag to treat all subsequent arguments as values
+	#
+	#     argv = %w{ --show-all=true -- -c infile outfile }
+	#
+	#     args = CLASP::Arguments.new(argv)
+	#
+	#     puts args.flags.size # => 0
+	#     puts args.options.size # => 1
+	#     puts args.options[0]   # => "#<CLASP::Arguments::Option:0x007fd23aa3aca0 @arg="--show-all=true", @given_index=0, @given_name="--show-all", @argument_alias=nil, @given_hyphens=2, @given_label="show-all", @value="true", @name="--show-all", @extras={}>"
+	#     puts args.values.size # => 3
+	#     puts args.values[0]   # => "-c"
+	#     puts args.values[1]   # => "infile"
+	#     puts args.values[1]   # => "outfile"
+	#
 	def initialize(argv = ARGV, aliases = nil, options = {})
 
 		# have to do this name-swap, as 'options' has CLASP-specific
@@ -425,16 +482,20 @@ end # module CLASP
 # ######################################################################## #
 # extensions
 
-# The Array class
+#:nodoc:
 class Array
 
-	# Monkey-patch ==() in order to handle comparison with ImmutableArray,
-	# but DO NOT do so for eql?
+	# Monkey-patched Array#== in order to handle comparison with
+	# ImmutableArray
+	#
+	# NOTE: do not do so for +eql?+
 
+	#:nodoc:
 	alias_method :old_equal, :==
 
 	undef :==
 
+	#:nodoc:
 	def ==(rhs)
 
 		return rhs == self if rhs.is_a? CLASP::Arguments::ImmutableArray

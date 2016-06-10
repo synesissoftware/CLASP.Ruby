@@ -5,7 +5,7 @@
 # Purpose:      Alias classes
 #
 # Created:      25th October 2014
-# Updated:      4th June 2016
+# Updated:      10th June 2016
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -49,6 +49,9 @@
 # ######################################################################## #
 # module
 
+=begin
+=end
+
 module CLASP
 
 # ######################################################################## #
@@ -59,6 +62,13 @@ class Flag
 
 	# Creates a Flag instance from the given name, aliases, and help
 	#
+	# === Signature
+	#
+	# * *Parameters*
+	#   - +name+:: (+String+) The name, or long-form, of the flag.
+	#   - +aliases+:: (+Array+) 0 or more strings specifying short-form or option-value aliases.
+	#   - +help+:: (+String+) The help string, which may be +nil+.
+	#   - +extras+:: An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+.
 	def initialize(name, aliases, help, extras = nil)
 
 		@name			=	name
@@ -76,6 +86,7 @@ class Flag
 	# The flag's extras
 	attr_reader :extras
 
+	# String form of the flag
 	def to_s
 
 		"{#{name}; aliases=#{aliases.join(', ')}; help='#{help}'; extras=#{extras}}"
@@ -112,6 +123,15 @@ class Option
 	# Creates an Option instance from the given name, aliases, help,
 	# values_range, and default_value
 	#
+	# === Signature
+	#
+	# * *Parameters*
+	#   - +name+:: (+String+) The name, or long-form, of the option.
+	#   - +aliases+:: (+Array+) 0 or more strings specifying short-form or option-value aliases.
+	#   - +help+:: (+String+) The help string, which may be +nil+.
+	#   - +values_range+:: (+Array+) 0 or more strings specifying values supported by the option.
+	#   - +default_value+:: (+String+) The default value of the option. May be +nil+.
+	#   - +extras+:: An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+.
 	def initialize(name, aliases, help, values_range, default_value, extras = nil)
 
 		@name			=	name
@@ -128,16 +148,24 @@ class Option
 	attr_reader	:aliases
 	# The option's help string
 	attr_reader	:help
+	# The range of values supported by the option
 	attr_reader	:values_range
+	# The default value of the option
 	attr_reader	:default_value
 	# The flag's extras
 	attr_reader :extras
+
+	# String form of the option
+	def to_s
+
+		"{#{name}; aliases=#{aliases.join(', ')}; values_range=[ #{values_range.join(', ')} ]; default_value='#{default_value}'; help='#{help}'; extras=#{extras}}"
+	end
 end
 
 # ######################################################################## #
 # functions
 
-# Generator method that obtains a Flag according to the given parameters
+# Generator method that obtains a CLASP::Flag according to the given parameters
 def CLASP.Flag(name, options = {})
 
 	aliases	=	nil
@@ -174,7 +202,7 @@ def CLASP.Flag(name, options = {})
 	CLASP::Flag.new(name, aliases, help, extras)
 end
 
-# Generator method that obtains an Option according to the given parameters
+# Generator method that obtains a CLASP::Option according to the given parameters
 def CLASP.Option(name, options = {})
 
 	aliases			=	nil
