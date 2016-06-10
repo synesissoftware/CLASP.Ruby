@@ -5,7 +5,7 @@
 # Purpose:      Top-level source for CLASP.ruby library
 #
 # Created:      13th October 2014
-# Updated:      16th April 2016
+# Updated:      10th June 2016
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -46,9 +46,6 @@
 
 # clasp.rb -> clasp/clasp.rb
 require 'clasp/clasp'
-
-# Backwards-compatible alias for the CLASP library's CLASP module
-Clasp = CLASP
 
 # ############################## end of file ############################# #
 

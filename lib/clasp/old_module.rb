@@ -1,17 +1,18 @@
 
 # ######################################################################## #
-# File:         clasp/version.rb
+# File:         clasp/old_module.rb
 #
-# Purpose:      Version for CLASP.Ruby library
+# Purpose:      Introduces old module Clasp (which clashes with an existing
+#               gem)
 #
-# Created:      16th November 2014
+# Created:      10th June 2016
 # Updated:      10th June 2016
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2014-2016, Matthew Wilson and Synesis Software
+# Copyright (c) 2016, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -44,24 +45,10 @@
 # ######################################################################## #
 
 
+require 'clasp'
 
-# Main module for CLASP library
-module CLASP
-
-	# Current version of the CLASP.Ruby library
-	VERSION				=	'0.10.1'
-
-	private
-	VERSION_PARTS_		=	VERSION.split(/[.]/).collect { |n| n.to_i } # :nodoc:
-	public
-	# Major version of the CLASP.Ruby library
-	VERSION_MAJOR		=	VERSION_PARTS_[0] # :nodoc:
-	# Minor version of the CLASP.Ruby library
-	VERSION_MINOR		=	VERSION_PARTS_[1] # :nodoc:
-	# Revision version of the CLASP.Ruby library
-	VERSION_REVISION	=	VERSION_PARTS_[2] # :nodoc:
-
-end # module CLASP
+# Backwards-compatible alias for the CLASP library's CLASP module
+Clasp = CLASP
 
 # ############################## end of file ############################# #
 
