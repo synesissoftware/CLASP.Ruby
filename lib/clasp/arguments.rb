@@ -6,7 +6,7 @@
 #               CLASP.Ruby
 #
 # Created:      14th February 2014
-# Updated:      10th June 2016
+# Updated:      11th June 2016
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -177,8 +177,7 @@ class Arguments
 		#:nodoc:
 		def to_s
 
-			return "#{name}=#{value}" if argument_alias
-			@arg
+			"#{name}=#{value}"
 		end
 	end
 
@@ -232,6 +231,8 @@ class Arguments
 	public
 	# Constructs an instance of the class, according to the given parameters
 	#
+	# See the documentation for the ::CLASP module for examples
+	#
 	# === Signature
 	#
 	# * *Parameters*:
@@ -241,36 +242,6 @@ class Arguments
 	#
 	# * *Options*:
 	#   - +mutate_arg:+:: (+Boolean+) Determines if the library should mutate +argv+. Defaults to +true+. This is essential when using CLASP in conjunction with <tt>$\<</tt>.
-	#
-	# === Examples
-	#
-	# ==== Simple command-line, no aliases
-	#
-	#     argv = %w{ --show-all=true -c infile outfile }
-	#
-	#     args = CLASP::Arguments.new(argv)
-	#
-	#     puts args.flags.size # => 1
-	#     puts args.flags[0]   # => "#<CLASP::Arguments::Flag:0x007fd23aa3aa98 @arg="-c", @given_index=1, @given_name="-c", @argument_alias=nil, @given_hyphens=1, @given_label="c", @name="-c", @extras={}>"
-	#     puts args.options.size # => 1
-	#     puts args.options[0]   # => "#<CLASP::Arguments::Option:0x007fd23aa3aca0 @arg="--show-all=true", @given_index=0, @given_name="--show-all", @argument_alias=nil, @given_hyphens=2, @given_label="show-all", @value="true", @name="--show-all", @extras={}>"
-	#     puts args.values.size # => 2
-	#     puts args.values[0]   # => "infile"
-	#     puts args.values[1]   # => "outfile"
-	#
-	# ==== Use of de-facto -- special flag to treat all subsequent arguments as values
-	#
-	#     argv = %w{ --show-all=true -- -c infile outfile }
-	#
-	#     args = CLASP::Arguments.new(argv)
-	#
-	#     puts args.flags.size # => 0
-	#     puts args.options.size # => 1
-	#     puts args.options[0]   # => "#<CLASP::Arguments::Option:0x007fd23aa3aca0 @arg="--show-all=true", @given_index=0, @given_name="--show-all", @argument_alias=nil, @given_hyphens=2, @given_label="show-all", @value="true", @name="--show-all", @extras={}>"
-	#     puts args.values.size # => 3
-	#     puts args.values[0]   # => "-c"
-	#     puts args.values[1]   # => "infile"
-	#     puts args.values[1]   # => "outfile"
 	#
 	def initialize(argv = ARGV, aliases = nil, options = {})
 
@@ -391,6 +362,7 @@ class Arguments
 							grp_flags, grp_options, grp_value = Arguments.parse flags_argv, aliases
 
 							grp_flags.map! { |f| Flag.new(arg, index, given_name, f.name, f.argument_alias, hyphens.size, given_label, argument_alias ? argument_alias.extras : nil) }
+							grp_options.map! { |o| Option.new(arg, index, given_name, o.name, o.argument_alias, hyphens.size, given_label, o.value, argument_alias ? argument_alias.extras : nil) }
 
 							flags.push(*grp_flags)
 							options.push(*grp_options)
