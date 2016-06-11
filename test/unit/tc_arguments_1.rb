@@ -620,5 +620,65 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 1, args.values.size
 		assert_equal 'value1', args.values[0]
 	end
+
+	def test_option_default_aliases_3
+
+		aliases	=	[
+			CLASP.Option('--option', aliases: [ '-o' ]),
+			CLASP.Flag('--option=special-value', alias: '-s'),
+			CLASP.Flag('-v'),
+		]
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o', 'value', '-sv', '-s=explicit-value' ], aliases
+
+		assert_equal 2, args.flags.size
+		flag = args.flags[0]
+		assert_equal '-f1', flag.to_s
+		assert_equal '-f1', flag.name
+		assert_equal 'f1', flag.given_label
+		assert_equal '-f1', flag.given_name
+		assert_equal 1, flag.given_hyphens
+		assert_equal Hash.new, flag.extras
+		assert_equal 0, flag.given_index
+		flag = args.flags[1]
+		assert_equal '-v', flag.to_s
+		assert_equal '-v', flag.name
+		assert_equal 'sv', flag.given_label
+		assert_equal '-sv', flag.given_name
+		assert_equal 1, flag.given_hyphens
+		assert_equal Hash.new, flag.extras
+		assert_equal 4, flag.given_index
+
+		assert_equal 3, args.options.size
+		option = args.options[0]
+		assert_equal '--option=value', option.to_s
+		assert_equal '--option', option.name
+		assert_equal 'o', option.given_label
+		assert_equal 'value', option.value
+		assert_equal '-o', option.given_name
+		assert_equal 1, option.given_hyphens
+		assert_equal Hash.new, option.extras
+		assert_equal 2, option.given_index
+		option = args.options[1]
+		assert_equal '--option=special-value', option.to_s
+		assert_equal '--option', option.name
+		assert_equal 'sv', option.given_label
+		assert_equal 'special-value', option.value
+		assert_equal '-sv', option.given_name
+		assert_equal 1, option.given_hyphens
+		assert_equal Hash.new, option.extras
+		assert_equal 4, option.given_index
+		option = args.options[2]
+		assert_equal '--option=explicit-value', option.to_s
+		assert_equal '--option', option.name
+		assert_equal 's', option.given_label
+		assert_equal 'explicit-value', option.value
+		assert_equal '-s', option.given_name
+		assert_equal 1, option.given_hyphens
+		assert_equal Hash.new, option.extras
+		assert_equal 5, option.given_index
+
+		assert_equal 1, args.values.size
+		assert_equal 'value1', args.values[0]
+	end
 end
 
