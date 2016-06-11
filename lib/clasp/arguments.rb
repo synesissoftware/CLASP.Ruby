@@ -47,9 +47,6 @@
 
 
 
-# ######################################################################## #
-# module
-
 =begin
 =end
 
@@ -410,40 +407,22 @@ class Arguments
 
 	public
 	# an immutable array of aliases
-	def aliases
-
-		@aliases
-	end
+	attr_reader :aliases
 
 	# an immutable array of flags
-	def flags
-
-		@flags
-	end
+	attr_reader :flags
 
 	# an immutable array of options
-	def options
-
-		@options
-	end
+	attr_reader :options
 
 	# an immutable array of values
-	def values
-
-		@values
-	end
+	attr_reader :values
 
 	# the (possibly mutated) array of arguments instance passed to new
-	def argv
-
-		@argv
-	end
+	attr_reader :argv
 
 	# unchanged copy of the original array of arguments passed to new
-	def argv_original_copy
-
-		@argv_original_copy
-	end
+	attr_reader :argv_original_copy
 end
 
 # ######################################################################## #
