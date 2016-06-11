@@ -56,7 +56,10 @@ module CLASP
 # ######################################################################## #
 # helpers
 
-# :nodoc:
+=begin
+=end
+
+# :stopdoc:
 module CLI_helpers_
 
 # :nodoc:
@@ -98,17 +101,24 @@ end # module CLI_helpers_
 =begin
 =end
 
-# :method: show_usage
+# :startdoc:
+
 # Displays usage for the program according to the given aliases and options
 #
-# options:
-#  +:exit+                                 - a program exit code; exit() not called if not specified
-#  +:program_name+                         - program name; inferred from +$0+ if not specified
-#  +:stream+                               - output stream; +$stdout+ if not specified
-#  +:suppress_blank_lines_between_options+ - does exactly what it says on the tin
-#  +:values+                               - appends this string to USAGE line if specified
-#  +:flags_and_options+                    - inserts a custom string instead of the default string '[ ... flags and options ... ]'
-#  +:info_lines+                           - inserts 0+ information lines prior to the usage
+# === Signature
+#
+# * *Parameters*:
+#   - +aliases+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+.
+#   - +options+:: An options hash, containing any of the following options.
+#
+# * *Options*:
+#   - +:exit+::                                 a program exit code; <tt>exit()</tt> not called if not specified (or +nil+).
+#   - +:program_name+::                         program name; inferred from <tt>$0</tt> if not specified.
+#   - +:stream+::                               output stream; <tt>$stdout</tt> if not specified.
+#   - +:suppress_blank_lines_between_options+:: does exactly what it says on the tin.
+#   - +:values+::                               appends this string to USAGE line if specified.
+#   - +:flags_and_options+::                    inserts a custom string instead of the default string <tt>'[ ... flags and options ... ]'</tt>.
+#   - +:info_lines+::                           inserts 0+ information lines prior to the usage.
 def self.show_usage aliases, options={}
 
 	options	||=	{}
@@ -120,6 +130,8 @@ def self.show_usage aliases, options={}
 
 	alias_dups = {}
 	aliases.each { |a| a.aliases.each { |aa| warn "WARNING: alias '#{aa}' is already used for alias '#{a}'" if alias_dups.has_key? aa; alias_dups[aa] = a; } }
+
+	suppress_blanks	=	options[:suppress_blank_lines_between_options] || ENV['SUPPRESS_BLANK_LINES_BETWEEN_OPTIONS']
 
 	stream			=	options[:stream] || $stdout
 	program_name	=	options[:program_name] || File.basename($0)
@@ -199,7 +211,7 @@ def self.show_usage aliases, options={}
 					a.values_range.each { |v| stream.puts "\t\t\t#{v}" }
 				end
 			end
-			stream.puts unless options[:suppress_blank_lines_between_options]
+			stream.puts unless suppress_blanks
 		end
 	end
 
@@ -208,16 +220,22 @@ end
 
 # Displays version for the program according to the given aliases and options
 #
-# options:
-#  +:exit+                  - a program exit code; exit() not called if not specified
-#  +:program_name+          - program name; inferred from +$0+ if not specified
-#  +:stream+                - output stream; +$stdout+ if not specified
-#  +:version+               - an array (of N elements, each of which will be separated by a period '.'), or a string. Must be specified if not +:version_major+
-#  +:version_major+         - a number or string. Only considered and must be specified if +:version+ is not
-#  +:version_minor+         - a number or string. Only considered if +:version+ is not
-#  +:version_revision+      - a number or string. Only considered if +:version+ is not
-#  +:version_build+         - a number or string. Only considered if +:version+ is not
-#  +:version_prefix+        - optional string to prefix the version number(s)
+# === Signature
+#
+# * *Parameters*:
+#   - +aliases+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+.
+#   - +options+:: An options hash, containing any of the following options.
+#
+# * *Options*:
+#  - +:exit+::                  a program exit code; exit() not called if not specified
+#  - +:program_name+::          program name; inferred from +$0+ if not specified
+#  - +:stream+::                output stream; +$stdout+ if not specified
+#  - +:version+::               an array (of N elements, each of which will be separated by a period '.'), or a string. Must be specified if not +:version_major+
+#  - +:version_major+::         a number or string. Only considered and must be specified if +:version+ is not
+#  - +:version_minor+::         a number or string. Only considered if +:version+ is not
+#  - +:version_revision+::      a number or string. Only considered if +:version+ is not
+#  - +:version_build+::         a number or string. Only considered if +:version+ is not
+#  - +:version_prefix+::        optional string to prefix the version number(s)
 def self.show_version aliases, options = {}
 
 	options	||=	{}

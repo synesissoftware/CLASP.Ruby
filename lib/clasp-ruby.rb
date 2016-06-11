@@ -1,11 +1,11 @@
 
 # ######################################################################## #
-# File:         clasp/version.rb
+# File:         clasp-ruby.rb
 #
-# Purpose:      Version for CLASP.Ruby library
+# Purpose:      Top-level source for CLASP.ruby library [alternate]
 #
-# Created:      16th November 2014
-# Updated:      11th June 2016
+# Created:      13th October 2014
+# Updated:      10th June 2016
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -44,26 +44,8 @@
 # ######################################################################## #
 
 
-
-=begin
-=end
-
-module CLASP
-
-	# Current version of the CLASP.Ruby library
-	VERSION				=	'0.10.2'
-
-	private
-	VERSION_PARTS_		=	VERSION.split(/[.]/).collect { |n| n.to_i } # :nodoc:
-	public
-	# Major version of the CLASP.Ruby library
-	VERSION_MAJOR		=	VERSION_PARTS_[0] # :nodoc:
-	# Minor version of the CLASP.Ruby library
-	VERSION_MINOR		=	VERSION_PARTS_[1] # :nodoc:
-	# Revision version of the CLASP.Ruby library
-	VERSION_REVISION	=	VERSION_PARTS_[2] # :nodoc:
-
-end # module CLASP
+# clasp-ruby.rb -> clasp/clasp.rb
+require 'clasp/clasp'
 
 # ############################## end of file ############################# #
 

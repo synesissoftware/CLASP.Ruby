@@ -336,7 +336,15 @@ class Arguments
 						given_label[0 ... given_label.size].each_char do |c|
 
 							new_flag	=	"-#{c.chr}"
-							flag_alias	=	aliases.detect { |a| a.aliases.include? new_flag }
+
+							flag_alias	=	nil
+
+							# special case where the flag's actual name is short form and found here
+							flag_alias	||=	aliases.detect { |a| a.is_a?(CLASP::Flag) && a.name == new_flag }
+
+							# if not found as a flag, look in each aliases' aliases
+							flag_alias	||=	aliases.detect { |a| a.aliases.include? new_flag }
+
 							if not flag_alias
 
 								flag_aliases	=	nil
