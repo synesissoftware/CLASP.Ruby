@@ -5,7 +5,7 @@
 # Purpose:      Command-line interface
 #
 # Created:      27th July 2015
-# Updated:      4th June 2016
+# Updated:      11th June 2016
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -95,6 +95,10 @@ end # module CLI_helpers_
 # ######################################################################## #
 # methods
 
+=begin
+=end
+
+# :method: show_usage
 # Displays usage for the program according to the given aliases and options
 #
 # options:
