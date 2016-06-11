@@ -14,7 +14,7 @@ Ruby version.
 All \CLASP libraries provide the following facilities to **C**\ommand **L**\ine
 **I**\nterface (**CLI**) programs:
 
-#### Command-line parsing
+### Command-line parsing
 
 All **CLASP** libraries discriminate between three types of command-line arguments:
 
@@ -54,7 +54,7 @@ UNIX standard arguments confer specific meanings:
  * `--version` means that the program should show the version information and terminate;
  * `--` means that all subsequent arguments should be treated as values, regardless of any hyphen-prefixes or embedded `=` signs.
 
-#### Declarative specification of the flags and options for a CLI
+### Declarative specification of the flags and options for a CLI
 
 To support such above special processing, \CLASP libraries provide facilities
 for declarative specification of command-line *flags* and *options*, and
@@ -96,7 +96,7 @@ puts Args.values[1]                 # => "outfile"
 
 ```
 
-#### Utility functions for displaying usage and version information
+### Utility functions for displaying usage and version information
 
 There are aspects common to all CLI programs, such as responding to `--help` and `--version`. All **\CLASP** libraries provide facilities to assist the programmer: **CLASP.Ruby** provides the two module methods CLASP.show_usage() and CLASP.show_version(), as shown in the following code extending the example above:
 
@@ -168,7 +168,7 @@ cr-example.rb 0.1.2
 
 ## Contribution guidelines
 
-[The usual pull-request mechanism](https://help.github.com/articles/using-pull-requests/)
+Defect reports, feature requests, and pull requests are welcome on https://github.com/synesissoftware/CLASP.Ruby.
 
 ## Related projects
 
@@ -180,4 +180,7 @@ cr-example.rb 0.1.2
 
 **CLASP.Ruby** is used in the **[libCLImate.Ruby](https://github.com/synesissoftware/libCLImate.Ruby)** library.
 
+## License
+
+**CLASP.Ruby** is released under the 3-clause BSD license. See LICENSE for details.
 
