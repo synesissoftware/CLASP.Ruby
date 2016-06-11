@@ -134,63 +134,16 @@
 	#     puts args.values[0]          # => "infile"
 	#     puts args.values[1]          # => "outfile"
 	#
-# === Classes of interest
-# * ::CLASP::Arguments
-# * ::CLASP::Flag
-# * ::CLASP::Option
+	# === Classes of interest
+	# * ::CLASP::Arguments
+	# * ::CLASP::Flag
+	# * ::CLASP::Option
+	#
+	# === Functions of interest
+	# * ::CLASP.show_version()
+	# * ::CLASP#show_version()
+	# * ::CLASP::show_version()
 module CLASP
-
-	# Command-line Utilities
-	#
-	# === Subordinate modules of interest
-	# * ::CLASP::CommandLineUtilities::MapOptionString
-	module CommandLineUtilities
-
-	end # module CommandLineUtilities
-
-	# Containers
-	#
-	module Containers
-
-	end # module Containers
-
-	# Diagnostic facilities
-	#
-	# === Subordinate modules of interest
-	# * ::CLASP::Diagnostics::ExceptionUtilities
-	#
-	module Diagnostics
-
-		# Exception-related utilities
-		#
-		# === Components of interest
-		# * ::CLASP::Diagnostics::ExceptionUtilities::raise_with_options
-		#
-		module ExceptionUtilities
-		end # module ExceptionUtilities
-	end # module Diagnostics
-
-	# IO
-	#
-	module IO
-
-	end # module IO
-
-	# Quality
-	#
-	# === Subordinate modules of interest
-	# * ::CLASP::Quality::ParameterChecking
-	module Quality
-
-	end # module Quality
-
-	# String utilities
-	#
-	# === Subordinate modules of interest
-	# * ::CLASP::StringUtilities::ToSymbol
-	module StringUtilities
-
-	end # module StringUtilities
 
 end # module CLASP
 
