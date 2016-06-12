@@ -3,6 +3,7 @@
 
 .bzr/
 .git/
+.svn/
 
 doc/
 lib/bundler/man
@@ -28,10 +29,12 @@ rdoc
 
 # files (by pattern)
 
+*~
 *.*~
 *.gem
 *.rbc
 *.scc
 *.suo
 *.swp
+*.zip
 
