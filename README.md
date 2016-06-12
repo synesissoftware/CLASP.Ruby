@@ -1,4 +1,7 @@
 # CLASP.Ruby
+Command-Line Argument Sorting and Parsing for Ruby
+
+[![Gem Version](https://badge.fury.io/rb/clasp-ruby.svg)](https://badge.fury.io/rb/clasp-ruby)
 
 ## Installation & usage
 
