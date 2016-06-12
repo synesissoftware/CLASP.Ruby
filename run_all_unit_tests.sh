@@ -1,16 +1,14 @@
 #!/bin/bash
 
 #############################################################################
-# File:         test_unit.sh
+# File:         run_all_unit_tests.sh
 #
 # Purpose:      Executes the unit-tests regardless of calling directory
 #
-# Created:      19th April 2016
-# Updated:      19th April 2016
+# Created:      13th June 2016
+# Updated:      13th June 2016
 #
 # Author:       Matthew Wilson
-#
-# Copyright:    <<TBD>>
 #
 #############################################################################
 

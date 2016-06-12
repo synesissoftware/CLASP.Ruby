@@ -1,15 +1,24 @@
 
 # directories (by name)
 
-.bzr/
-.git/
-.svn/
+/.bzr/
+/.bundle/
+/.config/
+/.git/
+/.svn/
 
-doc/
-lib/bundler/man
-spec/reports
-test/tmp
-test/version_tmp
+/InstalledFiles/
+/build/
+/coverage/
+/doc/
+/lib/bundler/man/
+/pkg/
+/rdoc/
+/spec/reports/
+/test/tmp/
+/test/version_tmp/
+/tmp/
+/vendor/bundle/
 
 # directories (by pattern)
 
@@ -18,6 +27,8 @@ test/version_tmp
 .DS_Store
 .bundle
 .config
+.repl_history
+.rvmrc
 .yardoc
 _yardoc
 Gemfile.lock
@@ -31,6 +42,7 @@ rdoc
 
 *~
 *.*~
+.dat*
 *.gem
 *.rbc
 *.scc
