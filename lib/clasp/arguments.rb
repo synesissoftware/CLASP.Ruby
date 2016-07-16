@@ -6,7 +6,7 @@
 #               CLASP.Ruby
 #
 # Created:      14th February 2014
-# Updated:      11th June 2016
+# Updated:      16th July 2016
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -46,6 +46,7 @@
 
 
 
+require 'clasp/util/immutable_array'
 
 =begin
 =end
@@ -178,49 +179,24 @@ class Arguments
 		end
 	end
 
-	class ImmutableArray #:nodoc: all
+	#:startdoc:
 
-		include Enumerable
+	class ImmutableArray < ::CLASP::Util::ImmutableArray
 
-		#:nodoc:
-		def initialize(a)
+		def initialize a
 
-			@a = a
+			super a
 		end
 
-		#:nodoc:
-		def each
+		# returns truthy if the given flag/option is found or the
+		# given block is truthy
+		def specified? id = nil
 
-			@a.each { |i| yield i }
-		end
+			return find(id) { |o| yield o } if block_given?
 
-		#:nodoc:
-		def size
-
-			@a.size
-		end
-
-		#:nodoc:
-		def empty?
-
-			@a.empty?
-		end
-
-		#:nodoc:
-		def [](index)
-
-			@a[index]
-		end
-
-		#:nodoc:
-		def ==(rhs)
-
-			return rhs == @a if rhs.is_a? self.class
-			@a == rhs
+			find { |item| item == id }
 		end
 	end
-
-	#:startdoc:
 
 	# ######################
 	# Construction
@@ -431,37 +407,37 @@ class Arguments
 
 	# unchanged copy of the original array of arguments passed to new
 	attr_reader :argv_original_copy
+
+
+	# finds the first unknown flag or option; +nil+ if all used
+	def find_first_unknown options = {}
+
+		option	=	{} if options.nil?
+
+		raise ArgumentError, "options must be nil or Hash - #{option.class} given" unless options.is_a? ::Hash
+
+		aliases	=	options[:aliases] || @aliases
+
+		raise ArgumentError, "aliases may not be nil" if aliases.nil?
+
+		flags.each do |f|
+
+			return f unless aliases.any? { |al| al.is_a?(::CLASP::Flag) && al.name == f.name }
+		end
+
+		options.each do |o|
+
+			return o unless aliases.any? { |al| al.is_a?(::CLASP::Option) && al.name == o.name }
+		end
+
+		nil
+	end
 end
 
 # ######################################################################## #
 # module
 
 end # module CLASP
-
-# ######################################################################## #
-# extensions
-
-#:nodoc:
-class Array
-
-	# Monkey-patched Array#== in order to handle comparison with
-	# ImmutableArray
-	#
-	# NOTE: do not do so for +eql?+
-
-	#:nodoc:
-	alias_method :old_equal, :==
-
-	undef :==
-
-	#:nodoc:
-	def ==(rhs)
-
-		return rhs == self if rhs.is_a? CLASP::Arguments::ImmutableArray
-
-		old_equal rhs
-	end
-end
 
 # ############################## end of file ############################# #
 

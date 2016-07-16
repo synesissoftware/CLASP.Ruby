@@ -1,10 +1,10 @@
 
 # ######################################################################## #
-# File:         clasp/version.rb
+# File:         clasp/util/immutable_array.rb
 #
-# Purpose:      Version for CLASP.Ruby library
+# Purpose:      Definition of the CLASP::Util::ImmutableArray class
 #
-# Created:      16th November 2014
+# Created:      14th February 2014
 # Updated:      16th July 2016
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
@@ -45,25 +45,125 @@
 
 
 
+
 =begin
 =end
 
 module CLASP
+module Util
 
-	# Current version of the CLASP.Ruby library
-	VERSION				=	'0.11.1'
+# ######################################################################## #
+# classes
 
-	private
-	VERSION_PARTS_		=	VERSION.split(/[.]/).collect { |n| n.to_i } # :nodoc:
-	public
-	# Major version of the CLASP.Ruby library
-	VERSION_MAJOR		=	VERSION_PARTS_[0] # :nodoc:
-	# Minor version of the CLASP.Ruby library
-	VERSION_MINOR		=	VERSION_PARTS_[1] # :nodoc:
-	# Revision version of the CLASP.Ruby library
-	VERSION_REVISION	=	VERSION_PARTS_[2] # :nodoc:
+# An immutable array
+class ImmutableArray
 
+	include Enumerable
+
+	#:nodoc:
+	def initialize(a)
+
+		raise ArgumentError, "must supply array" if a.nil?
+		raise TypeError, "must supply instance of #{::Array}; #{a.class} given" unless a.is_a? ::Array
+
+		@a = a
+	end
+
+	# Calls the block once for each element in the array
+	def each
+
+		return @a.each unless block_given?
+
+		@a.each { |i| yield i }
+	end
+
+	# Alias for +length+
+	def size
+
+		@a.size
+	end
+
+	# Indicates whether the immutable array has no elements
+	def empty?
+
+		@a.empty?
+	end
+
+	# Same semantics as +Enumerable#find+ for the underlying array
+	def find ifnone = nil
+
+		return @a.find(ifnone) { |o| yield o } if block_given?
+
+		@a.find ifnone
+	end
+
+	# The number of elements in the immutable array
+	def length
+
+		@a.length
+	end
+
+	# Same semantics as +Array#slice+
+	def slice *args
+
+		case args.length
+		when 1
+			case args[0]
+			when ::Integer
+				return @a.slice args[0]
+			end
+		when 2
+		else
+		end
+
+		self.class.new @a.slice(*args)
+	end
+
+	# Same semantics as +Array#[]+
+	def [] *args
+
+		slice(*args)
+	end
+
+	# Determines whether +rhs+ is each to the receiver
+	def == rhs
+
+		return rhs == @a if rhs.is_a? self.class
+
+		@a == rhs
+	end
+end
+
+# ######################################################################## #
+# module
+
+end # module Util
 end # module CLASP
+
+# ######################################################################## #
+# extensions
+
+#:nodoc:
+class Array
+
+	# Monkey-patched Array#== in order to handle comparison with
+	# ImmutableArray
+	#
+	# NOTE: do not do so for +eql?+
+
+	#:nodoc:
+	alias_method :old_equal, :==
+
+	undef :==
+
+	#:nodoc:
+	def ==(rhs)
+
+		return rhs == self if rhs.is_a? CLASP::Arguments::ImmutableArray
+
+		old_equal rhs
+	end
+end
 
 # ############################## end of file ############################# #
 
