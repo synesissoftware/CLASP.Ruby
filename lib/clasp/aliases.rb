@@ -5,13 +5,13 @@
 # Purpose:      Alias classes
 #
 # Created:      25th October 2014
-# Updated:      10th June 2016
+# Updated:      1st January 2018
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2014-2016, Matthew Wilson and Synesis Software
+# Copyright (c) 2014-2018, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -165,7 +165,22 @@ end
 # ######################################################################## #
 # functions
 
-# Generator method that obtains a CLASP::Flag according to the given parameters
+# Generator method that obtains a CLASP::Flag according to the given
+# parameters
+#
+# === Signature
+#
+# * *Parameters:*
+#   - +name+:: [::String] The flag name, e.g. '--verbose'
+#   - +options+:: [::Hash] An options hash, containing any of the following
+#     options:
+#
+# * *Options:*
+#   - +:alias+ [::String] An alias, e.g. '-v'
+#   - +:aliases+ [::Array] An array of aliases, e.g. [ '-v', '-verb' ]
+#   - +:extras+ An application-defined object, usually a hash of custom
+#     attributes
+#   - +:help+ [::String] A help string
 def CLASP.Flag(name, options = {})
 
 	aliases	=	nil
@@ -202,7 +217,27 @@ def CLASP.Flag(name, options = {})
 	CLASP::Flag.new(name, aliases, help, extras)
 end
 
-# Generator method that obtains a CLASP::Option according to the given parameters
+# Generator method that obtains a CLASP::Option according to the given
+# parameters
+#
+# === Signature
+#
+# * *Parameters:*
+#   - +name+:: [::String] The flag name, e.g. '--verbose'
+#   - +options+:: [::Hash] An options hash, containing any of the following
+#     options:
+#
+# * *Options:*
+#   - +:alias+ [::String] An alias, e.g. '-v'
+#   - +:aliases+ [::Array] An array of aliases, e.g. [ '-v', '-verb' ]
+#   - +:default_value+ The default value for the option
+#   - +:default+ [DEPRECATED] Alternative to +:default_value+
+#   - +:extras+ An application-defined object, usually a hash of custom
+#     attributes
+#   - +:help+ [::String] A help string
+#   - +:values_range+ [::Array] An array defining the accepted values for
+#     the option
+#   - +:values+ [DEPRECATED] Alternative to +:values_range+
 def CLASP.Option(name, options = {})
 
 	aliases			=	nil
