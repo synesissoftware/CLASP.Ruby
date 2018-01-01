@@ -131,14 +131,17 @@ class Option
 	#   - +help+:: (+String+) The help string, which may be +nil+.
 	#   - +values_range+:: (+Array+) 0 or more strings specifying values supported by the option.
 	#   - +default_value+:: (+String+) The default value of the option. May be +nil+.
+	#   - +required+:: [boolean] Whether the option is required. May be
+	#     +nil+
 	#   - +extras+:: An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+.
-	def initialize(name, aliases, help, values_range, default_value, extras = nil)
+	def initialize(name, aliases, help, values_range, default_value, required, extras = nil)
 
 		@name			=	name
 		@aliases		=	(aliases || []).select { |a| a and not a.empty? }
 		@help			=	help
 		@values_range	=	values_range || []
 		@default_value	=	default_value
+		@required		=	required
 		@extras			=	extras || {}
 	end
 
@@ -152,7 +155,9 @@ class Option
 	attr_reader	:values_range
 	# The default value of the option
 	attr_reader	:default_value
-	# The flag's extras
+	# Indicates whether the option is required
+	def required?; @required; end
+	# The option's extras
 	attr_reader :extras
 
 	# String form of the option
@@ -244,6 +249,7 @@ def CLASP.Option(name, options = {})
 	help			=	nil
 	values_range	=	nil
 	default_value	=	nil
+	required		=	false
 	extras			=	nil
 
 	options.each do |k, v|
@@ -266,6 +272,9 @@ def CLASP.Option(name, options = {})
 			when	:default_value, :default
 
 				default_value	=	v
+			when	:required
+
+				required	=	v
 			when	:extras
 
 				extras	=	v
@@ -279,7 +288,7 @@ def CLASP.Option(name, options = {})
 		end
 	end
 
-	CLASP::Option.new(name, aliases, help, values_range, default_value, extras)
+	CLASP::Option.new(name, aliases, help, values_range, default_value, required, extras)
 end
 
 # ######################################################################## #
