@@ -163,7 +163,7 @@ class Option
 	# String form of the option
 	def to_s
 
-		"{#{name}; aliases=#{aliases.join(', ')}; values_range=[ #{values_range.join(', ')} ]; default_value='#{default_value}'; help='#{help}'; extras=#{extras}}"
+		"{#{name}; aliases=#{aliases.join(', ')}; values_range=[ #{values_range.join(', ')} ]; default_value='#{default_value}'; help='#{help}'; required?=#{required?}; extras=#{extras}}"
 	end
 end
 
