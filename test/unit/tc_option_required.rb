@@ -18,11 +18,12 @@ class Test_Option_required < Test::Unit::TestCase
 		assert_equal nil, o.default_value
 		assert_equal ({}), o.extras
 		assert_false o.required?
+		assert_equal "'--verbose' not specified; use --help for usage", o.required_message
 	end
 
 	def test_Option_required_false_explicit
 
-		o = CLASP.Option('--verbose', required: false)
+		o = CLASP.Option('--verbose', required: false, required_message: "\0Verbosity")
 
 		assert_equal '--verbose', o.name
 		assert_equal [], o.aliases
@@ -30,11 +31,12 @@ class Test_Option_required < Test::Unit::TestCase
 		assert_equal nil, o.default_value
 		assert_equal ({}), o.extras
 		assert_false o.required?
+		assert_equal "Verbosity not specified; use --help for usage", o.required_message
 	end
 
 	def test_Option_required_true
 
-		o = CLASP.Option('--verbose', required: true)
+		o = CLASP.Option('--verbose', required: true, required_message: 'Verbosity not given')
 
 		assert_equal '--verbose', o.name
 		assert_equal [], o.aliases
@@ -42,6 +44,7 @@ class Test_Option_required < Test::Unit::TestCase
 		assert_equal nil, o.default_value
 		assert_equal ({}), o.extras
 		assert_true o.required?
+		assert_equal "Verbosity not given", o.required_message
 	end
 end
 

@@ -133,16 +133,43 @@ class Option
 	#   - +default_value+:: (+String+) The default value of the option. May be +nil+.
 	#   - +required+:: [boolean] Whether the option is required. May be
 	#     +nil+
+	#   - +required_message+:: [::String] Message to be used when reporting
+	#     that a required option is missing. May be +nil+ in which case a
+	#     message of the form "<option-name> not specified; use --help for
+	#     usage". If begins with the nul character ("\0"), then is used in
+	#     the place of the <option-name> and placed into the rest of the
+	#     standard form message
 	#   - +extras+:: An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+.
-	def initialize(name, aliases, help, values_range, default_value, required, extras = nil)
+	def initialize(name, aliases, help, values_range, default_value, required, required_message, extras = nil)
 
-		@name			=	name
-		@aliases		=	(aliases || []).select { |a| a and not a.empty? }
-		@help			=	help
-		@values_range	=	values_range || []
-		@default_value	=	default_value
-		@required		=	required
-		@extras			=	extras || {}
+		@name				=	name
+		@aliases			=	(aliases || []).select { |a| a and not a.empty? }
+		@help				=	help
+		@values_range		=	values_range || []
+		@default_value		=	default_value
+		@required			=	required
+		@required_message	=	nil
+		@extras				=	extras || {}
+
+		rm_name				=	nil
+
+		if required_message
+
+			if "\0" == required_message[0]
+
+				rm_name		=	required_message[1..-1]
+			end
+		else
+
+			rm_name			=	"'#{name}'"
+		end
+
+		if rm_name
+
+			required_message	=	"#{rm_name} not specified; use --help for usage"
+		end
+
+		@required_message	=	required_message
 	end
 
 	# The option's name string
@@ -157,6 +184,9 @@ class Option
 	attr_reader	:default_value
 	# Indicates whether the option is required
 	def required?; @required; end
+	# The message to be used when reporting that a required option is
+	# missing
+	attr_reader	:required_message
 	# The option's extras
 	attr_reader :extras
 
@@ -240,6 +270,15 @@ end
 #   - +:extras+ An application-defined object, usually a hash of custom
 #     attributes
 #   - +:help+ [::String] A help string
+#   - +required+:: [boolean] Whether the option is required. May be
+#     +nil+
+#   - +required_message+:: [::String] Message to be used when reporting
+#     that a required option is missing. May be +nil+ in which case a
+#     message of the form "<option-name> not specified; use --help for
+#     usage". If begins with the nul character ("\0"), then is used in
+#     the place of the <option-name> and placed into the rest of the
+#     standard form message
+#   - +extras+:: An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+.
 #   - +:values_range+ [::Array] An array defining the accepted values for
 #     the option
 #   - +:values+ [DEPRECATED] Alternative to +:values_range+
@@ -250,6 +289,7 @@ def CLASP.Option(name, options = {})
 	values_range	=	nil
 	default_value	=	nil
 	required		=	false
+	require_message	=	nil
 	extras			=	nil
 
 	options.each do |k, v|
@@ -275,6 +315,9 @@ def CLASP.Option(name, options = {})
 			when	:required
 
 				required	=	v
+			when	:required_message
+
+				require_message	=	v
 			when	:extras
 
 				extras	=	v
@@ -288,7 +331,7 @@ def CLASP.Option(name, options = {})
 		end
 	end
 
-	CLASP::Option.new(name, aliases, help, values_range, default_value, required, extras)
+	CLASP::Option.new(name, aliases, help, values_range, default_value, required, require_message, extras)
 end
 
 # ######################################################################## #
@@ -297,4 +340,5 @@ end
 end # module CLASP
 
 # ############################## end of file ############################# #
+
 
