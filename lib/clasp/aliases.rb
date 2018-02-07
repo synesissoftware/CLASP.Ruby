@@ -197,6 +197,27 @@ class Option
 	end
 end
 
+# A class that represents an explicit alias for a flag or an option
+class Alias
+
+	def initialize(name, aliases)
+
+		@name				=	name
+		@aliases			=	(aliases || []).select { |a| a and not a.empty? }
+	end
+
+	# The alias' name string
+	attr_reader	:name
+	# The alias' aliases array
+	attr_reader	:aliases
+
+	# String form of the option
+	def to_s
+
+		"{#{name}; aliases=#{aliases.join(', ')}}"
+	end
+end
+
 # ######################################################################## #
 # functions
 
@@ -334,6 +355,25 @@ def CLASP.Option(name, options = {})
 	end
 
 	CLASP::Option.new(name, aliases, help, values_range, default_value, required, require_message, extras)
+end
+
+def CLASP.Alias(name, *args)
+
+	options	=	args.pop if args[-1].is_a?(::Hash)
+	options	||=	{}
+
+	if options[:alias]
+
+		aliases	=	[ options[:alias] ]
+	elsif options[:aliases]
+
+		aliases	=	options[:aliases]
+	else
+
+		aliases	=	args
+	end
+
+	CLASP::Alias.new name, aliases
 end
 
 # ######################################################################## #

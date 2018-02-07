@@ -126,7 +126,7 @@ def self.show_usage aliases, options={}
 	raise ArgumentError, "aliases may not be nil" if aliases.nil?
 	raise TypeError, "aliases must be an array or must respond to each, reject and select" unless ::Array === aliases || (aliases.respond_to?(:each) && aliases.respond_to?(:reject) && aliases.respond_to?(:select))
 
-	aliases.each { |a| raise TypeError, "each element in aliases must be a Flag or an Option" unless a.is_a?(::CLASP::Flag) || a.is_a?(::CLASP::Option) }
+	aliases.each { |a| raise TypeError, "each element in aliases must be a Flag or an Option" unless [ ::CLASP::Alias, ::CLASP::Flag, ::CLASP::Option ].any? { |c| c === a } }
 
 	alias_dups = {}
 	aliases.each { |a| a.aliases.each { |aa| warn "WARNING: alias '#{aa}' is already used for alias '#{a}'" if alias_dups.has_key? aa; alias_dups[aa] = a; } }
@@ -175,6 +175,14 @@ def self.show_usage aliases, options={}
 		voas[$1]	<<	[ a, $2 ]
 	end
 
+	fas				=	{}
+
+	aliases.select { |a| Alias === a }.each do |a|
+
+		fas[a.name]	=	[] unless fas.has_key? $1
+		fas[a.name]	<<	a
+	end
+
 	aliases			=	aliases.reject { |a| a.name =~ /^-+[a-zA-Z0-3_-]+[=:].+/ }
 
 	info_lines.each { |info_line| stream.puts info_line } unless info_lines.empty?
@@ -189,8 +197,18 @@ def self.show_usage aliases, options={}
 		aliases.each do |a|
 
 			case a
+			when Alias
+
+				next
 			when Flag
 
+				if fas.has_key? a.name
+
+					fas[a.name].each do |fa|
+
+						fa.aliases.each { |al| stream.puts "\t#{al}" }
+					end
+				end
 				a.aliases.each { |al| stream.puts "\t#{al}" }
 				stream.puts "\t#{a.name}"
 				stream.puts "\t\t#{a.help}"
