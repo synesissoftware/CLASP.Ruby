@@ -202,14 +202,20 @@ class Alias
 
 	def initialize(name, aliases)
 
-		@name				=	name
-		@aliases			=	(aliases || []).select { |a| a and not a.empty? }
+		@name		=	name
+		@aliases	=	(aliases || []).select { |a| a and not a.empty? }
+		@extras		=	nil
+		@help		=	nil
 	end
 
 	# The alias' name string
 	attr_reader	:name
 	# The alias' aliases array
 	attr_reader	:aliases
+	# The flag's help string
+	attr_reader	:help
+	# The flag's extras
+	attr_reader :extras
 
 	# String form of the option
 	def to_s
