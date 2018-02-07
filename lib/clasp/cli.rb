@@ -5,13 +5,13 @@
 # Purpose:      Command-line interface
 #
 # Created:      27th July 2015
-# Updated:      11th June 2016
+# Updated:      7th February 2018
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2015-2016, Matthew Wilson and Synesis Software
+# Copyright (c) 2015-2018, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -183,6 +183,7 @@ def self.show_usage aliases, options={}
 	stream.puts
 
 	unless aliases.empty?
+
 		stream.puts "flags/options:"
 		stream.puts
 		aliases.each do |a|

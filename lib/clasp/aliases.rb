@@ -5,7 +5,7 @@
 # Purpose:      Alias classes
 #
 # Created:      25th October 2014
-# Updated:      1st January 2018
+# Updated:      7th February 2018
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -213,6 +213,7 @@ end
 # * *Options:*
 #   - +:alias+ [::String] An alias, e.g. '-v'
 #   - +:aliases+ [::Array] An array of aliases, e.g. [ '-v', '-verb' ]
+#     Ignored if +:alias+ is specified
 #   - +:extras+ An application-defined object, usually a hash of custom
 #     attributes
 #   - +:help+ [::String] A help string
@@ -232,7 +233,7 @@ def CLASP.Flag(name, options = {})
 				aliases	=	[ v ]
 			when	:aliases
 
-				aliases	=	v
+				aliases	=	v unless aliases
 			when	:help
 
 				help	=	v
@@ -264,7 +265,8 @@ end
 #
 # * *Options:*
 #   - +:alias+ [::String] An alias, e.g. '-v'
-#   - +:aliases+ [::Array] An array of aliases, e.g. [ '-v', '-verb' ]
+#   - +:aliases+ [::Array] An array of aliases, e.g. [ '-v', '-verb' ].
+#     Ignored if +:alias+ is specified
 #   - +:default_value+ The default value for the option
 #   - +:default+ [DEPRECATED] Alternative to +:default_value+
 #   - +:extras+ An application-defined object, usually a hash of custom
@@ -302,7 +304,7 @@ def CLASP.Option(name, options = {})
 				aliases	=	[ v ]
 			when	:aliases
 
-				aliases	=	v
+				aliases	=	v unless aliases
 			when	:help
 
 				help	=	v
