@@ -5,7 +5,7 @@
 # Purpose:      Command-line interface
 #
 # Created:      27th July 2015
-# Updated:      7th February 2018
+# Updated:      1st March 2018
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -61,6 +61,12 @@ module CLASP
 
 # :stopdoc:
 module CLI_helpers_
+
+	module Constants
+
+		VALID_ALIAS_TYPES			=	[ Flag, Option, Alias ]
+		VALID_ALIAS_TYPES_STRING	=	VALID_ALIAS_TYPES[0...-1].join(', ') + ', or ' + VALID_ALIAS_TYPES[-1].to_s
+	end # module Constants
 
 # :nodoc:
 def self.generate_version_string_ options
@@ -126,7 +132,8 @@ def self.show_usage aliases, options={}
 	raise ArgumentError, "aliases may not be nil" if aliases.nil?
 	raise TypeError, "aliases must be an array or must respond to each, reject and select" unless ::Array === aliases || (aliases.respond_to?(:each) && aliases.respond_to?(:reject) && aliases.respond_to?(:select))
 
-	aliases.each { |a| raise TypeError, "each element in aliases must be a Flag or an Option" unless [ ::CLASP::Alias, ::CLASP::Flag, ::CLASP::Option ].any? { |c| c === a } }
+	constants		=	CLI_helpers_::Constants
+	aliases.each { |a| raise ::TypeError, "each element in aliases array must be one of the types #{constants::VALID_ALIAS_TYPES_STRING}" unless constants::VALID_ALIAS_TYPES.any? { |c| c === a } }
 
 	alias_dups = {}
 	aliases.each { |a| a.aliases.each { |aa| warn "WARNING: alias '#{aa}' is already used for alias '#{a}'" if alias_dups.has_key? aa; alias_dups[aa] = a; } }
@@ -262,7 +269,8 @@ def self.show_version aliases, options = {}
 	raise ArgumentError, "aliases may not be nil" if aliases.nil?
 	raise TypeError, "aliases must be an array or must respond to each, reject and select" unless ::Array === aliases || (aliases.respond_to?(:each) && aliases.respond_to?(:reject) && aliases.respond_to?(:select))
 
-	aliases.each { |a| raise TypeError, "each element in aliases must be a Flag or an Option" unless a.is_a?(::CLASP::Flag) || a.is_a?(::CLASP::Option) }
+	constants		=	CLI_helpers_::Constants
+	aliases.each { |a| raise ::TypeError, "each element in aliases array must be one of the types #{constants::VALID_ALIAS_TYPES_STRING}" unless constants::VALID_ALIAS_TYPES.any? { |c| c === a } }
 
 	stream			=	options[:stream] || $stdout
 

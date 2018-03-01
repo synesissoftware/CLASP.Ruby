@@ -4,7 +4,7 @@
 # Purpose:      Gemspec for CLASP.Ruby library
 #
 # Created:      22nd June 2015
-# Updated:      11th June 2016
+# Updated:      1st March 2018
 #
 # ######################################################################### #
 
@@ -28,5 +28,7 @@ END_DESC
 	spec.homepage		=	'http://github.com/synesissoftware/CLASP.Ruby'
 	spec.license		=	'BSD 3-Clause'
 	spec.files			=	Dir[ 'Rakefile', '{bin,examples,lib,man,spec,test}/**/*', 'README*', 'LICENSE*' ] & `git ls-files -z`.split("\0")
+
+	spec.add_development_dependency 'xqsr3', [ '~> 0.22' ]
 end
 
