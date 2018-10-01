@@ -5,7 +5,7 @@
 # Purpose:      Alias classes
 #
 # Created:      25th October 2014
-# Updated:      7th February 2018
+# Updated:      18th September 2018
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -352,11 +352,11 @@ def CLASP.Option(name, options = {})
 				extras	=	v
 			else
 
-				raise ArgumentError, "invalid option for flag: '#{k}' => '#{v}'"
+				raise ArgumentError, "invalid option for option: '#{k}' => '#{v}'"
 			end
 		else
 
-			raise ArgumentError, "invalid option type for flag: '#{k}' (#{k.class}) => '#{v}'"
+			raise ArgumentError, "invalid option type for option: '#{k}' (#{k.class}) => '#{v}'"
 		end
 	end
 

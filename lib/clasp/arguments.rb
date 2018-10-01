@@ -6,13 +6,13 @@
 #               CLASP.Ruby
 #
 # Created:      14th February 2014
-# Updated:      16th July 2016
+# Updated:      18th September 2018
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2014-2016, Matthew Wilson and Synesis Software
+# Copyright (c) 2014-2018, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -226,6 +226,7 @@ class Arguments
 
 
 		@argv				=	argv
+		argv				=	argv.dup
 		@argv_original_copy	=	ImmutableArray.new(argv.dup)
 
 		@aliases	=	aliases
