@@ -4,7 +4,7 @@
 # Purpose:      Gemspec for CLASP.Ruby library
 #
 # Created:      22nd June 2015
-# Updated:      1st March 2018
+# Updated:      1st October 2018
 #
 # ######################################################################### #
 
@@ -12,6 +12,8 @@
 $:.unshift File.join(File.dirname(__FILE__), 'lib')
 
 require 'clasp'
+
+require 'date'
 
 Gem::Specification.new do |spec|
 
@@ -29,6 +31,6 @@ END_DESC
 	spec.license		=	'BSD 3-Clause'
 	spec.files			=	Dir[ 'Rakefile', '{bin,examples,lib,man,spec,test}/**/*', 'README*', 'LICENSE*' ] & `git ls-files -z`.split("\0")
 
-	spec.add_development_dependency 'xqsr3', [ '~> 0.22' ]
+	spec.add_development_dependency 'xqsr3', [ '~> 0.29' ]
 end
 
