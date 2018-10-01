@@ -6,7 +6,7 @@
 #               CLASP.Ruby
 #
 # Created:      14th February 2014
-# Updated:      18th September 2018
+# Updated:      1st October 2018
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -378,6 +378,11 @@ class Arguments
 				option.instance_eval("@value='#{arg}'")
 				want_option_value = false
 			else
+
+				arg		=	arg.dup
+				arg_ix	=	index.dup
+
+				arg.define_singleton_method(:given_index) { arg_ix }
 
 				values << arg
 			end
