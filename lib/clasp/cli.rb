@@ -146,10 +146,13 @@ def self.show_usage aliases, options={}
 	info_lines		=	options[:info_lines]
 	case info_lines
 	when ::Array
+
 		;
 	when ::NilClass
+
 		info_lines	=	[]
 	else
+
 		info_lines = [ info_lines ] unless [ :each, :empty? ].all? { |m| info_lines.respond_to? m }
 	end
 	info_lines.map! do |line|
