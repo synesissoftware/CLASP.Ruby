@@ -6,13 +6,13 @@
 #               CLASP.Ruby
 #
 # Created:      14th February 2014
-# Updated:      1st October 2018
+# Updated:      8th January 2018
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2014-2018, Matthew Wilson and Synesis Software
+# Copyright (c) 2014-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -380,7 +380,7 @@ class Arguments
 			else
 
 				arg		=	arg.dup
-				arg_ix	=	index.dup
+				arg_ix	=	::Fixnum === index ? index : index.dup
 
 				arg.define_singleton_method(:given_index) { arg_ix }
 
