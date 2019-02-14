@@ -5,13 +5,13 @@
 # Purpose:      Definition of the CLASP::Util::ImmutableArray class
 #
 # Created:      14th February 2014
-# Updated:      16th July 2016
+# Updated:      14th February 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2014-2016, Matthew Wilson and Synesis Software
+# Copyright (c) 2014-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -108,12 +108,18 @@ class ImmutableArray
 
 		case args.length
 		when 1
+
 			case args[0]
 			when ::Integer
+
 				return @a.slice args[0]
 			end
 		when 2
+
+			;
 		else
+
+			;
 		end
 
 		self.class.new @a.slice(*args)
