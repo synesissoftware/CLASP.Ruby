@@ -155,7 +155,7 @@ def self.show_usage aliases, options={}
 
 		info_lines = [ info_lines ] unless [ :each, :empty? ].all? { |m| info_lines.respond_to? m }
 	end
-	info_lines.map! do |line|
+	info_lines		=	info_lines.map do |line|
 
 		case line
 		when :version
