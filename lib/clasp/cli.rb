@@ -5,13 +5,13 @@
 # Purpose:      Command-line interface
 #
 # Created:      27th July 2015
-# Updated:      1st March 2018
+# Updated:      14th February 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2015-2018, Matthew Wilson and Synesis Software
+# Copyright (c) 2015-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,7 @@ module CLI_helpers_
 
 	module Constants
 
-		VALID_ALIAS_TYPES			=	[ Flag, Option, Alias ]
+		VALID_ALIAS_TYPES			=	[ FlagAlias, OptionAlias, Alias ]
 		VALID_ALIAS_TYPES_STRING	=	VALID_ALIAS_TYPES[0...-1].join(', ') + ', or ' + VALID_ALIAS_TYPES[-1].to_s
 	end # module Constants
 
@@ -210,7 +210,7 @@ def self.show_usage aliases, options={}
 			when Alias
 
 				next
-			when Flag
+			when FlagAlias
 
 				if fas.has_key? a.name
 
@@ -222,7 +222,7 @@ def self.show_usage aliases, options={}
 				a.aliases.each { |al| stream.puts "\t#{al}" }
 				stream.puts "\t#{a.name}"
 				stream.puts "\t\t#{a.help}"
-			when Option
+			when OptionAlias
 
 				if voas.has_key? a.name
 

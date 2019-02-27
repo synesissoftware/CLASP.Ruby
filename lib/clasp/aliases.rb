@@ -5,13 +5,13 @@
 # Purpose:      Alias classes
 #
 # Created:      25th October 2014
-# Updated:      18th September 2018
+# Updated:      14th February 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2014-2018, Matthew Wilson and Synesis Software
+# Copyright (c) 2014-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -58,9 +58,9 @@ module CLASP
 # classes
 
 # A class that represents the specification for a command-line flag
-class Flag
+class FlagAlias
 
-	# Creates a Flag instance from the given name, aliases, and help
+	# Creates a FlagAlias instance from the given name, aliases, and help
 	#
 	# === Signature
 	#
@@ -96,7 +96,7 @@ class Flag
 	@@Help_		=	self.new('--help', [], 'shows this help and terminates')
 	@@Version_	=	self.new('--version', [], 'shows version and terminates')
   public
-	# An instance of Flag that provides default '--help' information
+	# An instance of FlagAlias that provides default '--help' information
 	def self.Help(extras = nil)
 
 		h = @@Help_
@@ -106,7 +106,7 @@ class Flag
 		h
 	end
 
-	# An instance of Flag that provides default '--version' information
+	# An instance of FlagAlias that provides default '--version' information
 	def self.Version(extras = nil)
 
 		h = @@Version_
@@ -118,9 +118,9 @@ class Flag
 end
 
 # A class that represents the specification for a command-line option
-class Option
+class OptionAlias
 
-	# Creates an Option instance from the given name, aliases, help,
+	# Creates an OptionAlias instance from the given name, aliases, help,
 	# values_range, and default_value
 	#
 	# === Signature
@@ -227,7 +227,7 @@ end
 # ######################################################################## #
 # functions
 
-# Generator method that obtains a CLASP::Flag according to the given
+# Generator method that obtains a CLASP::FlagAlias according to the given
 # parameters
 #
 # === Signature
@@ -277,10 +277,10 @@ def CLASP.Flag(name, options = {})
 		end
 	end
 
-	CLASP::Flag.new(name, aliases, help, extras)
+	CLASP::FlagAlias.new(name, aliases, help, extras)
 end
 
-# Generator method that obtains a CLASP::Option according to the given
+# Generator method that obtains a CLASP::OptionAlias according to the given
 # parameters
 #
 # === Signature
@@ -360,7 +360,7 @@ def CLASP.Option(name, options = {})
 		end
 	end
 
-	CLASP::Option.new(name, aliases, help, values_range, default_value, required, require_message, extras)
+	CLASP::OptionAlias.new(name, aliases, help, values_range, default_value, required, require_message, extras)
 end
 
 def CLASP.Alias(name, *args)
@@ -381,6 +381,12 @@ def CLASP.Alias(name, *args)
 
 	CLASP::Alias.new name, aliases
 end
+
+# ######################################################################## #
+# backwards-compatible
+
+Flag	=	FlagAlias
+Option	=	OptionAlias
 
 # ######################################################################## #
 # module

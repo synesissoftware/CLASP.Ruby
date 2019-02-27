@@ -61,7 +61,7 @@ class Arguments
 
 	#:stopdoc:
 	private
-	class Flag #:nodoc: all
+	class FlagArgument #:nodoc: all
 
 		#:nodoc:
 		def initialize(arg, given_index, given_name, resolved_name, argument_alias, given_hyphens, given_label, extras)
@@ -119,7 +119,7 @@ class Arguments
 		end
 	end
 
-	class Option #:nodoc: all
+	class OptionArgument #:nodoc: all
 
 		#:nodoc:
 		def initialize(arg, given_index, given_name, resolved_name, argument_alias, given_hyphens, given_label, value, extras)
@@ -301,6 +301,7 @@ class Arguments
 								resolved_name	=	"#$1#$2"
 								value			||=	$'
 							end
+
 							break
 						end
 					end
@@ -317,7 +318,7 @@ class Arguments
 							flag_alias	=	nil
 
 							# special case where the flag's actual name is short form and found here
-							flag_alias	||=	aliases.detect { |a| a.is_a?(CLASP::Flag) && a.name == new_flag }
+							flag_alias	||=	aliases.detect { |a| a.is_a?(CLASP::FlagAlias) && a.name == new_flag }
 
 							# if not found as a flag, look in each aliases' aliases
 							flag_alias	||=	aliases.detect { |a| a.aliases.include? new_flag }
@@ -343,8 +344,8 @@ class Arguments
 
 							grp_flags, grp_options, grp_value = Arguments.parse flags_argv, aliases
 
-							grp_flags.map! { |f| Flag.new(arg, index, given_name, f.name, f.argument_alias, hyphens.size, given_label, argument_alias ? argument_alias.extras : nil) }
-							grp_options.map! { |o| Option.new(arg, index, given_name, o.name, o.argument_alias, hyphens.size, given_label, o.value, argument_alias ? argument_alias.extras : nil) }
+							grp_flags.map! { |f| FlagArgument.new(arg, index, given_name, f.name, f.argument_alias, hyphens.size, given_label, argument_alias ? argument_alias.extras : nil) }
+							grp_options.map! { |o| OptionArgument.new(arg, index, given_name, o.name, o.argument_alias, hyphens.size, given_label, o.value, argument_alias ? argument_alias.extras : nil) }
 
 							flags.push(*grp_flags)
 							options.push(*grp_options)
@@ -354,18 +355,18 @@ class Arguments
 						end
 					end
 
-					if argument_alias and argument_alias.is_a? CLASP::Option and not value
+					if argument_alias and argument_alias.is_a? CLASP::OptionAlias and not value
 
 						want_option_value = true
-						options << Option.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, nil, argument_alias ? argument_alias.extras : nil)
+						options << OptionArgument.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, nil, argument_alias ? argument_alias.extras : nil)
 					elsif value
 
 						want_option_value = false
-						options << Option.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, value, argument_alias ? argument_alias.extras : nil)
+						options << OptionArgument.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, value, argument_alias ? argument_alias.extras : nil)
 					else
 
 						want_option_value = false
-						flags << Flag.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, argument_alias ? argument_alias.extras : nil)
+						flags << FlagArgument.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, argument_alias ? argument_alias.extras : nil)
 					end
 
 					next
@@ -428,16 +429,22 @@ class Arguments
 
 		flags.each do |f|
 
-			return f unless aliases.any? { |al| al.is_a?(::CLASP::Flag) && al.name == f.name }
+			return f unless aliases.any? { |al| al.is_a?(::CLASP::FlagAlias) && al.name == f.name }
 		end
 
 		options.each do |o|
 
-			return o unless aliases.any? { |al| al.is_a?(::CLASP::Option) && al.name == o.name }
+			return o unless aliases.any? { |al| al.is_a?(::CLASP::OptionAlias) && al.name == o.name }
 		end
 
 		nil
 	end
+
+	# #################################################################### #
+	# backwards-compatible
+
+	Flag	=	FlagArgument
+	Option	=	OptionArgument
 end
 
 # ######################################################################## #
