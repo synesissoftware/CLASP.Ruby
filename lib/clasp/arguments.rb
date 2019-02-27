@@ -46,8 +46,6 @@
 
 
 
-require 'clasp/util/immutable_array'
-
 =begin
 =end
 
@@ -181,23 +179,6 @@ class Arguments
 
 	#:startdoc:
 
-	class ImmutableArray < ::CLASP::Util::ImmutableArray
-
-		def initialize a
-
-			super a
-		end
-
-		# returns truthy if the given flag/option is found or the
-		# given block is truthy
-		def specified? id = nil
-
-			return find(id) { |o| yield o } if block_given?
-
-			find { |item| item == id }
-		end
-	end
-
 	# ######################
 	# Construction
 
@@ -227,7 +208,7 @@ class Arguments
 
 		@argv				=	argv
 		argv				=	argv.dup
-		@argv_original_copy	=	ImmutableArray.new(argv.dup)
+		@argv_original_copy	=	argv.dup.freeze
 
 		@aliases	=	aliases
 
@@ -235,9 +216,40 @@ class Arguments
 
 		flags, options, values = Arguments.parse(argv, aliases)
 
-		@flags		=	ImmutableArray.new(flags)
-		@options	=	ImmutableArray.new(options)
-		@values		=	ImmutableArray.new(values)
+		[ flags, options, values ].each do |ar|
+
+			class << ar
+
+				undef :inspect
+				undef :to_s
+
+				def to_s
+
+					s	=	''
+
+					s	+=	'['
+					s	+=	self.map { |v| %Q<"#{v}"> }.join(', ')
+					s	+=	']'
+
+					s
+				end
+
+				def inspect
+
+					s	=	''
+
+					s	+=	"#<#{self.class}:0x#{(object_id << 1).to_s(16)} ["
+					s	+=	self.map { |v| v.inspect }.join(', ')
+					s	+=	"]>"
+
+					s
+				end
+			end
+		end
+
+		@flags		=	flags.freeze
+		@options	=	options.freeze
+		@values		=	values.freeze
 
 
 		# do argv-mutation, if required
