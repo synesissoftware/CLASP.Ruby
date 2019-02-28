@@ -9,13 +9,13 @@ Install using `gem install clasp-ruby` or add it to your `Gemfile`.
 
 ## Description
 
-**CLASP** stands for **C**\ommand-**L**\ine **A**\rgument **S**\orting and
-**P**\arsing. The first \CLASP library was a C library with a C++ wrapper. There
+**CLASP** stands for **C**ommand-**L**ine **A**rgument **S**orting and
+**P**arsing. The first CLASP library was a C library with a C++ wrapper. There
 have been several implementations in other languages. **CLASP.Ruby** is the
 Ruby version.
 
-All \CLASP libraries provide the following facilities to **C**\ommand **L**\ine
-**I**\nterface (**CLI**) programs:
+All CLASP libraries provide the following facilities to **C**ommand **L**ine
+**I**nterface (**CLI**) programs:
 
 ### Command-line parsing
 
@@ -27,7 +27,9 @@ All **CLASP** libraries discriminate between three types of command-line argumen
 
 For example, in the command line
 
-	`myprog --all -c --opt1=val1 infile outfile`
+```
+	myprog --all -c --opt1=val1 infile outfile
+```
 
 there are:
 
@@ -37,19 +39,27 @@ there are:
 
 *Flags* and *options* may have alias. If the alias for `--all` is `-a` and the alias for `--opt1` is `-o` then the following command-line is exactly equivalent to the previous one:
 
-	`myprog -a -c -o val1 infile outfile`
+```
+	myprog -a -c -o val1 infile outfile
+```
 
 One-letter *flags* may be combined. Hence, the following command-line is exactly equivalent to the previous ones:
 
-	`myprog -ac -o val1 infile outfile`
+```
+	myprog -ac -o val1 infile outfile
+```
 
 Option aliases may specify a value. If the alias `-v1` means `--opt1=val1` then the following command-line is exactly equivalent to the previous ones:
 
-	`myprog -ac -v1 infile outfile`
+```
+	myprog -ac -v1 infile outfile
+```
 
 Option aliases that are one letter may be combined with one-letter flags. If the alias `-v` means `--opt1=val1` then the following command-line is exactly equivalent to the previous ones:
 
-	`myprog -acv infile outfile`
+```
+	myprog -acv infile outfile
+```
 
 UNIX standard arguments confer specific meanings:
 
@@ -59,7 +69,7 @@ UNIX standard arguments confer specific meanings:
 
 ### Declarative specification of the flags and options for a CLI
 
-To support such above special processing, \CLASP libraries provide facilities
+To support such above special processing, CLASP libraries provide facilities
 for declarative specification of command-line *flags* and *options*, and
 aliases thereof. For the previous example, the **CLASP.Ruby** code would look
 like the following:
@@ -101,7 +111,7 @@ puts Args.values[1]                 # => "outfile"
 
 ### Utility functions for displaying usage and version information
 
-There are aspects common to all CLI programs, such as responding to `--help` and `--version`. All **\CLASP** libraries provide facilities to assist the programmer: **CLASP.Ruby** provides the two module methods CLASP.show_usage() and CLASP.show_version(), as shown in the following code extending the example above:
+There are aspects common to all CLI programs, such as responding to `--help` and `--version`. All **CLASP** libraries provide facilities to assist the programmer: **CLASP.Ruby** provides the two module methods CLASP.show_usage() and CLASP.show_version(), as shown in the following code extending the example above:
 
 ```ruby
 
@@ -124,7 +134,9 @@ Args.flags.each do |f|
 
 Given the command
 
-	`./cr-example.rb --help`
+```
+	./cr-example.rb --help
+```
 
 then the program will output the following
 
@@ -157,7 +169,9 @@ flags/options:
 
 and given the command
 
-	`./cr-example.rb --version`
+```
+	./cr-example.rb --version
+```
 
 then the program will output the following
 
@@ -177,7 +191,7 @@ Defect reports, feature requests, and pull requests are welcome on https://githu
 
 **CLASP.Ruby** is inspired by the [C/C++ CLASP library](https://github.com/synesissoftware/CLASP), which is documented in the articles:
 
- * _An Introduction to \CLASP_, Matthew Wilson, [CVu](http://accu.org/index.php/journals/c77/), January 2012;
+ * _An Introduction to CLASP_, Matthew Wilson, [CVu](http://accu.org/index.php/journals/c77/), January 2012;
  * _[Anatomy of a CLI Program written in C](http://synesis.com.au/publishing/software-anatomies/anatomy-of-a-cli-program-written-in-c.html)_, Matthew Wilson, [CVu](http://accu.org/index.php/journals/c77/), September 2012; and
  * _[Anatomy of a CLI Program written in C++](http://synesis.com.au/publishing/software-anatomies/anatomy-of-a-cli-program-written-in-c++.html)_, Matthew Wilson, [CVu](http://accu.org/index.php/journals/c77/), September 2015.
 
