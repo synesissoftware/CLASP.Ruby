@@ -5,7 +5,19 @@ Command-Line Argument Sorting and Parsing for Ruby
 
 ## Installation & usage
 
-Install using `gem install clasp-ruby` or add it to your `Gemfile`.
+Install via **gem** as in:
+
+```
+	gem install clasp-ruby
+```
+
+or add it to your `Gemfile`.
+
+Use via **require***, as in:
+
+```Ruby
+require 'clasp-ruby'
+```
 
 ## Description
 
