@@ -5,13 +5,13 @@
 # Purpose:      Documentation of the CLASP.Ruby modules
 #
 # Created:      11th June 2016
-# Updated:      11th June 2016
+# Updated:      14th February 2019
 #
 # Home:         http://github.com/synesissoftware/xqsr3
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2016, Matthew Wilson and Synesis Software
+# Copyright (c) 2016-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -58,9 +58,9 @@
 #     args = CLASP::Arguments.new(argv)
 #
 #     puts args.flags.size         # => 1
-#     puts args.flags[0]           # => "#<CLASP::Arguments::Flag:0x007fd23aa3aa98 @arg="-c", @given_index=1, @given_name="-c", @argument_alias=nil, @given_hyphens=1, @given_label="c", @name="-c", @extras={}>"
+#     puts args.flags[0]           # => "#<CLASP::Arguments::FlagArgument:0x007fd23aa3aa98 @arg="-c", @given_index=1, @given_name="-c", @argument_alias=nil, @given_hyphens=1, @given_label="c", @name="-c", @extras={}>"
 #     puts args.options.size       # => 1
-#     puts args.options[0]         # => "#<CLASP::Arguments::Option:0x007fd23aa3aca0 @arg="--show-all=true", @given_index=0, @given_name="--show-all", @argument_alias=nil, @given_hyphens=2, @given_label="show-all", @value="true", @name="--show-all", @extras={}>"
+#     puts args.options[0]         # => "#<CLASP::Arguments::OptionArgument:0x007fd23aa3aca0 @arg="--show-all=true", @given_index=0, @given_name="--show-all", @argument_alias=nil, @given_hyphens=2, @given_label="show-all", @value="true", @name="--show-all", @extras={}>"
 #     puts args.options[0].value   # => "true"
 #     puts args.values.size        # => 2
 #     puts args.values[0]          # => "infile"
@@ -74,7 +74,7 @@
 #
 #     puts args.flags.size         # => 0
 #     puts args.options.size       # => 1
-#     puts args.options[0]         # => "#<CLASP::Arguments::Option:0x007fd23aa3aca0 @arg="--show-all=true", @given_index=0, @given_name="--show-all", @argument_alias=nil, @given_hyphens=2, @given_label="show-all", @value="true", @name="--show-all", @extras={}>"
+#     puts args.options[0]         # => "#<CLASP::Arguments::OptionArgument:0x007fd23aa3aca0 @arg="--show-all=true", @given_index=0, @given_name="--show-all", @argument_alias=nil, @given_hyphens=2, @given_label="show-all", @value="true", @name="--show-all", @extras={}>"
 #     puts args.values.size        # => 3
 #     puts args.values[0]          # => "infile"
 #     puts args.values[1]          # => "outfile"
@@ -127,17 +127,17 @@
 #     args = CLASP::Arguments.new(argv, aliases)
 #
 #     puts args.flags.size         # => 1
-#     puts args.flags[0]           # => "#<CLASP::Arguments::Flag:0x007f8593b0ddd8 @arg="-c", @given_index=0, @given_name="-c", @argument_alias=nil, @given_hyphens=1, @given_label="c", @name="-c", @extras={}>"
+#     puts args.flags[0]           # => "#<CLASP::Arguments::FlagArgument:0x007f8593b0ddd8 @arg="-c", @given_index=0, @given_name="-c", @argument_alias=nil, @given_hyphens=1, @given_label="c", @name="-c", @extras={}>"
 #     puts args.options.size       # => 1
-#     puts args.options[0]         # => "#<CLASP::Arguments::Option:0x007f8593b0db80 @arg="-a", @given_index=1, @given_name="-a", @argument_alias=#<CLASP::Option:0x007f8593b2ea10 @name="--show-all", @aliases=["-a"], @help=nil, @values_range=[], @default_value=nil, @extras={}>, @given_hyphens=1, @given_label="a", @value="true", @name="--show-all", @extras={}>"
+#     puts args.options[0]         # => "#<CLASP::Arguments::OptionArgument:0x007f8593b0db80 @arg="-a", @given_index=1, @given_name="-a", @argument_alias=#<CLASP::OptionArgument:0x007f8593b2ea10 @name="--show-all", @aliases=["-a"], @help=nil, @values_range=[], @default_value=nil, @extras={}>, @given_hyphens=1, @given_label="a", @value="true", @name="--show-all", @extras={}>"
 #     puts args.values.size        # => 2
 #     puts args.values[0]          # => "infile"
 #     puts args.values[1]          # => "outfile"
 #
 # === Classes of interest
 # * ::CLASP::Arguments
-# * ::CLASP::Flag
-# * ::CLASP::Option
+# * ::CLASP::FlagArgument
+# * ::CLASP::OptionArgument
 #
 # === Functions of interest
 # * ::CLASP.show_version()

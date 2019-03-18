@@ -6,7 +6,7 @@
 #               CLASP.Ruby
 #
 # Created:      14th February 2014
-# Updated:      8th January 2018
+# Updated:      14th February 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -46,8 +46,6 @@
 
 
 
-require 'clasp/util/immutable_array'
-
 =begin
 =end
 
@@ -61,7 +59,7 @@ class Arguments
 
 	#:stopdoc:
 	private
-	class Flag #:nodoc: all
+	class FlagArgument #:nodoc: all
 
 		#:nodoc:
 		def initialize(arg, given_index, given_name, resolved_name, argument_alias, given_hyphens, given_label, extras)
@@ -119,7 +117,7 @@ class Arguments
 		end
 	end
 
-	class Option #:nodoc: all
+	class OptionArgument #:nodoc: all
 
 		#:nodoc:
 		def initialize(arg, given_index, given_name, resolved_name, argument_alias, given_hyphens, given_label, value, extras)
@@ -181,23 +179,6 @@ class Arguments
 
 	#:startdoc:
 
-	class ImmutableArray < ::CLASP::Util::ImmutableArray
-
-		def initialize a
-
-			super a
-		end
-
-		# returns truthy if the given flag/option is found or the
-		# given block is truthy
-		def specified? id = nil
-
-			return find(id) { |o| yield o } if block_given?
-
-			find { |item| item == id }
-		end
-	end
-
 	# ######################
 	# Construction
 
@@ -227,7 +208,7 @@ class Arguments
 
 		@argv				=	argv
 		argv				=	argv.dup
-		@argv_original_copy	=	ImmutableArray.new(argv.dup)
+		@argv_original_copy	=	argv.dup.freeze
 
 		@aliases	=	aliases
 
@@ -235,9 +216,40 @@ class Arguments
 
 		flags, options, values = Arguments.parse(argv, aliases)
 
-		@flags		=	ImmutableArray.new(flags)
-		@options	=	ImmutableArray.new(options)
-		@values		=	ImmutableArray.new(values)
+		[ flags, options, values ].each do |ar|
+
+			class << ar
+
+				undef :inspect
+				undef :to_s
+
+				def to_s
+
+					s	=	''
+
+					s	+=	'['
+					s	+=	self.map { |v| %Q<"#{v}"> }.join(', ')
+					s	+=	']'
+
+					s
+				end
+
+				def inspect
+
+					s	=	''
+
+					s	+=	"#<#{self.class}:0x#{(object_id << 1).to_s(16)} ["
+					s	+=	self.map { |v| v.inspect }.join(', ')
+					s	+=	"]>"
+
+					s
+				end
+			end
+		end
+
+		@flags		=	flags.freeze
+		@options	=	options.freeze
+		@values		=	values.freeze
 
 
 		# do argv-mutation, if required
@@ -301,6 +313,7 @@ class Arguments
 								resolved_name	=	"#$1#$2"
 								value			||=	$'
 							end
+
 							break
 						end
 					end
@@ -317,7 +330,7 @@ class Arguments
 							flag_alias	=	nil
 
 							# special case where the flag's actual name is short form and found here
-							flag_alias	||=	aliases.detect { |a| a.is_a?(CLASP::Flag) && a.name == new_flag }
+							flag_alias	||=	aliases.detect { |a| a.is_a?(CLASP::FlagAlias) && a.name == new_flag }
 
 							# if not found as a flag, look in each aliases' aliases
 							flag_alias	||=	aliases.detect { |a| a.aliases.include? new_flag }
@@ -343,8 +356,8 @@ class Arguments
 
 							grp_flags, grp_options, grp_value = Arguments.parse flags_argv, aliases
 
-							grp_flags.map! { |f| Flag.new(arg, index, given_name, f.name, f.argument_alias, hyphens.size, given_label, argument_alias ? argument_alias.extras : nil) }
-							grp_options.map! { |o| Option.new(arg, index, given_name, o.name, o.argument_alias, hyphens.size, given_label, o.value, argument_alias ? argument_alias.extras : nil) }
+							grp_flags.map! { |f| FlagArgument.new(arg, index, given_name, f.name, f.argument_alias, hyphens.size, given_label, argument_alias ? argument_alias.extras : nil) }
+							grp_options.map! { |o| OptionArgument.new(arg, index, given_name, o.name, o.argument_alias, hyphens.size, given_label, o.value, argument_alias ? argument_alias.extras : nil) }
 
 							flags.push(*grp_flags)
 							options.push(*grp_options)
@@ -354,18 +367,18 @@ class Arguments
 						end
 					end
 
-					if argument_alias and argument_alias.is_a? CLASP::Option and not value
+					if argument_alias and argument_alias.is_a? CLASP::OptionAlias and not value
 
 						want_option_value = true
-						options << Option.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, nil, argument_alias ? argument_alias.extras : nil)
+						options << OptionArgument.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, nil, argument_alias ? argument_alias.extras : nil)
 					elsif value
 
 						want_option_value = false
-						options << Option.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, value, argument_alias ? argument_alias.extras : nil)
+						options << OptionArgument.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, value, argument_alias ? argument_alias.extras : nil)
 					else
 
 						want_option_value = false
-						flags << Flag.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, argument_alias ? argument_alias.extras : nil)
+						flags << FlagArgument.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, argument_alias ? argument_alias.extras : nil)
 					end
 
 					next
@@ -380,7 +393,7 @@ class Arguments
 			else
 
 				arg		=	arg.dup
-				arg_ix	=	::Fixnum === index ? index : index.dup
+				arg_ix	=	::Integer === index ? index : index.dup
 
 				arg.define_singleton_method(:given_index) { arg_ix }
 
@@ -428,16 +441,22 @@ class Arguments
 
 		flags.each do |f|
 
-			return f unless aliases.any? { |al| al.is_a?(::CLASP::Flag) && al.name == f.name }
+			return f unless aliases.any? { |al| al.is_a?(::CLASP::FlagAlias) && al.name == f.name }
 		end
 
 		options.each do |o|
 
-			return o unless aliases.any? { |al| al.is_a?(::CLASP::Option) && al.name == o.name }
+			return o unless aliases.any? { |al| al.is_a?(::CLASP::OptionAlias) && al.name == o.name }
 		end
 
 		nil
 	end
+
+	# #################################################################### #
+	# backwards-compatible
+
+	Flag	=	FlagArgument
+	Option	=	OptionArgument
 end
 
 # ######################################################################## #

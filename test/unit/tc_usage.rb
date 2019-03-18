@@ -38,7 +38,7 @@ class Test_Usage < Test::Unit::TestCase
 
 		stream	=	StringIO.new
 
-		info	=	'myprog version'
+		info	=	'myprog version'.freeze
 
 		CLASP.show_usage aliases, stream: stream, program_name: 'myprog', flags_and_options: '', info_lines: info
 
@@ -55,7 +55,7 @@ class Test_Usage < Test::Unit::TestCase
 
 			'Synesis Software My Program',
 			'version 1',
-		]
+		].freeze
 
 		CLASP.show_usage aliases, stream: stream, program_name: 'myprog', flags_and_options: '', info_lines: info_lines
 
@@ -72,7 +72,7 @@ class Test_Usage < Test::Unit::TestCase
 
 			'Synesis Software My Program',
 			:version
-		]
+		].freeze
 
 		CLASP.show_usage aliases, stream: stream, program_name: 'myprog', flags_and_options: '', info_lines: info_lines, version: [ 1, 0, 1], version_prefix: 'v'
 
