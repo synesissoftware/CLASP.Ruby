@@ -28,6 +28,7 @@
 .bundle
 .config
 .repl_history
+.ruby-version
 .rvmrc
 .yardoc
 _yardoc
