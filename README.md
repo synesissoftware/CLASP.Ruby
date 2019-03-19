@@ -19,6 +19,10 @@ Use via **require***, as in:
 require 'clasp'
 ```
 
+## Examples
+
+Examples are provided in the ```examples``` directory, along with a markdown description for each. A detailed list TOC of them is provided in [EXAMPLES.md](./EXAMPLES.md).
+
 ## Description
 
 **CLASP** stands for **C**ommand-**L**ine **A**rgument **S**orting and
