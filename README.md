@@ -16,7 +16,7 @@ or add it to your `Gemfile`.
 Use via **require***, as in:
 
 ```Ruby
-require 'clasp-ruby'
+require 'clasp'
 ```
 
 ## Description

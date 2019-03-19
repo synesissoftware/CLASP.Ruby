@@ -444,7 +444,7 @@ class Arguments
 			return f unless aliases.any? { |al| al.is_a?(::CLASP::FlagAlias) && al.name == f.name }
 		end
 
-		options.each do |o|
+		self.options.each do |o|
 
 			return o unless aliases.any? { |al| al.is_a?(::CLASP::OptionAlias) && al.name == o.name }
 		end
