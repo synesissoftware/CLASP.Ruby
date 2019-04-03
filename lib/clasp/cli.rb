@@ -5,7 +5,7 @@
 # Purpose:      Command-line interface
 #
 # Created:      27th July 2015
-# Updated:      14th February 2019
+# Updated:      19th March 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -244,7 +244,9 @@ def self.show_usage aliases, options={}
 		end
 	end
 
-	exit options[:exit] if options[:exit]
+	exit_code		=	options[:exit_code] || options[:exit]
+
+	exit exit_code if exit_code
 end
 
 # Displays version for the program according to the given aliases and options
@@ -281,7 +283,9 @@ def self.show_version aliases, options = {}
 
 	stream.puts version_string
 
-	exit options[:exit] if options[:exit]
+	exit_code		=	options[:exit_code] || options[:exit]
+
+	exit exit_code if exit_code
 end
 
 # ######################################################################## #

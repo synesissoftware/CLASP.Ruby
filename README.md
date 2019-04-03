@@ -16,8 +16,12 @@ or add it to your `Gemfile`.
 Use via **require**, as in:
 
 ```Ruby
-require 'clasp-ruby'
+require 'clasp'
 ```
+
+## Examples
+
+Examples are provided in the ```examples``` directory, along with a markdown description for each. A detailed list TOC of them is provided in [EXAMPLES.md](./EXAMPLES.md).
 
 ## Description
 

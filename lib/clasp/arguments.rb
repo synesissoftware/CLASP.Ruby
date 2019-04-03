@@ -205,6 +205,7 @@ class Arguments
 
 		init_opts[:mutate_argv] = true unless init_opts.has_key? :mutate_argv
 
+		@program_name		=	init_opts[:program_name] || Arguments.derive_program_name_
 
 		@argv				=	argv
 		argv				=	argv.dup
@@ -268,6 +269,11 @@ class Arguments
 	end
 
 	private
+	def self.derive_program_name_
+
+		$0
+	end
+
 	def self.parse(argv, aliases)
 
 		flags	=	[]
@@ -427,6 +433,8 @@ class Arguments
 	# unchanged copy of the original array of arguments passed to new
 	attr_reader :argv_original_copy
 
+	attr_reader :program_name
+
 
 	# finds the first unknown flag or option; +nil+ if all used
 	def find_first_unknown options = {}
@@ -444,9 +452,45 @@ class Arguments
 			return f unless aliases.any? { |al| al.is_a?(::CLASP::FlagAlias) && al.name == f.name }
 		end
 
-		options.each do |o|
+		self.options.each do |o|
 
 			return o unless aliases.any? { |al| al.is_a?(::CLASP::OptionAlias) && al.name == o.name }
+		end
+
+		nil
+	end
+
+	# Searches for a flag that matches the given id, returning the flag if
+	# found; +nil+ otherwise
+	#
+	# === Signature
+	#
+	# * *Parameters*:
+	#  - +id+:: (String, CLASP::Flag) The name of a flag, or the flag
+	#     itself
+	def find_flag(id)
+
+		flags.each do |flag|
+
+			return flag if flag == id
+		end
+
+		nil
+	end
+
+	# Searches for a option that matches the given id, returning the option
+	# if found; +nil+ otherwise
+	#
+	# === Signature
+	#
+	# * *Parameters*:
+	#  - +id+:: (String, CLASP::Flag) The name of a option, or the option
+	#     itself
+	def find_option(id)
+
+		options.each do |option|
+
+			return option if option == id
 		end
 
 		nil
