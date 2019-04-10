@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-# examples/flag_and_option_aliases.rb
+# examples/flag_and_option_specifications.rb
 
 # requires
 
@@ -18,7 +18,7 @@ InfoLines = [
     '',
 ]
 
-# Specify aliases, parse, and checking standard flags
+# Specify specifications, parse, and checking standard flags
 
 Flag_Debug = CLASP.Flag('--debug', alias: '-d', help: 'runs in Debug mode')
 Option_Verbosity = CLASP.Option('--verbosity', alias: '-v', help: 'specifies the verbosity', values: [ 'terse', 'quiet', 'silent', 'chatty' ])

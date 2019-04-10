@@ -1,6 +1,6 @@
 
 # ######################################################################## #
-# File:         clasp/aliases.rb
+# File:         clasp/specifications.rb
 #
 # Purpose:      Argument specification classes
 #
@@ -198,7 +198,7 @@ class OptionSpecification
 end
 
 # A class that represents an explicit alias for a flag or an option
-class Specification
+class AliasSpecification
 
 	def initialize(name, aliases)
 
@@ -379,13 +379,13 @@ def CLASP.Alias(name, *args)
 		aliases	=	args
 	end
 
-	CLASP::Specification.new name, aliases
+	CLASP::AliasSpecification.new name, aliases
 end
 
 # ######################################################################## #
 # backwards-compatible
 
-Alias		=	Specification
+Alias		=	AliasSpecification
 Flag		=	FlagSpecification
 FlagAlias	=	FlagSpecification
 Option		=	OptionSpecification

@@ -5,7 +5,7 @@
 # Purpose:      Documentation of the CLASP.Ruby modules
 #
 # Created:      11th June 2016
-# Updated:      14th February 2019
+# Updated:      11th April 2019
 #
 # Home:         http://github.com/synesissoftware/xqsr3
 #
@@ -51,7 +51,7 @@
 #
 # === Examples
 #
-# ==== Simple command-line, no aliases
+# ==== Simple command-line, no specifications
 #
 #     argv = %w{ --show-all=true infile -c outfile }
 #
@@ -82,7 +82,7 @@
 #
 # ==== Use of flag short forms
 #
-#     aliases = [
+#     specifications = [
 #
 #       CLASP.Flag('--verbose', alias: '-v'),
 #       CLASP.Flag('--trace-output', aliases: [ '-t', '--trace' ]),
@@ -90,7 +90,7 @@
 #
 #     argv = %w{ -trace -v }
 #
-#     args = CLASP::Arguments.new(argv, aliases)
+#     args = CLASP::Arguments.new(argv, specifications)
 #
 #     puts args.flags.size        # => 2
 #     puts args.flags[0].name     # => "--trace-output"
@@ -100,7 +100,7 @@
 #
 # ==== Use of flag single short forms combined
 #
-#     aliases = [
+#     specifications = [
 #
 #       CLASP.Flag('--expand', alias: '-x'),
 #       CLASP.Flag('--verbose', alias: '-v'),
@@ -109,7 +109,7 @@
 #
 #     argv = %w{ -tvx }
 #
-#     args = CLASP::Arguments.new(argv, aliases)
+#     args = CLASP::Arguments.new(argv, specifications)
 #
 #     puts args.flags.size        # => 3
 #     puts args.options.size      # => 0
@@ -117,14 +117,14 @@
 #
 # ==== Use of option short form
 #
-#     aliases = [
+#     specifications = [
 #
 #       CLASP.Option('--show-all', alias: '-a'),
 #     ]
 #
 #     argv = %w{ -c -a true infile outfile }
 #
-#     args = CLASP::Arguments.new(argv, aliases)
+#     args = CLASP::Arguments.new(argv, specifications)
 #
 #     puts args.flags.size         # => 1
 #     puts args.flags[0]           # => "#<CLASP::Arguments::FlagArgument:0x007f8593b0ddd8 @arg="-c", @given_index=0, @given_name="-c", @argument_alias=nil, @given_hyphens=1, @given_label="c", @name="-c", @extras={}>"

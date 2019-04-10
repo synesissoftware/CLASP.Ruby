@@ -8,9 +8,9 @@ require 'test/unit'
 
 class Test_Specifications_1 < Test::Unit::TestCase
 
-	def test_option_with_two_flag_aliases
+	def test_option_with_two_flag_specifications
 
-		aliases	=	[
+		specifications	=	[
 
 			CLASP.Flag('--action=list', alias: '-l'),
             CLASP.Flag('--action=change', alias: '-c'),
@@ -21,7 +21,7 @@ class Test_Specifications_1 < Test::Unit::TestCase
 		begin
 
 			argv = []
-			args = CLASP::Arguments.new argv, aliases
+			args = CLASP::Arguments.new argv, specifications
 
 			assert_equal 0, args.flags.size
 			assert_equal 0, args.options.size
@@ -32,7 +32,7 @@ class Test_Specifications_1 < Test::Unit::TestCase
 		begin
 
 			argv = %w{ --action=action1 }
-			args = CLASP::Arguments.new argv, aliases
+			args = CLASP::Arguments.new argv, specifications
 
 			assert_equal 0, args.flags.size
 			assert_equal 1, args.options.size
@@ -46,7 +46,7 @@ class Test_Specifications_1 < Test::Unit::TestCase
 		begin
 
 			argv = %w{ -a action2 }
-			args = CLASP::Arguments.new argv, aliases
+			args = CLASP::Arguments.new argv, specifications
 
 			assert_equal 0, args.flags.size
 			assert_equal 1, args.options.size
@@ -60,7 +60,7 @@ class Test_Specifications_1 < Test::Unit::TestCase
 		begin
 
 			argv = %w{ -c }
-			args = CLASP::Arguments.new argv, aliases
+			args = CLASP::Arguments.new argv, specifications
 
 			assert_equal 0, args.flags.size
 			assert_equal 1, args.options.size

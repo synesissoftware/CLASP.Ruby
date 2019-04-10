@@ -293,11 +293,11 @@ class Test_Arguments < Test::Unit::TestCase
 
 	def test_double_hyphen_3
 
-		aliases	=	[
+		specifications	=	[
 
 			CLASP.Option('--password', alias: '-p', extras: 'extra'),
 		]
-		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-p', '--', 'value2' ], aliases
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-p', '--', 'value2' ], specifications
 
 		assert_equal 1, args.flags.size
 		assert_equal '-f1', args.flags[0].to_s
@@ -322,11 +322,11 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'value2', args.values[1]
 	end
 
-	def test_flag_aliases_1
+	def test_flag_specifications_1
 
-		aliases	=	[
+		specifications	=	[
 		]
-		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-x', '--delete' ], aliases
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-x', '--delete' ], specifications
 
 		assert_equal 3, args.flags.size
 		assert_equal '-f1', args.flags[0].to_s
@@ -357,13 +357,13 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'value1', args.values[0]
 	end
 
-	def test_flag_aliases_2
+	def test_flag_specifications_2
 
-		aliases	=	[
+		specifications	=	[
 
 			CLASP.Flag('--expand', alias: '-x')
 		]
-		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-x', '--delete' ], aliases
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-x', '--delete' ], specifications
 
 		assert_equal 3, args.flags.size
 		assert_equal '-f1', args.flags[0].to_s
@@ -378,7 +378,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'x', args.flags[1].given_label
 		assert_equal '-x', args.flags[1].given_name
 		assert_equal 1, args.flags[1].given_hyphens
-		assert_equal aliases[0], args.flags[1].argument_alias
+		assert_equal specifications[0], args.flags[1].argument_alias
 		assert_equal Hash.new, args.flags[1].extras
 		assert_equal '--delete', args.flags[2].to_s
 		assert_equal '--delete', args.flags[2].name
@@ -394,13 +394,13 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'value1', args.values[0]
 	end
 
-	def test_flag_aliases_3
+	def test_flag_specifications_3
 
-		aliases	=	[
+		specifications	=	[
 
 			CLASP.Flag('--expand', aliases: [ '-x', '--x' ], extras: %w{ e x t r a })
 		]
-		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-x', '--delete', '--x' ], aliases
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-x', '--delete', '--x' ], specifications
 
 		assert_equal 4, args.flags.size
 		assert_equal '-f1', args.flags[0].to_s
@@ -415,7 +415,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'x', args.flags[1].given_label
 		assert_equal '-x', args.flags[1].given_name
 		assert_equal 1, args.flags[1].given_hyphens
-		assert_equal aliases[0], args.flags[1].argument_alias
+		assert_equal specifications[0], args.flags[1].argument_alias
 		assert_equal [ 'e', 'x', 't', 'r', 'a' ], args.flags[1].extras
 		assert_equal '--delete', args.flags[2].to_s
 		assert_equal '--delete', args.flags[2].name
@@ -429,7 +429,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'x', args.flags[3].given_label
 		assert_equal '--x', args.flags[3].given_name
 		assert_equal 2, args.flags[3].given_hyphens
-		assert_equal aliases[0], args.flags[3].argument_alias
+		assert_equal specifications[0], args.flags[3].argument_alias
 		assert_equal [ 'e', 'x', 't', 'r', 'a' ], args.flags[3].extras
 
 		assert_equal 0, args.options.size
@@ -438,11 +438,11 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'value1', args.values[0]
 	end
 
-	def test_option_aliases_1
+	def test_option_specifications_1
 
-		aliases	=	[
+		specifications	=	[
 		]
-		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o=value' ], aliases
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o=value' ], specifications
 
 		assert_equal 1, args.flags.size
 		assert_equal '-f1', args.flags[0].to_s
@@ -465,13 +465,13 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'value1', args.values[0]
 	end
 
-	def test_option_aliases_2
+	def test_option_specifications_2
 
-		aliases	=	[
+		specifications	=	[
 
 			CLASP.Option('--option', aliases: [ '-o' ])
 		]
-		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o=value' ], aliases
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o=value' ], specifications
 
 		assert_equal 1, args.flags.size
 		assert_equal '-f1', args.flags[0].to_s
@@ -494,13 +494,13 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'value1', args.values[0]
 	end
 
-	def test_option_aliases_3
+	def test_option_specifications_3
 
-		aliases	=	[
+		specifications	=	[
 
 			CLASP.Option('--option', aliases: [ '-o' ])
 		]
-		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o', 'value' ], aliases
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o', 'value' ], specifications
 
 		assert_equal 1, args.flags.size
 		assert_equal '-f1', args.flags[0].to_s
@@ -523,14 +523,14 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'value1', args.values[0]
 	end
 
-	def test_option_default_aliases_1
+	def test_option_default_specifications_1
 
-		aliases	=	[
+		specifications	=	[
 
 			CLASP.Option('--option', aliases: [ '-o' ]),
 			CLASP.Option('--option=special-value', alias: '-s')
 		]
-		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o', 'value', '-s', '-s=explicit-value' ], aliases
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o', 'value', '-s', '-s=explicit-value' ], specifications
 
 		assert_equal 1, args.flags.size
 		assert_equal '-f1', args.flags[0].to_s
@@ -567,15 +567,15 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'value1', args.values[0]
 	end
 
-	def test_option_default_aliases_2
+	def test_option_default_specifications_2
 
-		aliases	=	[
+		specifications	=	[
 
 			CLASP.Option('--option', aliases: [ '-o' ]),
 			CLASP.Flag('--option=special-value', alias: '-s'),
 			CLASP.Flag('--verbose', alias: '-v'),
 		]
-		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o', 'value', '-sv', '-s=explicit-value' ], aliases
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o', 'value', '-sv', '-s=explicit-value' ], specifications
 
 		assert_equal 2, args.flags.size
 		flag = args.flags[0]
@@ -628,15 +628,15 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 'value1', args.values[0]
 	end
 
-	def test_option_default_aliases_3
+	def test_option_default_specifications_3
 
-		aliases	=	[
+		specifications	=	[
 
 			CLASP.Option('--option', aliases: [ '-o' ]),
 			CLASP.Flag('--option=special-value', alias: '-s'),
 			CLASP.Flag('-v'),
 		]
-		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o', 'value', '-sv', '-s=explicit-value' ], aliases
+		args	=	CLASP::Arguments.new [ '-f1', 'value1', '-o', 'value', '-sv', '-s=explicit-value' ], specifications
 
 		assert_equal 2, args.flags.size
 		flag = args.flags[0]

@@ -10,12 +10,12 @@ puts
 puts '*' * 40
 puts 'usage:'
 puts
-CLASP.show_usage(Arguments.aliases)
+CLASP.show_usage(Arguments.specifications)
 puts '*' * 40
 
 puts 'version:'
 puts
-CLASP.show_version Arguments.aliases, version: [ 1, 2, 3 ]
+CLASP.show_version Arguments.specifications, version: [ 1, 2, 3 ]
 puts '*' * 40
 
 __END__

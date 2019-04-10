@@ -6,7 +6,7 @@
 #               CLASP.Ruby
 #
 # Created:      14th February 2014
-# Updated:      10th April 2019
+# Updated:      11th April 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -46,7 +46,7 @@
 
 
 
-require File.join(File.dirname(__FILE__), 'aliases.rb')
+require File.join(File.dirname(__FILE__), 'specifications.rb')
 
 require 'yaml'
 
@@ -575,7 +575,7 @@ class Arguments
 
 		raise ArgumentError, "options must be nil or Hash - #{option.class} given" unless options.is_a? ::Hash
 
-		specifications	=	options[:aliases] || @specifications
+		specifications	=	options[:specifications] || options[:aliases] || @specifications
 
 		raise ArgumentError, "specifications may not be nil" if specifications.nil?
 

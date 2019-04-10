@@ -5,7 +5,7 @@
 # Purpose:      Command-line interface
 #
 # Created:      27th July 2015
-# Updated:      10th April 2019
+# Updated:      11th April 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -64,7 +64,7 @@ module CLI_helpers_
 
 	module Constants
 
-		VALID_ALIAS_TYPES			=	[ FlagSpecification, OptionSpecification, Specification ]
+		VALID_ALIAS_TYPES			=	[ FlagSpecification, OptionSpecification, AliasSpecification ]
 		VALID_ALIAS_TYPES_STRING	=	VALID_ALIAS_TYPES[0...-1].join(', ') + ', or ' + VALID_ALIAS_TYPES[-1].to_s
 	end # module Constants
 
@@ -188,7 +188,7 @@ def self.show_usage specifications, options={}
 
 	fas				=	{}
 
-	specifications.select { |a| Specification === a }.each do |a|
+	specifications.select { |a| AliasSpecification === a }.each do |a|
 
 		fas[a.name]	=	[] unless fas.has_key? $1
 		fas[a.name]	<<	a
@@ -208,7 +208,7 @@ def self.show_usage specifications, options={}
 		specifications.each do |a|
 
 			case a
-			when Specification
+			when AliasSpecification
 
 				next
 			when FlagSpecification

@@ -2,14 +2,14 @@
 
 ## Summary
 
-Example illustrating various kinds of *flag* and *option* aliases, including the combination of short-names.
+Example illustrating various kinds of *flag* and *option* specifications, including the combination of short-names.
 
 ## Source
 
 ```ruby
 #!/usr/bin/env ruby
 
-# examples/flag_and_option_aliases.rb
+# examples/flag_and_option_specifications.rb
 
 # requires
 
@@ -23,11 +23,11 @@ InfoLines = [
 
     'CLASP.Ruby examples',
     :version,
-    "Illustrates use of CLASP.Ruby's use of flags, options, and aliases",
+    "Illustrates use of CLASP.Ruby's use of flags, options, and specifications",
     '',
 ]
 
-# Specify aliases, parse, and checking standard flags
+# Specify specifications, parse, and checking standard flags
 
 Flag_Debug = CLASP.Flag('--debug', alias: '-d', help: 'runs in Debug mode')
 Option_Verbosity = CLASP.Option('--verbosity', alias: '-v', help: 'specifies the verbosity', values: [ 'terse', 'quiet', 'silent', 'chatty' ])
@@ -87,13 +87,13 @@ end
 If executed with no arguments
 
 ```
-    ruby examples/flag_and_option_aliases.rb
+    ruby examples/flag_and_option_specifications.rb
 ```
 
 or (in a Unix shell):
 
 ```
-    ./examples/flag_and_option_aliases.rb
+    ./examples/flag_and_option_specifications.rb
 ```
 
 it gives the output:
@@ -106,17 +106,17 @@ it gives the output:
 If executed with the arguments
 
 ```
-    ruby examples/flag_and_option_aliases.rb --help
+    ruby examples/flag_and_option_specifications.rb --help
 ```
 
 it gives the output:
 
 ```
 CLASP.Ruby examples
-flag_and_option_aliases.rb 0.0.1
+flag_and_option_specifications.rb 0.0.1
 Illustrates use of CLASP.Ruby's use of flags, options, and aliases
 
-USAGE: flag_and_option_aliases.rb [ ... flags and options ... ]
+USAGE: flag_and_option_specifications.rb [ ... flags and options ... ]
 
 flags/options:
 
@@ -146,7 +146,7 @@ flags/options:
 If executed with the arguments
 
 ```
-    ruby examples/flag_and_option_aliases.rb --debug --verbosity=silent
+    ruby examples/flag_and_option_specifications.rb --debug --verbosity=silent
 ```
 
 it gives the output:
@@ -161,7 +161,7 @@ Debug mode is specified
 If executed with the arguments
 
 ```
-    ruby examples/flag_and_option_aliases.rb -v silent -d
+    ruby examples/flag_and_option_specifications.rb -v silent -d
 ```
 
 it gives the (same) output:
@@ -176,7 +176,7 @@ Debug mode is specified
 If executed with the arguments
 
 ```
-    ruby examples/flag_and_option_aliases.rb -c -d
+    ruby examples/flag_and_option_specifications.rb -c -d
 ```
 
 it gives the output:
@@ -191,7 +191,7 @@ Debug mode is specified
 If executed with the arguments
 
 ```
-    ruby examples/flag_and_option_aliases.rb -dc
+    ruby examples/flag_and_option_specifications.rb -dc
 ```
 
 it gives the (same) output:

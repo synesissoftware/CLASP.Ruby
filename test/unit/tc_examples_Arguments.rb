@@ -44,7 +44,7 @@ class Test_Examples < Test::Unit::TestCase
 
 	def test_UseOfFlagShortForms
 
-		aliases = [
+		specifications = [
 
 			CLASP.Flag('--verbose', alias: '-v'),
 			CLASP.Flag('--trace-output', aliases: [ '-t', '--trace' ]),
@@ -52,7 +52,7 @@ class Test_Examples < Test::Unit::TestCase
 
 		argv = %w{ --trace -v }
 
-		args = CLASP::Arguments.new(argv, aliases)
+		args = CLASP::Arguments.new(argv, specifications)
 
 		assert_equal 2, args.flags.size
 		flag = args.flags[0]
@@ -67,7 +67,7 @@ class Test_Examples < Test::Unit::TestCase
 
 	def test_UseOfFlagSingleShortFormsCombined
 
-		aliases = [
+		specifications = [
 
 			CLASP.Flag('--expand', alias: '-x'),
 			CLASP.Flag('--verbose', alias: '-v'),
@@ -76,7 +76,7 @@ class Test_Examples < Test::Unit::TestCase
 
 		argv = %w{ -tvx }
 
-		args = CLASP::Arguments.new(argv, aliases)
+		args = CLASP::Arguments.new(argv, specifications)
 
 		assert_equal 3, args.flags.size
 		flag = args.flags[0]
@@ -94,14 +94,14 @@ class Test_Examples < Test::Unit::TestCase
 
 	def test_UseOfOptionShortForm
 
-		aliases = [
+		specifications = [
 
 			CLASP.Option('--show-all', alias: '-a'),
 		]
 
 		argv = %w{ -c -a true infile outfile }
 
-		args = CLASP::Arguments.new(argv, aliases)
+		args = CLASP::Arguments.new(argv, specifications)
 
 		assert_equal 1, args.flags.size
 		flag = args.flags[0]
@@ -118,7 +118,7 @@ class Test_Examples < Test::Unit::TestCase
 
 	def test_UseOfFlagsAsSpecificationsForOption
 
-		aliases = [
+		specifications = [
 
 			CLASP.Flag('--dump-contents', alias: '-d'),
 			CLASP.Option('--log-level', alias: '-l'),
@@ -127,7 +127,7 @@ class Test_Examples < Test::Unit::TestCase
 
 		argv = %w{ myfile -dw }
 
-		args = CLASP::Arguments.new(argv, aliases)
+		args = CLASP::Arguments.new(argv, specifications)
 
 		assert_equal 1, args.flags.size
 		flag = args.flags[0]

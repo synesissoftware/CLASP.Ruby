@@ -10,13 +10,13 @@ class Test_Arguments_4 < Test::Unit::TestCase
 
 	def test_ARGV_rewrite_1
 
-		aliases	=	nil
+		specifications	=	nil
 		argv	=	[ 'val1', '-f1', 'val2', '--' ]
 
 		assert_equal 'val1|-f1|val2|--', argv.join('|')
 
 		argv_c	=	argv.dup
-		args	=	CLASP::Arguments.new argv, aliases
+		args	=	CLASP::Arguments.new argv, specifications
 
 		assert_equal 'val1|-f1|val2|--', argv.join('|')
 
@@ -39,10 +39,10 @@ class Test_Arguments_4 < Test::Unit::TestCase
 
 	def test_ARGV_rewrite_2
 
-		aliases	=	nil
+		specifications	=	nil
 		argv	=	[ 'val1', '-f1', 'val2', '--' ]
 		argv_c	=	argv.dup
-		args	=	CLASP::Arguments.new argv, aliases, mutate_argv: false
+		args	=	CLASP::Arguments.new argv, specifications, mutate_argv: false
 
 		assert_equal 1, args.flags.size
 		assert_equal Hash.new, args.flags[0].extras

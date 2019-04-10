@@ -5,13 +5,13 @@
 # Purpose:      Common 'require file' for CLASP.Ruby library
 #
 # Created:      14th February 2014
-# Updated:      16th April 2016
+# Updated:      11th April 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2014-2016, Matthew Wilson and Synesis Software
+# Copyright (c) 2014-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -46,9 +46,10 @@
 
 
 require 'clasp/arguments'
-require 'clasp/aliases'
+require 'clasp/specifications'
 require 'clasp/cli'
 require 'clasp/version'
 
 # ############################## end of file ############################# #
+
 
