@@ -6,7 +6,7 @@
 #               CLASP.Ruby
 #
 # Created:      14th February 2014
-# Updated:      14th February 2019
+# Updated:      10th April 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -195,7 +195,7 @@ class Arguments
 	#   - +options+:: An options hash, containing any of the following options.
 	#
 	# * *Options*:
-	#   - +mutate_arg:+:: (+Boolean+) Determines if the library should mutate +argv+. Defaults to +true+. This is essential when using CLASP in conjunction with <tt>$\<</tt>.
+	#   - +mutate_argv:+:: (+Boolean+) Determines if the library should mutate +argv+. Defaults to +true+. This is essential when using CLASP in conjunction with <tt>$\<</tt>.
 	#
 	def initialize(argv = ARGV, aliases = nil, options = {})
 
