@@ -5,7 +5,7 @@
 # Purpose:      Alias classes
 #
 # Created:      25th October 2014
-# Updated:      14th February 2019
+# Updated:      10th April 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -257,7 +257,7 @@ def CLASP.Flag(name, options = {})
 			case	k
 			when	:alias
 
-				aliases	=	[ v ]
+				aliases	=	[ v ] if v
 			when	:aliases
 
 				aliases	=	v unless aliases
@@ -328,7 +328,7 @@ def CLASP.Option(name, options = {})
 			case	k
 			when	:alias
 
-				aliases	=	[ v ]
+				aliases	=	[ v ] if v
 			when	:aliases
 
 				aliases	=	v unless aliases

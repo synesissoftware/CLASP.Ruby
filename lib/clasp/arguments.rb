@@ -46,6 +46,10 @@
 
 
 
+require File.join(File.dirname(__FILE__), 'aliases.rb')
+
+require 'yaml'
+
 =begin
 =end
 
@@ -183,6 +187,131 @@ class Arguments
 	# Construction
 
 	public
+
+	# Loads an instance of the class, as specified by +source+, according to the given parameters
+	#
+	# See the documentation for the ::CLASP module for examples
+	#
+	# === Signature
+	#
+	# * *Parameters*:
+	#   - +argv+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+.
+	#   - +source+:: (+Hash+, +IO+) The arguments specification, either as a Hash or an instance of an IO-implementing type containing a YAML specification.
+	#   - +options+:: An options hash, containing any of the following options.
+	#
+	# * *Options*:
+	#   - +mutate_argv:+:: (+Boolean+) Determines if the library should mutate +argv+. Defaults to +true+. This is essential when using CLASP in conjunction with <tt>$\<</tt>.
+	#
+	def self.load(argv, source, options = {})
+
+		options ||= {}
+
+		h = nil
+
+		case source
+		when ::IO
+
+			h = YAML.load(source.read)
+		when ::Hash
+
+			h = source
+		else
+
+			if source.respond_to?(:to_hash)
+
+				h = source.to_hash
+			else
+
+				raise TypeError, "#{self}.#{__method__}() 'source' argument must be a #{::Hash}, or an object implementing #{::IO}, or a type implementing to_hash'"
+			end
+		end
+
+		aliases	=	[]
+
+		_clasp	=	h['clasp'] or raise ArgumentError, "missing top-level 'clasp' element in load configuration"
+		::Hash === _clasp or raise ArgumentError, "top-level 'clasp' element must be a #{::Hash}"
+
+		_specs	=	(_clasp['arg-specs'] || _clasp['aliases']) or raise ArgumentError, "missing element 'clasp/arg-specs'"
+		::Array === _specs or raise ArgumentError, "top-level 'arg-specs' element must be a #{::Hash}"
+
+		_specs.each do |_spec|
+
+			case _spec
+			when ::Hash
+
+				# TODO: make a utility function and shrink all the following
+
+				_spec.each do |_arg_type, _details|
+
+					case _arg_type
+					when 'flag', :flag
+
+						_name	=	_details['name']
+
+						unless _name
+
+							warn "flag arg-spec missing required 'name' field"
+						else
+
+							_alias		=	_details['alias']
+							_aliases	=	_details['aliases']
+							_help		=	_details['help'] || _details['description']
+
+							aliases	<<	CLASP.Flag(_name, alias: _alias, aliases: _aliases, help: _help)
+						end
+					when 'option', :option
+
+						_name	=	_details['name']
+
+						unless _name
+
+							warn "option arg-spec missing required 'name' field"
+						else
+
+							_alias				=	_details['alias']
+							_aliases			=	_details['aliases']
+							_default_value		=	_details['default_value'] || _details['default']
+							_help				=	_details['help'] || _details['description']
+							_required			=	_details['required']
+							_required_message	=	_details['required_message']
+							_values_range		=	_details['values_range'] || _details['values']
+
+							aliases	<<	CLASP.Option(_name, alias: _alias, aliases: _aliases, default_value: _default_value, help: _help, required: _required, required_message: _required_message, values_range: _values_range)
+						end
+					when 'alias', :alias
+
+						_resolved	=	_details['resolved']
+
+						unless _resolved
+
+							warn "alias arg-spec missing required 'resolved' field"
+						else
+
+							_alias				=	_details['alias']
+							_aliases			=	_details['aliases']
+
+							unless _alias || _aliases
+
+								warn "alias arg-spec missing required 'alias' or 'aliases' field"
+							else
+
+								aliases << CLASP.Flag(_resolved, alias: _alias, aliases: _aliases)
+							end
+						end
+					else
+
+						warn "unknown arg-type '#{_arg_type}' specified"
+					end
+				end
+			else
+
+				warn "non-#{::Hash} element in 'clasp/arg-specs': #{_spec} (of type #{_spec.class})"
+			end
+		end
+
+		self.new argv, aliases, options
+	end
+
 	# Constructs an instance of the class, according to the given parameters
 	#
 	# See the documentation for the ::CLASP module for examples
