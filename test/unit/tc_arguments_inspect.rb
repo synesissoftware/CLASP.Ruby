@@ -61,7 +61,10 @@ class Test_Arguments_inspect_and_to_s < Test::Unit::TestCase
 		args	=	Arguments.new argv
 
 		assert_equal %Q<["-f"]>, args.flags.to_s
-		assert_match /#<Array:0x[0-9a-fA-Z]+\s+\[#<CLASP::Arguments::FlagArgument:0x.*-f.*>\].*>/, args.flags.inspect
+		if RUBY_VERSION >= '2'
+
+			assert_match /#<Array:0x[0-9a-fA-Z]+\s+\[#<CLASP::Arguments::FlagArgument:0x.*-f.*>\].*>/, args.flags.inspect
+		end
 
 		assert_equal %Q<[]>, args.options.to_s
 		assert_match /#<Array:0x[0-9a-fA-Z]+\s+\[\].*>/, args.options.inspect
@@ -76,7 +79,10 @@ class Test_Arguments_inspect_and_to_s < Test::Unit::TestCase
 		args	=	Arguments.new argv
 
 		assert_equal %Q<["-f", "-g"]>, args.flags.to_s
-		assert_match /#<Array:0x[0-9a-fA-Z]+\s+\[#<CLASP::Arguments::FlagArgument:0x.*-f.*-g.*>\].*>/, args.flags.inspect
+		if RUBY_VERSION >= '2'
+
+			assert_match /#<Array:0x[0-9a-fA-Z]+\s+\[#<CLASP::Arguments::FlagArgument:0x.*-f.*-g.*>\].*>/, args.flags.inspect
+		end
 
 		assert_equal %Q<[]>, args.options.to_s
 		assert_match /#<Array:0x[0-9a-fA-Z]+\s+\[\].*>/, args.options.inspect
