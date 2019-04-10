@@ -4,7 +4,7 @@ $:.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib')
 
 require 'clasp'
 
-Aliases = [
+Specifications = [
 
 	CLASP.Flag('--version', alias: '-v', help: 'shows the program version and quits'),
 
@@ -14,17 +14,17 @@ Aliases = [
 	CLASP.Flag('--verbosity=verbose', aliases: [ '--verbose', '-v' ]),
 ]
 
-Arguments	=	CLASP::Arguments.new(ARGV, Aliases)
+Arguments	=	CLASP::Arguments.new(ARGV, Specifications)
 
 puts
 puts '*' * 40
 puts 'usage:'
 puts
-CLASP.show_usage(Aliases)
+CLASP.show_usage(Specifications)
 puts '*' * 40
 
 puts 'version:'
 puts
-CLASP.show_version Aliases, version: [ 1, 2, 3 ]
+CLASP.show_version Specifications, version: [ 1, 2, 3 ]
 puts '*' * 40
 

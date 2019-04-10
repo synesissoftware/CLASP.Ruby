@@ -226,13 +226,13 @@ class Arguments
 			end
 		end
 
-		aliases	=	[]
+		specifications	=	[]
 
 		_clasp	=	h['clasp'] or raise ArgumentError, "missing top-level 'clasp' element in load configuration"
 		::Hash === _clasp or raise ArgumentError, "top-level 'clasp' element must be a #{::Hash}"
 
-		_specs	=	(_clasp['arg-specs'] || _clasp['aliases']) or raise ArgumentError, "missing element 'clasp/arg-specs'"
-		::Array === _specs or raise ArgumentError, "top-level 'arg-specs' element must be a #{::Hash}"
+		_specs	=	(_clasp['arg-specs'] || _clasp['specifications'] || _clasp['aliases']) or raise ArgumentError, "missing element 'clasp/specifications'"
+		::Array === _specs or raise ArgumentError, "top-level 'specifications' element must be a #{::Hash}"
 
 		_specs.each do |_spec|
 
@@ -250,14 +250,14 @@ class Arguments
 
 						unless _name
 
-							warn "flag arg-spec missing required 'name' field"
+							warn "flag specification missing required 'name' field"
 						else
 
 							_alias		=	_details['alias']
 							_aliases	=	_details['aliases']
 							_help		=	_details['help'] || _details['description']
 
-							aliases	<<	CLASP.Flag(_name, alias: _alias, aliases: _aliases, help: _help)
+							specifications << CLASP.Flag(_name, alias: _alias, aliases: _aliases, help: _help)
 						end
 					when 'option', :option
 
@@ -265,7 +265,7 @@ class Arguments
 
 						unless _name
 
-							warn "option arg-spec missing required 'name' field"
+							warn "option specification missing required 'name' field"
 						else
 
 							_alias				=	_details['alias']
@@ -276,7 +276,7 @@ class Arguments
 							_required_message	=	_details['required_message']
 							_values_range		=	_details['values_range'] || _details['values']
 
-							aliases	<<	CLASP.Option(_name, alias: _alias, aliases: _aliases, default_value: _default_value, help: _help, required: _required, required_message: _required_message, values_range: _values_range)
+							specifications << CLASP.Option(_name, alias: _alias, aliases: _aliases, default_value: _default_value, help: _help, required: _required, required_message: _required_message, values_range: _values_range)
 						end
 					when 'alias', :alias
 
@@ -284,7 +284,7 @@ class Arguments
 
 						unless _resolved
 
-							warn "alias arg-spec missing required 'resolved' field"
+							warn "alias specification missing required 'resolved' field"
 						else
 
 							_alias				=	_details['alias']
@@ -292,10 +292,10 @@ class Arguments
 
 							unless _alias || _aliases
 
-								warn "alias arg-spec missing required 'alias' or 'aliases' field"
+								warn "alias specification missing required 'alias' or 'aliases' field"
 							else
 
-								aliases << CLASP.Flag(_resolved, alias: _alias, aliases: _aliases)
+								specifications << CLASP.Flag(_resolved, alias: _alias, aliases: _aliases)
 							end
 						end
 					else
@@ -305,11 +305,11 @@ class Arguments
 				end
 			else
 
-				warn "non-#{::Hash} element in 'clasp/arg-specs': #{_spec} (of type #{_spec.class})"
+				warn "non-#{::Hash} element in 'clasp/specifications': #{_spec} (of type #{_spec.class})"
 			end
 		end
 
-		self.new argv, aliases, options
+		self.new argv, specifications, options
 	end
 
 	# Constructs an instance of the class, according to the given parameters
@@ -320,13 +320,13 @@ class Arguments
 	#
 	# * *Parameters*:
 	#   - +argv+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+.
-	#   - +aliases+:: (+Array+) The aliases array. Defaults to +nil+. If none supplied, no aliasing will be performed.
+	#   - +specifications+:: (+Array+) The specifications array. Defaults to +nil+. If none supplied, no aliasing will be performed.
 	#   - +options+:: An options hash, containing any of the following options.
 	#
 	# * *Options*:
 	#   - +mutate_argv:+:: (+Boolean+) Determines if the library should mutate +argv+. Defaults to +true+. This is essential when using CLASP in conjunction with <tt>$\<</tt>.
 	#
-	def initialize(argv = ARGV, aliases = nil, options = {})
+	def initialize(argv = ARGV, specifications = nil, options = {})
 
 		# have to do this name-swap, as 'options' has CLASP-specific
 		# meaning
@@ -340,11 +340,11 @@ class Arguments
 		argv				=	argv.dup
 		@argv_original_copy	=	argv.dup.freeze
 
-		@aliases	=	aliases
+		@specifications		=	specifications
 
-		aliases		=	nil if aliases and aliases.empty?
+		specifications		=	nil if specifications and specifications.empty?
 
-		flags, options, values = Arguments.parse(argv, aliases)
+		flags, options, values = Arguments.parse(argv, specifications)
 
 		[ flags, options, values ].each do |ar|
 
@@ -403,7 +403,7 @@ class Arguments
 		$0
 	end
 
-	def self.parse(argv, aliases)
+	def self.parse(argv, specifications)
 
 		flags	=	[]
 		options	=	[]
@@ -433,7 +433,7 @@ class Arguments
 					argument_alias	=	nil
 					resolved_name	=	nil
 
-					(aliases || []).each do |a|
+					(specifications || []).each do |a|
 
 						if a.name == given_name or a.aliases.include? given_name
 
@@ -454,7 +454,7 @@ class Arguments
 					end
 
 					# Here we intercept and (potentially) cater to grouped flags
-					if not argument_alias and not value and aliases and 1 == hyphens.size
+					if not argument_alias and not value and specifications and 1 == hyphens.size
 
 						# Must match all
 						flag_aliases = []
@@ -465,10 +465,10 @@ class Arguments
 							flag_alias	=	nil
 
 							# special case where the flag's actual name is short form and found here
-							flag_alias	||=	aliases.detect { |a| a.is_a?(CLASP::FlagAlias) && a.name == new_flag }
+							flag_alias	||=	specifications.detect { |a| a.is_a?(CLASP::FlagSpecification) && a.name == new_flag }
 
-							# if not found as a flag, look in each aliases' aliases
-							flag_alias	||=	aliases.detect { |a| a.aliases.include? new_flag }
+							# if not found as a flag, look in each specifications' aliases
+							flag_alias	||=	specifications.detect { |a| a.aliases.include? new_flag }
 
 							if not flag_alias
 
@@ -489,7 +489,7 @@ class Arguments
 							# convert to argv and invoke
 							flags_argv = flag_aliases.map { |a| a.name }
 
-							grp_flags, grp_options, grp_value = Arguments.parse flags_argv, aliases
+							grp_flags, grp_options, grp_value = Arguments.parse flags_argv, specifications
 
 							grp_flags.map! { |f| FlagArgument.new(arg, index, given_name, f.name, f.argument_alias, hyphens.size, given_label, argument_alias ? argument_alias.extras : nil) }
 							grp_options.map! { |o| OptionArgument.new(arg, index, given_name, o.name, o.argument_alias, hyphens.size, given_label, o.value, argument_alias ? argument_alias.extras : nil) }
@@ -502,7 +502,7 @@ class Arguments
 						end
 					end
 
-					if argument_alias and argument_alias.is_a? CLASP::OptionAlias and not value
+					if argument_alias and argument_alias.is_a? CLASP::OptionSpecification and not value
 
 						want_option_value = true
 						options << OptionArgument.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, nil, argument_alias ? argument_alias.extras : nil)
@@ -544,8 +544,11 @@ class Arguments
 	# Attributes
 
 	public
-	# an immutable array of aliases
-	attr_reader :aliases
+	# an immutable array of specifications
+	attr_reader :specifications
+
+	# [DEPRECATED] Instead refer to +specifications+
+	def aliases; @specifications; end
 
 	# an immutable array of flags
 	attr_reader :flags
@@ -572,18 +575,18 @@ class Arguments
 
 		raise ArgumentError, "options must be nil or Hash - #{option.class} given" unless options.is_a? ::Hash
 
-		aliases	=	options[:aliases] || @aliases
+		specifications	=	options[:aliases] || @specifications
 
-		raise ArgumentError, "aliases may not be nil" if aliases.nil?
+		raise ArgumentError, "specifications may not be nil" if specifications.nil?
 
 		flags.each do |f|
 
-			return f unless aliases.any? { |al| al.is_a?(::CLASP::FlagAlias) && al.name == f.name }
+			return f unless specifications.any? { |al| al.is_a?(::CLASP::FlagSpecification) && al.name == f.name }
 		end
 
 		self.options.each do |o|
 
-			return o unless aliases.any? { |al| al.is_a?(::CLASP::OptionAlias) && al.name == o.name }
+			return o unless specifications.any? { |al| al.is_a?(::CLASP::OptionSpecification) && al.name == o.name }
 		end
 
 		nil

@@ -18,7 +18,7 @@ require 'clasp'
 
 PROGRAM_VERSION = '0.1.2'
 
-Aliases = [
+Specifications = [
 
 	CLASP.Flag('--all', alias: '-a', help: 'processes all item types'),
 	CLASP.Flag('-c', help: 'count the processed items'),
@@ -30,17 +30,17 @@ Aliases = [
 	CLASP::Flag.Version,
 ]
 
-Args = CLASP::Arguments.new(ARGV, Aliases)
+Args = CLASP::Arguments.new(ARGV, Specifications)
 
 Args.flags.each do |f|
 
 	case f.name
 	when CLASP::Flag.Help.name
 
-		CLASP.show_usage(Aliases, exit: 0, values: '<input-file> <output-file>')
+		CLASP.show_usage(Specifications, exit: 0, values: '<input-file> <output-file>')
 	when CLASP::Flag.Version.name
 
-		CLASP.show_version(Aliases, exit: 0, version: PROGRAM_VERSION)
+		CLASP.show_version(Specifications, exit: 0, version: PROGRAM_VERSION)
 	when '--all'
 
 		;

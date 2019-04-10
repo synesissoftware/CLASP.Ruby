@@ -6,7 +6,7 @@ require 'clasp'
 
 require 'test/unit'
 
-class Test_Aliases_1 < Test::Unit::TestCase
+class Test_Specifications_1 < Test::Unit::TestCase
 
 	def test_option_with_two_flag_aliases
 

@@ -4,7 +4,7 @@ $:.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib')
 
 require 'clasp'
 
-Aliases = [
+Specifications = [
 
 	CLASP.Flag('--help', help: 'shows this help and quits'),
 	CLASP.Flag('--version', alias: '-v', help: 'shows this version and quits'),
@@ -12,7 +12,7 @@ Aliases = [
 	CLASP.Option('--verbosity', aliases: %w{ -V --verbose }),
 ]
 
-Args = CLASP::Arguments.new(ARGV, Aliases)
+Args = CLASP::Arguments.new(ARGV, Specifications)
 
 puts
 puts "flags #{Args.flags.size}:"

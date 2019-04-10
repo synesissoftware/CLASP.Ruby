@@ -5,7 +5,7 @@
 # Purpose:      Command-line interface
 #
 # Created:      27th July 2015
-# Updated:      19th March 2019
+# Updated:      10th April 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -64,7 +64,7 @@ module CLI_helpers_
 
 	module Constants
 
-		VALID_ALIAS_TYPES			=	[ FlagAlias, OptionAlias, Alias ]
+		VALID_ALIAS_TYPES			=	[ FlagSpecification, OptionSpecification, Specification ]
 		VALID_ALIAS_TYPES_STRING	=	VALID_ALIAS_TYPES[0...-1].join(', ') + ', or ' + VALID_ALIAS_TYPES[-1].to_s
 	end # module Constants
 
@@ -109,12 +109,12 @@ end # module CLI_helpers_
 
 # :startdoc:
 
-# Displays usage for the program according to the given aliases and options
+# Displays usage for the program according to the given specifications and options
 #
 # === Signature
 #
 # * *Parameters*:
-#   - +aliases+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+.
+#   - +specifications+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+.
 #   - +options+:: An options hash, containing any of the following options.
 #
 # * *Options*:
@@ -125,18 +125,18 @@ end # module CLI_helpers_
 #   - +:values+::                               appends this string to USAGE line if specified.
 #   - +:flags_and_options+::                    inserts a custom string instead of the default string <tt>'[ ... flags and options ... ]'</tt>.
 #   - +:info_lines+::                           inserts 0+ information lines prior to the usage.
-def self.show_usage aliases, options={}
+def self.show_usage specifications, options={}
 
 	options	||=	{}
 
-	raise ArgumentError, "aliases may not be nil" if aliases.nil?
-	raise TypeError, "aliases must be an array or must respond to each, reject and select" unless ::Array === aliases || (aliases.respond_to?(:each) && aliases.respond_to?(:reject) && aliases.respond_to?(:select))
+	raise ArgumentError, "specifications may not be nil" if specifications.nil?
+	raise TypeError, "specifications must be an array or must respond to each, reject and select" unless ::Array === specifications || (specifications.respond_to?(:each) && specifications.respond_to?(:reject) && specifications.respond_to?(:select))
 
 	constants		=	CLI_helpers_::Constants
-	aliases.each { |a| raise ::TypeError, "each element in aliases array must be one of the types #{constants::VALID_ALIAS_TYPES_STRING}" unless constants::VALID_ALIAS_TYPES.any? { |c| c === a } }
+	specifications.each { |a| raise ::TypeError, "each element in specifications array must be one of the types #{constants::VALID_ALIAS_TYPES_STRING}" unless constants::VALID_ALIAS_TYPES.any? { |c| c === a } }
 
 	alias_dups = {}
-	aliases.each { |a| a.aliases.each { |aa| warn "WARNING: alias '#{aa}' is already used for alias '#{a}'" if alias_dups.has_key? aa; alias_dups[aa] = a; } }
+	specifications.each { |a| a.aliases.each { |aa| warn "WARNING: alias '#{aa}' is already used for alias '#{a}'" if alias_dups.has_key? aa; alias_dups[aa] = a; } }
 
 	suppress_blanks	=	options[:suppress_blank_lines_between_options] || ENV['SUPPRESS_BLANK_LINES_BETWEEN_OPTIONS']
 
@@ -173,11 +173,12 @@ def self.show_usage aliases, options={}
 	flags_and_options	=	options[:flags_and_options] || ' [ ... flags and options ... ]'
 	flags_and_options	=	" #{flags_and_options}" if !flags_and_options.empty? && ' ' != flags_and_options[0]
 
-	# sift the aliases to sort out which are value-option aliases (VOAs)
+	# sift the specifications to sort out which are value-option
+	# specifications (VOAs)
 
 	voas			=	{}
 
-	aliases.select { |a| a.name =~ /^-+[a-zA-Z0-3_-]+[=:].+/ }.each do |a|
+	specifications.select { |a| a.name =~ /^-+[a-zA-Z0-3_-]+[=:].+/ }.each do |a|
 
 		a.name =~ /^(-+[a-zA-Z0-3_-]+)[=:](.+)$/
 
@@ -187,30 +188,30 @@ def self.show_usage aliases, options={}
 
 	fas				=	{}
 
-	aliases.select { |a| Alias === a }.each do |a|
+	specifications.select { |a| Specification === a }.each do |a|
 
 		fas[a.name]	=	[] unless fas.has_key? $1
 		fas[a.name]	<<	a
 	end
 
-	aliases			=	aliases.reject { |a| a.name =~ /^-+[a-zA-Z0-3_-]+[=:].+/ }
+	specifications	=	specifications.reject { |a| a.name =~ /^-+[a-zA-Z0-3_-]+[=:].+/ }
 
 	info_lines.each { |info_line| stream.puts info_line } unless info_lines.empty?
 
 	stream.puts "USAGE: #{program_name}#{flags_and_options}#{values}"
 	stream.puts
 
-	unless aliases.empty?
+	unless specifications.empty?
 
 		stream.puts "flags/options:"
 		stream.puts
-		aliases.each do |a|
+		specifications.each do |a|
 
 			case a
-			when Alias
+			when Specification
 
 				next
-			when FlagAlias
+			when FlagSpecification
 
 				if fas.has_key? a.name
 
@@ -222,7 +223,7 @@ def self.show_usage aliases, options={}
 				a.aliases.each { |al| stream.puts "\t#{al}" }
 				stream.puts "\t#{a.name}"
 				stream.puts "\t\t#{a.help}"
-			when OptionAlias
+			when OptionSpecification
 
 				if voas.has_key? a.name
 
@@ -249,12 +250,12 @@ def self.show_usage aliases, options={}
 	exit exit_code if exit_code
 end
 
-# Displays version for the program according to the given aliases and options
+# Displays version for the program according to the given specifications and options
 #
 # === Signature
 #
 # * *Parameters*:
-#   - +aliases+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+.
+#   - +specifications+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+.
 #   - +options+:: An options hash, containing any of the following options.
 #
 # * *Options*:
@@ -267,15 +268,15 @@ end
 #   - +:version_revision+::     a number or string. Only considered if +:version+ is not.
 #   - +:version_build+::        a number or string. Only considered if +:version+ is not.
 #   - +:version_prefix+::       optional string to prefix the version number(s).
-def self.show_version aliases, options = {}
+def self.show_version specifications, options = {}
 
 	options	||=	{}
 
-	raise ArgumentError, "aliases may not be nil" if aliases.nil?
-	raise TypeError, "aliases must be an array or must respond to each, reject and select" unless ::Array === aliases || (aliases.respond_to?(:each) && aliases.respond_to?(:reject) && aliases.respond_to?(:select))
+	raise ArgumentError, "specifications may not be nil" if specifications.nil?
+	raise TypeError, "specifications must be an array or must respond to each, reject and select" unless ::Array === specifications || (specifications.respond_to?(:each) && specifications.respond_to?(:reject) && specifications.respond_to?(:select))
 
 	constants		=	CLI_helpers_::Constants
-	aliases.each { |a| raise ::TypeError, "each element in aliases array must be one of the types #{constants::VALID_ALIAS_TYPES_STRING}" unless constants::VALID_ALIAS_TYPES.any? { |c| c === a } }
+	specifications.each { |a| raise ::TypeError, "each element in specifications array must be one of the types #{constants::VALID_ALIAS_TYPES_STRING}" unless constants::VALID_ALIAS_TYPES.any? { |c| c === a } }
 
 	stream			=	options[:stream] || $stdout
 

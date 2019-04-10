@@ -8,7 +8,7 @@ require 'test/unit'
 
 class Test_Examples < Test::Unit::TestCase
 
-	def test_SimpleCommandLineNoAliases
+	def test_SimpleCommandLineNoSpecifications
 
 		argv = %w{ --show-all=true infile -c outfile }
 
@@ -116,7 +116,7 @@ class Test_Examples < Test::Unit::TestCase
 		assert_equal "outfile", args.values[1]
 	end
 
-	def test_UseOfFlagsAsAliasesForOption
+	def test_UseOfFlagsAsSpecificationsForOption
 
 		aliases = [
 

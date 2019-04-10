@@ -33,26 +33,26 @@ Flag_Debug = CLASP.Flag('--debug', alias: '-d', help: 'runs in Debug mode')
 Option_Verbosity = CLASP.Option('--verbosity', alias: '-v', help: 'specifies the verbosity', values: [ 'terse', 'quiet', 'silent', 'chatty' ])
 Flag_Chatty = CLASP.Flag('--verbosity=chatty', alias: '-c')
 
-Aliases = [
+Specifications = [
 
 	Flag_Debug,
 	Option_Verbosity,
 	Flag_Chatty,
 
-    CLASP::FlagAlias.Help,
-    CLASP::FlagAlias.Version,
+    CLASP::FlagSpecification.Help,
+    CLASP::FlagSpecification.Version,
 ]
 
-args = CLASP::Arguments.new ARGV, Aliases
+args = CLASP::Arguments.new ARGV, Specifications
 
-if args.flags.include?(CLASP::FlagAlias.Help)
+if args.flags.include?(CLASP::FlagSpecification.Help)
 
-    CLASP.show_usage(Aliases, exit_code: 0, version: ProgramVersion, stream: $stdout, info_lines: InfoLines)
+    CLASP.show_usage(Specifications, exit_code: 0, version: ProgramVersion, stream: $stdout, info_lines: InfoLines)
 end
 
 if args.flags.include?('--version')
 
-    CLASP.show_version(Aliases, exit_code: 0, version: ProgramVersion, stream: $stdout)
+    CLASP.show_version(Specifications, exit_code: 0, version: ProgramVersion, stream: $stdout)
 end
 
 

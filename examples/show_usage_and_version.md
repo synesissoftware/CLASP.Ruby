@@ -29,22 +29,22 @@ InfoLines = [
 
 # Specify aliases, parse, and checking standard flags
 
-Aliases = [
+Specifications = [
 
-    CLASP::FlagAlias.Help,
-    CLASP::FlagAlias.Version,
+    CLASP::FlagSpecification.Help,
+    CLASP::FlagSpecification.Version,
 ]
 
-args = CLASP::Arguments.new ARGV, Aliases
+args = CLASP::Arguments.new ARGV, Specifications
 
 if args.flags.include?('--help')
 
-    CLASP.show_usage(Aliases, exit_code: 0, version: ProgramVersion, stream: $stdout, info_lines: InfoLines)
+    CLASP.show_usage(Specifications, exit_code: 0, version: ProgramVersion, stream: $stdout, info_lines: InfoLines)
 end
 
 if args.flags.include?('--version')
 
-    CLASP.show_version(Aliases, exit_code: 0, version: ProgramVersion, stream: $stdout)
+    CLASP.show_version(Specifications, exit_code: 0, version: ProgramVersion, stream: $stdout)
 end
 
 
