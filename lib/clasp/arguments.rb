@@ -6,7 +6,7 @@
 #               CLASP.Ruby
 #
 # Created:      14th February 2014
-# Updated:      11th April 2019
+# Updated:      12th April 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -341,6 +341,7 @@ class Arguments
 		@argv_original_copy	=	argv.dup.freeze
 
 		@specifications		=	specifications
+		@aliases			=	@specifications
 
 		specifications		=	nil if specifications and specifications.empty?
 
@@ -548,7 +549,7 @@ class Arguments
 	attr_reader :specifications
 
 	# [DEPRECATED] Instead refer to +specifications+
-	def aliases; @specifications; end
+	attr_reader :aliases
 
 	# an immutable array of flags
 	attr_reader :flags
@@ -598,8 +599,7 @@ class Arguments
 	# === Signature
 	#
 	# * *Parameters*:
-	#  - +id+:: (String, CLASP::Flag) The name of a flag, or the flag
-	#     itself
+	#  - +id+:: (String, CLASP::Flag) The name of a flag, or the flag itself
 	def find_flag(id)
 
 		flags.each do |flag|
@@ -616,8 +616,7 @@ class Arguments
 	# === Signature
 	#
 	# * *Parameters*:
-	#  - +id+:: (String, CLASP::Flag) The name of a option, or the option
-	#     itself
+	#  - +id+:: (String, CLASP::Flag) The name of a option, or the option itself
 	def find_option(id)
 
 		options.each do |option|

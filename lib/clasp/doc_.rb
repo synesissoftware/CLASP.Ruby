@@ -5,7 +5,7 @@
 # Purpose:      Documentation of the CLASP.Ruby modules
 #
 # Created:      11th June 2016
-# Updated:      11th April 2019
+# Updated:      12th April 2019
 #
 # Home:         http://github.com/synesissoftware/xqsr3
 #
@@ -57,14 +57,23 @@
 #
 #     args = CLASP::Arguments.new(argv)
 #
-#     puts args.flags.size         # => 1
-#     puts args.flags[0]           # => "#<CLASP::Arguments::FlagArgument:0x007fd23aa3aa98 @arg="-c", @given_index=1, @given_name="-c", @argument_alias=nil, @given_hyphens=1, @given_label="c", @name="-c", @extras={}>"
-#     puts args.options.size       # => 1
-#     puts args.options[0]         # => "#<CLASP::Arguments::OptionArgument:0x007fd23aa3aca0 @arg="--show-all=true", @given_index=0, @given_name="--show-all", @argument_alias=nil, @given_hyphens=2, @given_label="show-all", @value="true", @name="--show-all", @extras={}>"
-#     puts args.options[0].value   # => "true"
-#     puts args.values.size        # => 2
-#     puts args.values[0]          # => "infile"
-#     puts args.values[1]          # => "outfile"
+#     puts args.flags.size             # => 1
+#     puts args.flags[0]               # => -c
+#     puts args.flags[0].name          # => -c
+#     puts args.flags[0].inspect       # => #<CLASP::Arguments::FlagArgument:0x007f87e18d4530 @arg="-c", @given_index=2, @given_name="-c", @argument_alias=nil, @given_hyphens=1, @given_label="c", @name="-c", @extras={}>
+#
+#     puts args.options.size           # => 1
+#     puts args.options[0]             # => --show-all=true
+#     puts args.options[0].name        # => --show-all
+#     puts args.options[0].value       # => true
+#     puts args.options[0].inspect     # => #<CLASP::Arguments::OptionArgument:0x007f87e18d4940 @arg="--show-all=true", @given_index=0, @given_name="--show-all", @argument_alias=nil, @given_hyphens=2, @given_label="show-all", @value="true", @name="--show-all", @extras={}>
+#
+#     puts args.values.size            # => 2
+#     puts args.values[0]              # => infile
+#     puts args.values[0].given_index  # => 1
+#     puts args.values[1]              # => outfile
+#     puts args.values[1].given_index  # => 3
+#
 #
 # ==== Use of the special double-slash flag to treat all subsequent arguments as values
 #
@@ -72,13 +81,16 @@
 #
 #     args = CLASP::Arguments.new(argv)
 #
-#     puts args.flags.size         # => 0
-#     puts args.options.size       # => 1
-#     puts args.options[0]         # => "#<CLASP::Arguments::OptionArgument:0x007fd23aa3aca0 @arg="--show-all=true", @given_index=0, @given_name="--show-all", @argument_alias=nil, @given_hyphens=2, @given_label="show-all", @value="true", @name="--show-all", @extras={}>"
-#     puts args.values.size        # => 3
-#     puts args.values[0]          # => "infile"
-#     puts args.values[1]          # => "outfile"
-#     puts args.values[2]          # => "-c"
+#     puts args.flags.size             # => 0
+#
+#     puts args.options.size           # => 1
+#     puts args.options[0]             # => --show-all
+#     puts args.options[0].inspect     # => #<CLASP::Arguments::OptionArgument:0x007fd23aa3aca0 @arg="--show-all=true", @given_index=0, @given_name="--show-all", @argument_alias=nil, @given_hyphens=2, @given_label="show-all", @value="true", @name="--show-all", @extras={}>
+#
+#     puts args.values.size            # => 3
+#     puts args.values[0]              # => infile
+#     puts args.values[1]              # => outfile
+#     puts args.values[2]              # => "-c"
 #
 # ==== Use of flag short forms
 #
@@ -93,8 +105,8 @@
 #     args = CLASP::Arguments.new(argv, specifications)
 #
 #     puts args.flags.size        # => 2
-#     puts args.flags[0].name     # => "--trace-output"
-#     puts args.flags[1].name     # => "--verbose"
+#     puts args.flags[0].name     # => --trace-output
+#     puts args.flags[1].name     # => --verbose
 #     puts args.options.size      # => 0
 #     puts args.values.size       # => 0
 #
@@ -127,17 +139,21 @@
 #     args = CLASP::Arguments.new(argv, specifications)
 #
 #     puts args.flags.size         # => 1
-#     puts args.flags[0]           # => "#<CLASP::Arguments::FlagArgument:0x007f8593b0ddd8 @arg="-c", @given_index=0, @given_name="-c", @argument_alias=nil, @given_hyphens=1, @given_label="c", @name="-c", @extras={}>"
+#     puts args.flags[0]           # => -c
+#     puts args.flags[0].inspect   # => #<CLASP::Arguments::FlagArgument:0x007f8593b0ddd8 @arg="-c", @given_index=0, @given_name="-c", @argument_alias=nil, @given_hyphens=1, @given_label="c", @name="-c", @extras={}>
+#
 #     puts args.options.size       # => 1
-#     puts args.options[0]         # => "#<CLASP::Arguments::OptionArgument:0x007f8593b0db80 @arg="-a", @given_index=1, @given_name="-a", @argument_alias=#<CLASP::OptionArgument:0x007f8593b2ea10 @name="--show-all", @aliases=["-a"], @help=nil, @values_range=[], @default_value=nil, @extras={}>, @given_hyphens=1, @given_label="a", @value="true", @name="--show-all", @extras={}>"
+#     puts args.options[0]         # => --show-all
+#     puts args.options[0].inspect # => "#<CLASP::Arguments::OptionArgument:0x007f8593b0db80 @arg="-a", @given_index=1, @given_name="-a", @argument_alias=#<CLASP::OptionArgument:0x007f8593b2ea10 @name="--show-all", @aliases=["-a"], @help=nil, @values_range=[], @default_value=nil, @extras={}>, @given_hyphens=1, @given_label="a", @value="true", @name="--show-all", @extras={}>"
+#
 #     puts args.values.size        # => 2
-#     puts args.values[0]          # => "infile"
-#     puts args.values[1]          # => "outfile"
+#     puts args.values[0]          # => infile
+#     puts args.values[1]          # => outfile
 #
 # === Classes of interest
 # * ::CLASP::Arguments
-# * ::CLASP::FlagArgument
-# * ::CLASP::OptionArgument
+# * ::CLASP::Arguments::FlagArgument
+# * ::CLASP::Arguments::OptionArgument
 #
 # === Functions of interest
 # * ::CLASP.show_version()
@@ -148,4 +164,5 @@ module CLASP
 end # module CLASP
 
 # ############################## end of file ############################# #
+
 
