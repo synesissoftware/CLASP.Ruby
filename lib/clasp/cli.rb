@@ -5,7 +5,7 @@
 # Purpose:      Command-line interface
 #
 # Created:      27th July 2015
-# Updated:      11th April 2019
+# Updated:      12th April 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -113,11 +113,11 @@ end # module CLI_helpers_
 #
 # === Signature
 #
-# * *Parameters*:
+# * *Parameters:*
 #   - +specifications+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+.
 #   - +options+:: An options hash, containing any of the following options.
 #
-# * *Options*:
+# * *Options:*
 #   - +:exit+::                                 a program exit code; <tt>exit()</tt> not called if not specified (or +nil+).
 #   - +:program_name+::                         program name; inferred from <tt>$0</tt> if not specified.
 #   - +:stream+::                               output stream; <tt>$stdout</tt> if not specified.
@@ -254,11 +254,11 @@ end
 #
 # === Signature
 #
-# * *Parameters*:
+# * *Parameters:*
 #   - +specifications+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+.
 #   - +options+:: An options hash, containing any of the following options.
 #
-# * *Options*:
+# * *Options:*
 #   - +:exit+::                 a program exit code; <tt>exit()</tt> not called if not specified (or +nil+).
 #   - +:program_name+::         program name; inferred from <tt>$0</tt> if not specified.
 #   - +:stream+::               output stream; <tt>$stdout</tt> if not specified.

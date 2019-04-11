@@ -194,12 +194,12 @@ class Arguments
 	#
 	# === Signature
 	#
-	# * *Parameters*:
+	# * *Parameters:*
 	#   - +argv+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+.
 	#   - +source+:: (+Hash+, +IO+) The arguments specification, either as a Hash or an instance of an IO-implementing type containing a YAML specification.
 	#   - +options+:: An options hash, containing any of the following options.
 	#
-	# * *Options*:
+	# * *Options:*
 	#   - +mutate_argv:+:: (+Boolean+) Determines if the library should mutate +argv+. Defaults to +true+. This is essential when using CLASP in conjunction with <tt>$\<</tt>.
 	#
 	def self.load(argv, source, options = {})
@@ -318,12 +318,12 @@ class Arguments
 	#
 	# === Signature
 	#
-	# * *Parameters*:
+	# * *Parameters:*
 	#   - +argv+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+.
 	#   - +specifications+:: (+Array+) The specifications array. Defaults to +nil+. If none supplied, no aliasing will be performed.
 	#   - +options+:: An options hash, containing any of the following options.
 	#
-	# * *Options*:
+	# * *Options:*
 	#   - +mutate_argv:+:: (+Boolean+) Determines if the library should mutate +argv+. Defaults to +true+. This is essential when using CLASP in conjunction with <tt>$\<</tt>.
 	#
 	def initialize(argv = ARGV, specifications = nil, options = {})
@@ -598,7 +598,7 @@ class Arguments
 	#
 	# === Signature
 	#
-	# * *Parameters*:
+	# * *Parameters:*
 	#  - +id+:: (String, CLASP::Flag) The name of a flag, or the flag itself
 	def find_flag(id)
 
@@ -615,7 +615,7 @@ class Arguments
 	#
 	# === Signature
 	#
-	# * *Parameters*:
+	# * *Parameter:*
 	#  - +id+:: (String, CLASP::Flag) The name of a option, or the option itself
 	def find_option(id)
 
