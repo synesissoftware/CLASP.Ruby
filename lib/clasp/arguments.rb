@@ -6,7 +6,7 @@
 #               CLASP.Ruby
 #
 # Created:      14th February 2014
-# Updated:      12th April 2019
+# Updated:      13th April 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -63,9 +63,9 @@ class Arguments
 
 	#:stopdoc:
 	private
-	class FlagArgument #:nodoc: all
+	class FlagArgument # :nodoc: all
 
-		#:nodoc:
+		# :nodoc:
 		def initialize(arg, given_index, given_name, resolved_name, argument_alias, given_hyphens, given_label, extras)
 
 			@arg			=	arg
@@ -86,13 +86,13 @@ class Arguments
 		attr_reader :name
 		attr_reader :extras
 
-		#:nodoc:
+		# :nodoc:
 		def to_s
 
 			@name
 		end
 
-		#:nodoc:
+		# :nodoc:
 		def eql?(rhs)
 
 			return false if rhs.nil?
@@ -103,7 +103,7 @@ class Arguments
 			false
 		end
 
-		#:nodoc:
+		# :nodoc:
 		def ==(rhs)
 
 			return false if rhs.nil?
@@ -114,16 +114,16 @@ class Arguments
 			eql? rhs
 		end
 
-		#:nodoc:
+		# :nodoc:
 		def hash
 
 			@arg.hash
 		end
 	end
 
-	class OptionArgument #:nodoc: all
+	class OptionArgument # :nodoc: all
 
-		#:nodoc:
+		# :nodoc:
 		def initialize(arg, given_index, given_name, resolved_name, argument_alias, given_hyphens, given_label, value, extras)
 
 			@arg			=	arg
@@ -146,7 +146,7 @@ class Arguments
 		attr_reader :value
 		attr_reader :extras
 
-		#:nodoc:
+		# :nodoc:
 		def eql?(rhs)
 
 			return false if rhs.nil?
@@ -157,7 +157,7 @@ class Arguments
 			false
 		end
 
-		#:nodoc:
+		# :nodoc:
 		def ==(rhs)
 
 			return false if rhs.nil?
@@ -168,13 +168,13 @@ class Arguments
 			eql? rhs
 		end
 
-		#:nodoc:
+		# :nodoc:
 		def hash
 
 			@arg.hash
 		end
 
-		#:nodoc:
+		# :nodoc:
 		def to_s
 
 			"#{name}=#{value}"
@@ -195,14 +195,30 @@ class Arguments
 	# === Signature
 	#
 	# * *Parameters:*
-	#   - +argv+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+.
-	#   - +source+:: (+Hash+, +IO+) The arguments specification, either as a Hash or an instance of an IO-implementing type containing a YAML specification.
-	#   - +options+:: An options hash, containing any of the following options.
+	#   - +argv+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+
+	#   - +source+:: (+Hash+, +IO+) The arguments specification, either as a Hash or an instance of an IO-implementing type containing a YAML specification
+	#   - +options+:: An options hash, containing any of the following options
 	#
 	# * *Options:*
-	#   - +mutate_argv:+:: (+Boolean+) Determines if the library should mutate +argv+. Defaults to +true+. This is essential when using CLASP in conjunction with <tt>$\<</tt>.
+	#   - +mutate_argv:+:: (+Boolean+) Determines if the library should mutate +argv+. Defaults to +true+. This is essential when using CLASP in conjunction with <tt>$\<</tt>
 	#
-	def self.load(argv, source, options = {})
+	def self.load(argv, source, options = {}) # :yields: An instance of +CLASP::Arguments+
+
+		options ||= {}
+
+		specs = load_specifications(source, options)
+
+		self.new argv, specs, options
+	end
+
+	# Loads the specifications as specified by +source+, according to the given parameters
+	#
+	# === Signature
+	#
+	# * *Parameters:*
+	#   - +source+:: (+Hash+, +IO+) The arguments specification, either as a Hash or an instance of an IO-implementing type containing a YAML specification
+	#   - +options+:: An options hash, containing any of the following options
+	def self.load_specifications(source, options = {}) # :yields: An array of specification instances
 
 		options ||= {}
 
@@ -226,7 +242,7 @@ class Arguments
 			end
 		end
 
-		specifications	=	[]
+		specs	=	[]
 
 		_clasp	=	h['clasp'] or raise ArgumentError, "missing top-level 'clasp' element in load configuration"
 		::Hash === _clasp or raise ArgumentError, "top-level 'clasp' element must be a #{::Hash}"
@@ -257,7 +273,7 @@ class Arguments
 							_aliases	=	_details['aliases']
 							_help		=	_details['help'] || _details['description']
 
-							specifications << CLASP.Flag(_name, alias: _alias, aliases: _aliases, help: _help)
+							specs << CLASP.Flag(_name, alias: _alias, aliases: _aliases, help: _help)
 						end
 					when 'option', :option
 
@@ -276,7 +292,7 @@ class Arguments
 							_required_message	=	_details['required_message']
 							_values_range		=	_details['values_range'] || _details['values']
 
-							specifications << CLASP.Option(_name, alias: _alias, aliases: _aliases, default_value: _default_value, help: _help, required: _required, required_message: _required_message, values_range: _values_range)
+							specs << CLASP.Option(_name, alias: _alias, aliases: _aliases, default_value: _default_value, help: _help, required: _required, required_message: _required_message, values_range: _values_range)
 						end
 					when 'alias', :alias
 
@@ -295,7 +311,7 @@ class Arguments
 								warn "alias specification missing required 'alias' or 'aliases' field"
 							else
 
-								specifications << CLASP.Flag(_resolved, alias: _alias, aliases: _aliases)
+								specs << CLASP.Flag(_resolved, alias: _alias, aliases: _aliases)
 							end
 						end
 					else
@@ -309,7 +325,7 @@ class Arguments
 			end
 		end
 
-		self.new argv, specifications, options
+		specs
 	end
 
 	# Constructs an instance of the class, according to the given parameters
@@ -319,12 +335,12 @@ class Arguments
 	# === Signature
 	#
 	# * *Parameters:*
-	#   - +argv+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+.
-	#   - +specifications+:: (+Array+) The specifications array. Defaults to +nil+. If none supplied, no aliasing will be performed.
-	#   - +options+:: An options hash, containing any of the following options.
+	#   - +argv+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+
+	#   - +specifications+:: (+Array+) The specifications array. Defaults to +nil+. If none supplied, no aliasing will be performed
+	#   - +options+:: An options hash, containing any of the following options
 	#
 	# * *Options:*
-	#   - +mutate_argv:+:: (+Boolean+) Determines if the library should mutate +argv+. Defaults to +true+. This is essential when using CLASP in conjunction with <tt>$\<</tt>.
+	#   - +mutate_argv:+:: (+Boolean+) Determines if the library should mutate +argv+. Defaults to +true+. This is essential when using CLASP in conjunction with <tt>$\<</tt>
 	#
 	def initialize(argv = ARGV, specifications = nil, options = {})
 

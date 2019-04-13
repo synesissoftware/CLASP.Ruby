@@ -5,7 +5,7 @@
 # Purpose:      Argument specification classes
 #
 # Created:      25th October 2014
-# Updated:      10th April 2019
+# Updated:      13th April 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -65,10 +65,10 @@ class FlagSpecification
 	# === Signature
 	#
 	# * *Parameters*
-	#   - +name+:: (+String+) The name, or long-form, of the flag.
-	#   - +aliases+:: (+Array+) 0 or more strings specifying short-form or option-value aliases.
-	#   - +help+:: (+String+) The help string, which may be +nil+.
-	#   - +extras+:: An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+.
+	#   - +name+:: (+String+) The name, or long-form, of the flag
+	#   - +aliases+:: (+Array+) 0 or more strings specifying short-form or option-value aliases
+	#   - +help+:: (+String+) The help string, which may be +nil+
+	#   - +extras+:: An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+
 	def initialize(name, aliases, help, extras = nil)
 
 		@name			=	name
@@ -90,6 +90,41 @@ class FlagSpecification
 	def to_s
 
 		"{#{name}; aliases=#{aliases.join(', ')}; help='#{help}'; extras=#{extras}}"
+	end
+
+	def eql? rhs # :nodoc:
+
+		case rhs
+		when self.class
+
+			;
+		else
+
+			return false
+		end
+
+		return false unless name == rhs.name
+		return false unless aliases == rhs.aliases
+		return false unless help == rhs.help
+		return false unless extras == rhs.extras
+
+		return true
+	end
+
+	# Compares instance against another FlagSpecification or against a name (String)
+	def == rhs
+
+		case rhs
+		when self.class
+
+			return self.eql? rhs
+		when String
+
+			return name == rhs
+		else
+
+			false
+		end
 	end
 
   private
@@ -126,11 +161,11 @@ class OptionSpecification
 	# === Signature
 	#
 	# * *Parameters*
-	#   - +name+:: (+String+) The name, or long-form, of the option.
-	#   - +aliases+:: (+Array+) 0 or more strings specifying short-form or option-value aliases.
-	#   - +help+:: (+String+) The help string, which may be +nil+.
-	#   - +values_range+:: (+Array+) 0 or more strings specifying values supported by the option.
-	#   - +default_value+:: (+String+) The default value of the option. May be +nil+.
+	#   - +name+:: (+String+) The name, or long-form, of the option
+	#   - +aliases+:: (+Array+) 0 or more strings specifying short-form or option-value aliases
+	#   - +help+:: (+String+) The help string, which may be +nil+
+	#   - +values_range+:: (+Array+) 0 or more strings specifying values supported by the option
+	#   - +default_value+:: (+String+) The default value of the option. May be +nil+
 	#   - +required+:: [boolean] Whether the option is required. May be
 	#     +nil+
 	#   - +required_message+:: [::String] Message to be used when reporting
@@ -139,7 +174,7 @@ class OptionSpecification
 	#     usage". If begins with the nul character ("\0"), then is used in
 	#     the place of the <option-name> and placed into the rest of the
 	#     standard form message
-	#   - +extras+:: An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+.
+	#   - +extras+:: An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+
 	def initialize(name, aliases, help, values_range, default_value, required, required_message, extras = nil)
 
 		@name				=	name
@@ -194,6 +229,45 @@ class OptionSpecification
 	def to_s
 
 		"{#{name}; aliases=#{aliases.join(', ')}; values_range=[ #{values_range.join(', ')} ]; default_value='#{default_value}'; help='#{help}'; required?=#{required?}; extras=#{extras}}"
+	end
+
+	def eql? rhs # :nodoc:
+
+		case rhs
+		when self.class
+
+			;
+		else
+
+			return false
+		end
+
+		return false unless name == rhs.name
+		return false unless aliases == rhs.aliases
+		return false unless help == rhs.help
+		return false unless values_range == rhs.values_range
+		return false unless default_value == rhs.default_value
+		return false unless required == rhs.required
+		return false unless required_message == rhs.required_message
+		return false unless extras == rhs.extras
+
+		return true
+	end
+
+	# Compares instance against another OptionSpecification or against a name (String)
+	def == rhs
+
+		case rhs
+		when self.class
+
+			return self.eql? rhs
+		when String
+
+			return name == rhs
+		else
+
+			false
+		end
 	end
 end
 

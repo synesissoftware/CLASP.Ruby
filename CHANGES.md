@@ -1,5 +1,11 @@
 # **CLASP.Ruby** Changes
 
+## 0.19.0 - 13th April 2019
+
+* + added CLASP::Arguments.load_specifications(), which allows to load argument-specifications from Hash or from YAML
+* ~ CLASP::Arguments.load() now implemented in terms of CLASP::Arguments.load_specifications()
+* + CLASP::FlagSpecification and CLASP::OptionSpecification classes now compare against name (String) in ==()
+
 ## 0.18.0 - 10th April 2019
 
 * ~ changed *Alias classes to *Specification
