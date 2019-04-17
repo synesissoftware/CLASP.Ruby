@@ -1,4 +1,4 @@
-# CLASP.Ruby Example - **show_usage_and_version**
+# CLASP.Ruby Example - **flag_and_option_specifications**
 
 ## Summary
 

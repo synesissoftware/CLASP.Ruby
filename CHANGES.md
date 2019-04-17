@@ -9,7 +9,7 @@
 ## 0.18.0 - 10th April 2019
 
 * ~ changed *Alias classes to *Specification
-* ~ CLASP:Arguments#aliases attribute is now changed to #specifications, and a [DEPRECATED] #aliases added
+* ~ CLASP::Arguments#aliases attribute is now changed to #specifications, and a [DEPRECATED] #aliases added
 
 ## 0.17.0 - 10th April 2019
 
