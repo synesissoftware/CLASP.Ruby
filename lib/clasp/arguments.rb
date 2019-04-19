@@ -6,7 +6,7 @@
 #               CLASP.Ruby
 #
 # Created:      14th February 2014
-# Updated:      13th April 2019
+# Updated:      19th April 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -63,48 +63,47 @@ class Arguments
 
 	#:stopdoc:
 	private
+	# @!visibility private
 	class FlagArgument # :nodoc: all
 
-		# :nodoc:
-		def initialize(arg, given_index, given_name, resolved_name, argument_alias, given_hyphens, given_label, extras)
+		def initialize(arg, given_index, given_name, resolved_name, argument_spec, given_hyphens, given_label, extras) # :nodoc:
 
-			@arg			=	arg
-			@given_index	=	given_index
-			@given_name		=	given_name
-			@argument_alias	=	argument_alias
-			@given_hyphens	=	given_hyphens
-			@given_label	=	given_label
-			@name			=	resolved_name || given_name
-			@extras			=	extras.nil? ? {} : extras
+			@arg					=	arg
+			@given_index			=	given_index
+			@given_name				=	given_name
+			@argument_specification	=	argument_spec
+			@given_hyphens			=	given_hyphens
+			@given_label			=	given_label
+			@name					=	resolved_name || given_name
+			@extras					=	extras.nil? ? {} : extras
 		end
 
 		attr_reader :given_index
 		attr_reader :given_name
-		attr_reader :argument_alias
+		attr_reader :argument_specification
 		attr_reader :given_hyphens
 		attr_reader :given_label
 		attr_reader :name
 		attr_reader :extras
 
-		# :nodoc:
-		def to_s
+		def argument_alias; @argument_specification; end # :nodoc:
+
+		def to_s # :nodoc:
 
 			@name
 		end
 
-		# :nodoc:
-		def eql?(rhs)
+		def eql?(rhs) # :nodoc:
 
 			return false if rhs.nil?
 
 			# check name and aliases
 			return true if @name == rhs
-			return argument_alias.aliases.include? rhs if argument_alias
+			return argument_specification.aliases.include? rhs if argument_specification
 			false
 		end
 
-		# :nodoc:
-		def ==(rhs)
+		def ==(rhs) # :nodoc:
 
 			return false if rhs.nil?
 			if not rhs.instance_of? String
@@ -114,51 +113,50 @@ class Arguments
 			eql? rhs
 		end
 
-		# :nodoc:
-		def hash
+		def hash # :nodoc:
 
 			@arg.hash
 		end
 	end
 
+	# @!visibility private
 	class OptionArgument # :nodoc: all
 
-		# :nodoc:
-		def initialize(arg, given_index, given_name, resolved_name, argument_alias, given_hyphens, given_label, value, extras)
+		def initialize(arg, given_index, given_name, resolved_name, argument_spec, given_hyphens, given_label, value, extras) # :nodoc:
 
-			@arg			=	arg
-			@given_index	=	given_index
-			@given_name		=	given_name
-			@argument_alias	=	argument_alias
-			@given_hyphens	=	given_hyphens
-			@given_label	=	given_label
-			@value			=	value
-			@name			=	resolved_name || given_name
-			@extras			=	extras.nil? ? {} : extras
+			@arg					=	arg
+			@given_index			=	given_index
+			@given_name				=	given_name
+			@argument_specification	=	argument_spec
+			@given_hyphens			=	given_hyphens
+			@given_label			=	given_label
+			@value					=	value
+			@name					=	resolved_name || given_name
+			@extras					=	extras.nil? ? {} : extras
 		end
 
 		attr_reader :given_index
 		attr_reader :given_name
-		attr_reader :argument_alias
+		attr_reader :argument_specification
 		attr_reader :given_hyphens
 		attr_reader :given_label
 		attr_reader :name
 		attr_reader :value
 		attr_reader :extras
 
-		# :nodoc:
-		def eql?(rhs)
+		def argument_alias; @argument_specification; end # :nodoc:
+
+		def eql?(rhs) # :nodoc:
 
 			return false if rhs.nil?
 
 			# check name and aliases
 			return true if @name == rhs
-			return argument_alias.aliases.include? rhs if argument_alias
+			return argument_specification.aliases.include? rhs if argument_specification
 			false
 		end
 
-		# :nodoc:
-		def ==(rhs)
+		def ==(rhs) # :nodoc:
 
 			return false if rhs.nil?
 			if not rhs.instance_of? String
@@ -168,14 +166,12 @@ class Arguments
 			eql? rhs
 		end
 
-		# :nodoc:
-		def hash
+		def hash # :nodoc:
 
 			@arg.hash
 		end
 
-		# :nodoc:
-		def to_s
+		def to_s # :nodoc:
 
 			"#{name}=#{value}"
 		end
@@ -415,12 +411,14 @@ class Arguments
 	end
 
 	private
-	def self.derive_program_name_
+	# @!visibility private
+	def self.derive_program_name_ # :nodoc:
 
 		$0
 	end
 
-	def self.parse(argv, specifications)
+	# @!visibility private
+	def self.parse(argv, specifications) # :nodoc:
 
 		flags	=	[]
 		options	=	[]
@@ -447,14 +445,14 @@ class Arguments
 					given_label		=	$2
 					given_name		=	"#$1#$2"
 					value			=	($' and not $'.empty?) ? $'[1 ... $'.size] : nil
-					argument_alias	=	nil
+					argument_spec	=	nil
 					resolved_name	=	nil
 
 					(specifications || []).each do |a|
 
 						if a.name == given_name or a.aliases.include? given_name
 
-							argument_alias	=	a
+							argument_spec	=	a
 							resolved_name	=	a.name
 
 							# need to check whether the alias is a default-option
@@ -471,7 +469,7 @@ class Arguments
 					end
 
 					# Here we intercept and (potentially) cater to grouped flags
-					if not argument_alias and not value and specifications and 1 == hyphens.size
+					if not argument_spec and not value and specifications and 1 == hyphens.size
 
 						# Must match all
 						flag_aliases = []
@@ -508,8 +506,8 @@ class Arguments
 
 							grp_flags, grp_options, grp_value = Arguments.parse flags_argv, specifications
 
-							grp_flags.map! { |f| FlagArgument.new(arg, index, given_name, f.name, f.argument_alias, hyphens.size, given_label, argument_alias ? argument_alias.extras : nil) }
-							grp_options.map! { |o| OptionArgument.new(arg, index, given_name, o.name, o.argument_alias, hyphens.size, given_label, o.value, argument_alias ? argument_alias.extras : nil) }
+							grp_flags.map! { |f| FlagArgument.new(arg, index, given_name, f.name, f.argument_specification, hyphens.size, given_label, argument_spec ? argument_spec.extras : nil) }
+							grp_options.map! { |o| OptionArgument.new(arg, index, given_name, o.name, o.argument_specification, hyphens.size, given_label, o.value, argument_spec ? argument_spec.extras : nil) }
 
 							flags.push(*grp_flags)
 							options.push(*grp_options)
@@ -519,18 +517,18 @@ class Arguments
 						end
 					end
 
-					if argument_alias and argument_alias.is_a? CLASP::OptionSpecification and not value
+					if argument_spec and argument_spec.is_a? CLASP::OptionSpecification and not value
 
 						want_option_value = true
-						options << OptionArgument.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, nil, argument_alias ? argument_alias.extras : nil)
+						options << OptionArgument.new(arg, index, given_name, resolved_name, argument_spec, hyphens.size, given_label, nil, argument_spec ? argument_spec.extras : nil)
 					elsif value
 
 						want_option_value = false
-						options << OptionArgument.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, value, argument_alias ? argument_alias.extras : nil)
+						options << OptionArgument.new(arg, index, given_name, resolved_name, argument_spec, hyphens.size, given_label, value, argument_spec ? argument_spec.extras : nil)
 					else
 
 						want_option_value = false
-						flags << FlagArgument.new(arg, index, given_name, resolved_name, argument_alias, hyphens.size, given_label, argument_alias ? argument_alias.extras : nil)
+						flags << FlagArgument.new(arg, index, given_name, resolved_name, argument_spec, hyphens.size, given_label, argument_spec ? argument_spec.extras : nil)
 					end
 
 					next
@@ -582,8 +580,8 @@ class Arguments
 	# unchanged copy of the original array of arguments passed to new
 	attr_reader :argv_original_copy
 
+	# (String) The program name
 	attr_reader :program_name
-
 
 	# finds the first unknown flag or option; +nil+ if all used
 	def find_first_unknown options = {}
@@ -646,8 +644,8 @@ class Arguments
 	# #################################################################### #
 	# backwards-compatible
 
-	Flag	=	FlagArgument
-	Option	=	OptionArgument
+	Flag	=	FlagArgument	# :nodoc:
+	Option	=	OptionArgument	# :nodoc:
 end
 
 # ######################################################################## #
@@ -656,4 +654,5 @@ end
 end # module CLASP
 
 # ############################## end of file ############################# #
+
 
