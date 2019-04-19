@@ -357,7 +357,7 @@ class Arguments
 
 		specifications		=	nil if specifications and specifications.empty?
 
-		flags, options, values = Arguments.parse(argv, specifications)
+		flags, options, values = Arguments.parse_(argv, specifications)
 
 		[ flags, options, values ].each do |ar|
 
@@ -394,7 +394,6 @@ class Arguments
 		@options	=	options.freeze
 		@values		=	values.freeze
 
-
 		# do argv-mutation, if required
 		if init_opts[:mutate_argv]
 
@@ -418,7 +417,7 @@ class Arguments
 	end
 
 	# @!visibility private
-	def self.parse(argv, specifications) # :nodoc:
+	def self.parse_(argv, specifications) # :nodoc:
 
 		flags	=	[]
 		options	=	[]
@@ -504,7 +503,7 @@ class Arguments
 							# convert to argv and invoke
 							flags_argv = flag_aliases.map { |a| a.name }
 
-							grp_flags, grp_options, grp_value = Arguments.parse flags_argv, specifications
+							grp_flags, grp_options, grp_value = Arguments.parse_(flags_argv, specifications)
 
 							grp_flags.map! { |f| FlagArgument.new(arg, index, given_name, f.name, f.argument_specification, hyphens.size, given_label, argument_spec ? argument_spec.extras : nil) }
 							grp_options.map! { |o| OptionArgument.new(arg, index, given_name, o.name, o.argument_specification, hyphens.size, given_label, o.value, argument_spec ? argument_spec.extras : nil) }
@@ -552,7 +551,6 @@ class Arguments
 		end
 
 		return flags, options, values
-
 	end
 
 	# ######################
@@ -646,7 +644,7 @@ class Arguments
 
 	Flag	=	FlagArgument	# :nodoc:
 	Option	=	OptionArgument	# :nodoc:
-end
+end # class Arguments
 
 # ######################################################################## #
 # module
