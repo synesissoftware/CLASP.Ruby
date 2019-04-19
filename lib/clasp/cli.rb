@@ -60,45 +60,49 @@ module CLASP
 =end
 
 # :stopdoc:
-module CLI_helpers_
 
-	module Constants
+# @!visibility private
+module CLI_helpers_ # :nodoc: all
 
+	# @!visibility private
+	module Constants # :nodoc: all
+
+		# @!visibility private
 		VALID_ALIAS_TYPES			=	[ FlagSpecification, OptionSpecification, AliasSpecification ]
+		# @!visibility private
 		VALID_ALIAS_TYPES_STRING	=	VALID_ALIAS_TYPES[0...-1].join(', ') + ', or ' + VALID_ALIAS_TYPES[-1].to_s
 	end # module Constants
 
-# :nodoc:
-def self.generate_version_string_ options
+	# @!visibility private
+	def self.generate_version_string_ options # :nodoc:
 
-	program_name	=	options[:program_name] || File.basename($0)
+		program_name	=	options[:program_name] || File.basename($0)
 
-	version_prefix	=	options[:version_prefix]
+		version_prefix	=	options[:version_prefix]
 
-	if options[:version]
+		if options[:version]
 
-		case	options[:version]
-		when	::Array
-			version	=	options[:version].join('.')
+			case	options[:version]
+			when	::Array
+				version	=	options[:version].join('.')
+			else
+				version = options[:version]
+			end
 		else
-			version = options[:version]
+
+			version_major	=	options[:version_major] or raise ArgumentError, "options must specify :version or :version_major [ + :version_minor [ + :version_revision [ + :version_build ]]]"
+			version_minor	=	options[:version_minor]
+			version_rev		=	options[:version_revision]
+			version_build	=	options[:version_build]
+
+			version			=	version_major.to_s
+			version			+=	".#{version_minor}" if version_minor
+			version			+=	".#{version_rev}" if version_rev
+			version			+=	".#{version_build}" if version_build
 		end
-	else
 
-		version_major	=	options[:version_major] or raise ArgumentError, "options must specify :version or :version_major [ + :version_minor [ + :version_revision [ + :version_build ]]]"
-		version_minor	=	options[:version_minor]
-		version_rev		=	options[:version_revision]
-		version_build	=	options[:version_build]
-
-		version			=	version_major.to_s
-		version			+=	".#{version_minor}" if version_minor
-		version			+=	".#{version_rev}" if version_rev
-		version			+=	".#{version_build}" if version_build
+		"#{program_name} #{version_prefix}#{version}"
 	end
-
-	"#{program_name} #{version_prefix}#{version}"
-end
-
 end # module CLI_helpers_
 
 # ######################################################################## #
