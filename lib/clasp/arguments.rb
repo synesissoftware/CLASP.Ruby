@@ -470,12 +470,12 @@ class Arguments
 					argument_spec	=	nil
 					resolved_name	=	nil
 
-					(specifications || []).each do |a|
+					(specifications || []).each do |s|
 
-						if a.name == given_name or a.aliases.include? given_name
+						if s.name == given_name or s.aliases.include? given_name
 
-							argument_spec	=	a
-							resolved_name	=	a.name
+							argument_spec	=	s
+							resolved_name	=	s.name
 
 							# need to check whether the alias is a default-option
 							# and, if so, expand out its name and value, and replace
@@ -502,10 +502,10 @@ class Arguments
 							flag_alias	=	nil
 
 							# special case where the flag's actual name is short form and found here
-							flag_alias	||=	specifications.detect { |a| a.is_a?(CLASP::FlagSpecification) && a.name == new_flag }
+							flag_alias	||=	specifications.detect { |s| s.is_a?(CLASP::FlagSpecification) && s.name == new_flag }
 
 							# if not found as a flag, look in each specifications' aliases
-							flag_alias	||=	specifications.detect { |a| a.aliases.include? new_flag }
+							flag_alias	||=	specifications.detect { |s| s.aliases.include? new_flag }
 
 							if not flag_alias
 
@@ -524,7 +524,7 @@ class Arguments
 							# infinite recursion
 
 							# convert to argv and invoke
-							flags_argv = flag_aliases.map { |a| a.name }
+							flags_argv = flag_aliases.map { |s| s.name }
 
 							grp_flags, grp_options, grp_value = Arguments.parse_(flags_argv, specifications)
 
