@@ -62,7 +62,7 @@ module CLASP
 class Arguments
 
 	# Class that represents a parsed flag
-	class FlagArgument # :nodoc: all
+	class FlagArgument
 
 		# @!visibility private
 		#
@@ -132,7 +132,7 @@ class Arguments
 	end
 
 	# Class that represents a parsed option
-	class OptionArgument # :nodoc: all
+	class OptionArgument
 
 		# @!visibility private
 		#
