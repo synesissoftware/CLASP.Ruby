@@ -28,7 +28,27 @@ class Test_DefaultValue < Test::Unit::TestCase
 		assert_nil option0.value
 	end
 
-	def test_long_form_with_default
+	def test_long_form_with_default_empty_value
+
+		specifications	=	[
+
+			CLASP.Option('--verbosity', values: [ 'silent', 'terse', 'normal', 'chatty', 'verbose' ], default_value: 'normal')
+		]
+
+		argv	=	[ '--verbosity=' ]
+		args	=	CLASP::Arguments.new(argv, specifications)
+
+		assert_equal 0, args.flags.size
+		assert_equal 1, args.options.size
+		assert_equal 0, args.values.size
+
+		option0	=	args.options[0]
+
+		assert_equal '--verbosity', option0.name
+		assert_equal 'normal', option0.value
+	end
+
+	def test_long_form_with_default_missing_value
 
 		specifications	=	[
 

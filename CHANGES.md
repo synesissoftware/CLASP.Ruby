@@ -1,5 +1,9 @@
 # **CLASP.Ruby** Changes
 
+## 0.20.3 19th April 2019
+
+* ~ fix inconsistency in handling ``default_value`` behaviour
+
 ## 0.20.2 19th April 2019
 
 * ~ restoring Ruby 1.9.3 compatibility

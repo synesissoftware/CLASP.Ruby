@@ -201,4 +201,19 @@ verbosity is specified as: chatty
 Debug mode is specified
 ```
 
+### Utilise the default value for verbosity
+
+If executed with the arguments
+
+```
+    ruby examples/flag_and_option_specifications.rb -d --verbosity=
+```
+
+it gives the output:
+
+```
+verbosity is specified as: terse
+Debug mode is specified
+```
+
 

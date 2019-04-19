@@ -144,7 +144,7 @@ class Arguments
 
 			actual_value			=	value
 
-			if value.nil? && argument_spec
+			if (value || '').empty? && argument_spec
 
 				actual_value = argument_spec.default_value
 			end
