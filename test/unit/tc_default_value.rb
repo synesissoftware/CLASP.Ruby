@@ -6,8 +6,6 @@ require 'clasp'
 
 require 'test/unit'
 
-require 'xqsr3/extensions/test/unit'
-
 class Test_DefaultValue < Test::Unit::TestCase
 
 	def test_long_form_without_default

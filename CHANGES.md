@@ -1,5 +1,9 @@
 # **CLASP.Ruby** Changes
 
+## 0.20.2 19th April 2019
+
+* ~ restoring Ruby 1.9.3 compatibility
+
 ## 0.20.1.1 20th April 2019
 
 * ~ documentation improvements

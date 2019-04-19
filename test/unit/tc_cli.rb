@@ -2,6 +2,8 @@
 
 $:.unshift File.join(File.dirname(__FILE__), '../..', 'lib')
 
+if RUBY_VERSION >= '2'
+
 require 'clasp'
 
 require 'test/unit'
@@ -19,4 +21,6 @@ class Test_CLI < Test::Unit::TestCase
 		assert_raise_with_message(::TypeError, /each element in (?:aliases|specifications) array must be one of the types CLASP::FlagSpecification, CLASP::OptionSpecification, or CLASP::AliasSpecification/) { CLASP.show_version([ 'abc', :def ]) }
 	end
 end
+
+end # RUBY_VERSION
 

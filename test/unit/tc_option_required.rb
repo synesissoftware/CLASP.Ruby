@@ -17,7 +17,7 @@ class Test_Option_required < Test::Unit::TestCase
 		assert_equal [], o.values_range
 		assert_equal nil, o.default_value
 		assert_equal ({}), o.extras
-		assert_false o.required?
+		assert !o.required?
 		assert_equal "'--verbose' not specified; use --help for usage", o.required_message
 	end
 
@@ -30,7 +30,7 @@ class Test_Option_required < Test::Unit::TestCase
 		assert_equal [], o.values_range
 		assert_equal nil, o.default_value
 		assert_equal ({}), o.extras
-		assert_false o.required?
+		assert !o.required?
 		assert_equal "Verbosity not specified; use --help for usage", o.required_message
 	end
 
@@ -43,7 +43,7 @@ class Test_Option_required < Test::Unit::TestCase
 		assert_equal [], o.values_range
 		assert_equal nil, o.default_value
 		assert_equal ({}), o.extras
-		assert_true o.required?
+		assert o.required?
 		assert_equal "Verbosity not given", o.required_message
 	end
 end
