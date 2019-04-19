@@ -125,6 +125,7 @@ end # module CLI_helpers_
 #   - +:values+                               appends this string to USAGE line if specified.
 #   - +:flags_and_options+                    inserts a custom string instead of the default string <tt>'[ ... flags and options ... ]'</tt>.
 #   - +:info_lines+                           inserts 0+ information lines prior to the usage.
+#   - +:default_indicator+ (String) a string placed after the matching value in the listing of an option's range of values. Defaults to "(default)". If +nil+ default is used. If empty string no indication given
 def self.show_usage specifications, options={}
 
 	options	||=	{}
@@ -172,6 +173,9 @@ def self.show_usage specifications, options={}
 
 	flags_and_options	=	options[:flags_and_options] || ' [ ... flags and options ... ]'
 	flags_and_options	=	" #{flags_and_options}" if !flags_and_options.empty? && ' ' != flags_and_options[0]
+
+	default_indicator	=	options[:default_indicator] || '(default)'
+	default_indicator	=	nil if default_indicator.empty?
 
 	# sift the specifications to sort out which are value-option
 	# specifications (VOAs)
@@ -237,8 +241,19 @@ def self.show_usage specifications, options={}
 				stream.puts "\t\t#{s.help}"
 				unless s.values_range.empty?
 
+					d = s.default_value
+
 					stream.puts "\t\twhere <value> one of:"
-					s.values_range.each { |v| stream.puts "\t\t\t#{v}" }
+					s.values_range.each do |v|
+
+						if default_indicator && v == d
+
+							stream.puts "\t\t\t#{v}\t#{default_indicator}"
+						else
+
+							stream.puts "\t\t\t#{v}"
+						end
+					end
 				end
 			end
 			stream.puts unless suppress_blanks

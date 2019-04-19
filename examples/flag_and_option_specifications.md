@@ -23,14 +23,14 @@ InfoLines = [
 
     'CLASP.Ruby examples',
     :version,
-    "Illustrates use of CLASP.Ruby's use of flags, options, and specifications",
+    "Illustrates use of CLASP.Ruby's use of flags, options, and aliases",
     '',
 ]
 
 # Specify specifications, parse, and checking standard flags
 
 Flag_Debug = CLASP.Flag('--debug', alias: '-d', help: 'runs in Debug mode')
-Option_Verbosity = CLASP.Option('--verbosity', alias: '-v', help: 'specifies the verbosity', values: [ 'terse', 'quiet', 'silent', 'chatty' ])
+Option_Verbosity = CLASP.Option('--verbosity', alias: '-v', help: 'specifies the verbosity', values: [ 'terse', 'quiet', 'silent', 'chatty' ], default_value: 'terse')
 Flag_Chatty = CLASP.Flag('--verbosity=chatty', alias: '-c')
 
 Specifications = [
@@ -47,7 +47,7 @@ args = CLASP::Arguments.new ARGV, Specifications
 
 if args.flags.include?(CLASP::FlagSpecification.Help)
 
-    CLASP.show_usage(Specifications, exit_code: 0, version: ProgramVersion, stream: $stdout, info_lines: InfoLines)
+    CLASP.show_usage(Specifications, exit_code: 0, version: ProgramVersion, stream: $stdout, info_lines: InfoLines, default_indicator: '*default*')
 end
 
 if args.flags.include?('--version')
@@ -76,7 +76,7 @@ if (unused = args.find_first_unknown())
 
 	$stderr.puts "#{args.program_name}: unrecognised flag/option: #{unused}"
 
-    sys.exit(1)
+    exit 1
 end
 ```
 
@@ -129,7 +129,7 @@ flags/options:
 	--verbosity=<value>
 		specifies the verbosity
 		where <value> one of:
-			terse
+			terse	*default*
 			quiet
 			silent
 			chatty
@@ -200,4 +200,5 @@ it gives the (same) output:
 verbosity is specified as: chatty
 Debug mode is specified
 ```
+
 

@@ -1,5 +1,10 @@
 # **CLASP.Ruby** Changes
 
+## 0.20.0 19th April 2019
+
+* + now uses ``CLASP::OptionSpecification#default_value`` (if non-nil) when option is specified without value (e.g. ``"myprog --opt= -f1 -f2"``, ``"myprog --opt"``)
+* + ``CLASP.show_usage()`` now indicates default value in list of known values for option, and recognises the ``:default_indicator`` option for changing the indicator from default of ``(default)``
+
 ## 0.19.1.1 19th April 2019
 
 * ~ documentation improvements

@@ -165,7 +165,7 @@ class OptionSpecification
 	#   - +aliases+ (+Array+) 0 or more strings specifying short-form or option-value aliases
 	#   - +help+ (+String+) The help string, which may be +nil+
 	#   - +values_range+ (+Array+) 0 or more strings specifying values supported by the option
-	#   - +default_value+ (+String+) The default value of the option. May be +nil+
+	#   - +default_value+ (+String+) The default value of the option, which will be used in the case where an option is specified without a value. May be +nil+
 	#   - +required+ (boolean) Whether the option is required. May be +nil+
 	#   - +required_message+ (::String) Message to be used when reporting that a required option is missing. May be +nil+ in which case a message of the form "<option-name> not specified; use --help for usage". If begins with the nul character ("\0"), then is used in the place of the <option-name> and placed into the rest of the standard form message
 	#   - +extras+ An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+

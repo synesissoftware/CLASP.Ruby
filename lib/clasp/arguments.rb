@@ -140,13 +140,20 @@ class Arguments
 		# should not be called directly from application code
 		def initialize(arg, given_index, given_name, resolved_name, argument_spec, given_hyphens, given_label, value, extras) # :nodoc:
 
+			actual_value			=	value
+
+			if value.nil? && argument_spec
+
+				actual_value = argument_spec.default_value
+			end
+
 			@arg					=	arg
 			@given_index			=	given_index
 			@given_name				=	given_name
 			@argument_specification	=	argument_spec
 			@given_hyphens			=	given_hyphens
 			@given_label			=	given_label
-			@value					=	value
+			@value					=	actual_value
 			@name					=	resolved_name || given_name
 			@extras					=	extras.nil? ? {} : extras
 		end
