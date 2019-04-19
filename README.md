@@ -1,9 +1,27 @@
 # CLASP.Ruby
-Command-Line Argument Sorting and Parsing for Ruby
+Command-Line Argument Sorting and Parsing, for Ruby
 
 [![Gem Version](https://badge.fury.io/rb/clasp-ruby.svg)](https://badge.fury.io/rb/clasp-ruby)
 
-## Installation & usage
+## Table of Contents
+
+1. [Introduction](#introduction)
+2. [Installation](#installation)
+3. [Components](#components)
+4. [Examples](#examples)
+5. [Project Information](#project-information)
+
+## Introduction
+
+**CLASP** stands for Command-Line Argument Sorting and
+Parsing. The first CLASP library was a C library with a C++ wrapper. There
+have been several implementations in other languages. **CLASP.Ruby** is the
+Ruby version.
+
+All CLASP libraries provide the facilities to **C**ommand **L**ine
+**I**nterface (**CLI**) programs as described in detail below.
+
+## Installation
 
 Install via **gem** as in:
 
@@ -19,19 +37,7 @@ Use via **require**, as in:
 require 'clasp'
 ```
 
-## Examples
-
-Examples are provided in the ```examples``` directory, along with a markdown description for each. A detailed list TOC of them is provided in [EXAMPLES.md](./EXAMPLES.md).
-
-## Description
-
-**CLASP** stands for **C**ommand-**L**ine **A**rgument **S**orting and
-**P**arsing. The first CLASP library was a C library with a C++ wrapper. There
-have been several implementations in other languages. **CLASP.Ruby** is the
-Ruby version.
-
-All CLASP libraries provide the following facilities to **C**ommand **L**ine
-**I**nterface (**CLI**) programs:
+## Components
 
 ### Command-line parsing
 
@@ -101,7 +107,7 @@ Specifications = [
 	CLASP.Flag('--all', alias: '-a', help: 'processes all item types'),
 	CLASP.Flag('-c', help: 'count the processed items'),
 	CLASP.Option('--opt1', alias: '-o', help: 'an option of some kind', values_range: %w{ val1, val2 }),
-	CLASP.Option('--opt1=val1', alias: '-v'),
+	CLASP.Flag('--opt1=val1', alias: '-v'),
 
 	# see next section for why these two are here
 	CLASP::Flag.Help,
@@ -195,15 +201,21 @@ then the program will output the following
 cr-example.rb 0.1.2
 ```
 
-## Where to get help
+## Examples
+
+Examples are provided in the ```examples``` directory, along with a markdown description for each. A detailed list TOC of them is provided in [EXAMPLES.md](./EXAMPLES.md).
+
+## Project Information
+
+### Where to get help
 
 [GitHub Page](https://github.com/synesissoftware/CLASP.Ruby "GitHub Page")
 
-## Contribution guidelines
+### Contribution guidelines
 
 Defect reports, feature requests, and pull requests are welcome on https://github.com/synesissoftware/CLASP.Ruby.
 
-## Related projects
+### Related projects
 
 **CLASP.Ruby** is inspired by the [C/C++ CLASP library](https://github.com/synesissoftware/CLASP), which is documented in the articles:
 
@@ -211,9 +223,19 @@ Defect reports, feature requests, and pull requests are welcome on https://githu
  * _[Anatomy of a CLI Program written in C](http://synesis.com.au/publishing/software-anatomies/anatomy-of-a-cli-program-written-in-c.html)_, Matthew Wilson, [CVu](http://accu.org/index.php/journals/c77/), September 2012; and
  * _[Anatomy of a CLI Program written in C++](http://synesis.com.au/publishing/software-anatomies/anatomy-of-a-cli-program-written-in-c++.html)_, Matthew Wilson, [CVu](http://accu.org/index.php/journals/c77/), September 2015.
 
-**CLASP.Ruby** is used in the **[libCLImate.Ruby](https://github.com/synesissoftware/libCLImate.Ruby)** library.
+Other CLASP libraries include:
 
-## License
+* [**CLASP**](https://github.com/synesissoftware/CLASP/)
+* [**CLASP.Go**](https://github.com/synesissoftware/CLASP.Go/)
+* [**CLASP.js**](https://github.com/synesissoftware/CLASP.js/)
+* [**CLASP.NET**](https://github.com/synesissoftware/CLASP.NET/)
+* [**CLASP.Python**](https://github.com/synesissoftware/CLASP.Python/)
+
+Projects in which **CLASP.Ruby** is used include:
+
+* [**libCLImate.Ruby**](https://github.com/synesissoftware/libCLImate.Ruby)
+
+### License
 
 **CLASP.Ruby** is released under the 3-clause BSD license. See LICENSE for details.
 

@@ -1,16 +1,7 @@
 #!/usr/bin/ruby
 
-#############################################################################
-# File:         examples/cr-example.rb
+# examples/cr-example.rb
 #
-# Purpose:      COMPLETE_ME
-#
-# Created:      11 06 2016
-# Updated:      11 06 2016
-#
-# Author:       Matthew Wilson
-#
-#############################################################################
 
 $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
@@ -23,7 +14,7 @@ Specifications = [
 	CLASP.Flag('--all', alias: '-a', help: 'processes all item types'),
 	CLASP.Flag('-c', help: 'count the processed items'),
 	CLASP.Option('--opt1', alias: '-o', help: 'an option of some kind', values_range: %w{ val1, val2 }),
-	CLASP.Option('--opt1=val1', alias: '-v'),
+	CLASP.Flag('--opt1=val1', alias: '-v'),
 
 	# see next section for why these two are here
 	CLASP::Flag.Help,
