@@ -61,11 +61,13 @@ module CLASP
 # The main class for processing command-line arguments
 class Arguments
 
-	#:stopdoc:
-	private
-	# @!visibility private
+	# Class that represents a parsed flag
 	class FlagArgument # :nodoc: all
 
+		# @!visibility private
+		#
+		# [PRIVATE] This method is subject to changed between versions and
+		# should not be called directly from application code
 		def initialize(arg, given_index, given_name, resolved_name, argument_spec, given_hyphens, given_label, extras) # :nodoc:
 
 			@arg					=	arg
@@ -78,17 +80,26 @@ class Arguments
 			@extras					=	extras.nil? ? {} : extras
 		end
 
+		# (Integer) The command-line index of the argument
 		attr_reader :given_index
+		# (String) The given name of the argument as it appeared in the command-line
 		attr_reader :given_name
+		# (CLASP::FlagSpecification) The specification matching the argument, or +nil+
 		attr_reader :argument_specification
+		# (Integer) The number of hyphens of the argument as it appeared in the command-line
 		attr_reader :given_hyphens
+		# (String) The label of the argument as it appeared in the command-line
 		attr_reader :given_label
+		# (String) The resolved name of the argument
 		attr_reader :name
+		# (Object, Hash) The extras associated with the argument
 		attr_reader :extras
 
-		def argument_alias; @argument_specification; end # :nodoc:
+		# [DEPRECATED] Use +argument_specification+
+		def argument_alias; @argument_specification; end
 
-		def to_s # :nodoc:
+		# (String) The string form of the flag, which is the same as +name+
+		def to_s
 
 			@name
 		end
@@ -113,15 +124,20 @@ class Arguments
 			eql? rhs
 		end
 
-		def hash # :nodoc:
+		# A hash-code for this instance
+		def hash
 
 			@arg.hash
 		end
 	end
 
-	# @!visibility private
+	# Class that represents a parsed option
 	class OptionArgument # :nodoc: all
 
+		# @!visibility private
+		#
+		# [PRIVATE] This method is subject to changed between versions and
+		# should not be called directly from application code
 		def initialize(arg, given_index, given_name, resolved_name, argument_spec, given_hyphens, given_label, value, extras) # :nodoc:
 
 			@arg					=	arg
@@ -135,16 +151,25 @@ class Arguments
 			@extras					=	extras.nil? ? {} : extras
 		end
 
+		# (Integer) The command-line index of the argument
 		attr_reader :given_index
+		# (String) The given name of the argument as it appeared in the command-line
 		attr_reader :given_name
+		# (CLASP::OptionSpecification) The specification matching the argument, or +nil+
 		attr_reader :argument_specification
+		# (Integer) The number of hyphens of the argument as it appeared in the command-line
 		attr_reader :given_hyphens
+		# (String) The label of the argument as it appeared in the command-line
 		attr_reader :given_label
+		# (String) The resolved name of the argument
 		attr_reader :name
+		# (String) The value of the option
 		attr_reader :value
+		# (Object, Hash) The extras associated with the argument
 		attr_reader :extras
 
-		def argument_alias; @argument_specification; end # :nodoc:
+		# [DEPRECATED] Use +argument_specification+
+		def argument_alias; @argument_specification; end
 
 		def eql?(rhs) # :nodoc:
 
@@ -166,23 +191,21 @@ class Arguments
 			eql? rhs
 		end
 
-		def hash # :nodoc:
+		# A hash-code for this instance
+		def hash
 
 			@arg.hash
 		end
 
-		def to_s # :nodoc:
+		# (String) The string form of the flag, which is the same as +name+=+value+
+		def to_s
 
 			"#{name}=#{value}"
 		end
 	end
 
-	#:startdoc:
-
 	# ######################
 	# Construction
-
-	public
 
 	# Loads an instance of the class, as specified by +source+, according to the given parameters
 	#
@@ -191,12 +214,12 @@ class Arguments
 	# === Signature
 	#
 	# * *Parameters:*
-	#   - +argv+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+
-	#   - +source+:: (+Hash+, +IO+) The arguments specification, either as a Hash or an instance of an IO-implementing type containing a YAML specification
-	#   - +options+:: An options hash, containing any of the following options
+	#   - +argv+ (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+
+	#   - +source+ (+Hash+, +IO+) The arguments specification, either as a Hash or an instance of an IO-implementing type containing a YAML specification
+	#   - +options+ An options hash, containing any of the following options
 	#
 	# * *Options:*
-	#   - +mutate_argv:+:: (+Boolean+) Determines if the library should mutate +argv+. Defaults to +true+. This is essential when using CLASP in conjunction with <tt>$\<</tt>
+	#   - +mutate_argv:+ (+Boolean+) Determines if the library should mutate +argv+. Defaults to +true+. This is essential when using CLASP in conjunction with <tt>$\<</tt>
 	#
 	def self.load(argv, source, options = {}) # :yields: An instance of +CLASP::Arguments+
 
@@ -212,8 +235,8 @@ class Arguments
 	# === Signature
 	#
 	# * *Parameters:*
-	#   - +source+:: (+Hash+, +IO+) The arguments specification, either as a Hash or an instance of an IO-implementing type containing a YAML specification
-	#   - +options+:: An options hash, containing any of the following options
+	#   - +source+ (+Hash+, +IO+) The arguments specification, either as a Hash or an instance of an IO-implementing type containing a YAML specification
+	#   - +options+ An options hash, containing any of the following options
 	def self.load_specifications(source, options = {}) # :yields: An array of specification instances
 
 		options ||= {}
@@ -331,12 +354,12 @@ class Arguments
 	# === Signature
 	#
 	# * *Parameters:*
-	#   - +argv+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+
-	#   - +specifications+:: (+Array+) The specifications array. Defaults to +nil+. If none supplied, no aliasing will be performed
-	#   - +options+:: An options hash, containing any of the following options
+	#   - +argv+ (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+
+	#   - +specifications+ (+Array+) The specifications array. Defaults to +nil+. If none supplied, no aliasing will be performed
+	#   - +options+ An options hash, containing any of the following options
 	#
 	# * *Options:*
-	#   - +mutate_argv:+:: (+Boolean+) Determines if the library should mutate +argv+. Defaults to +true+. This is essential when using CLASP in conjunction with <tt>$\<</tt>
+	#   - +mutate_argv:+ (+Boolean+) Determines if the library should mutate +argv+. Defaults to +true+. This is essential when using CLASP in conjunction with <tt>$\<</tt>
 	#
 	def initialize(argv = ARGV, specifications = nil, options = {})
 
@@ -557,31 +580,42 @@ class Arguments
 	# Attributes
 
 	public
-	# an immutable array of specifications
+	# (Array) a frozen array of specifications
 	attr_reader :specifications
 
 	# [DEPRECATED] Instead refer to +specifications+
 	attr_reader :aliases
 
-	# an immutable array of flags
+	# (Array) a frozen array of flags
 	attr_reader :flags
 
-	# an immutable array of options
+	# (Array) a frozen array of options
 	attr_reader :options
 
-	# an immutable array of values
+	# (Array) a frozen array of values
 	attr_reader :values
 
-	# the (possibly mutated) array of arguments instance passed to new
+	# (Array) the (possibly mutated) array of arguments instance passed to new
 	attr_reader :argv
 
-	# unchanged copy of the original array of arguments passed to new
+	# (Array) unchanged copy of the original array of arguments passed to new
 	attr_reader :argv_original_copy
 
 	# (String) The program name
 	attr_reader :program_name
 
-	# finds the first unknown flag or option; +nil+ if all used
+	# Finds the first unknown flag or option; +nil+ if all used
+	#
+	# === Signature
+	#
+	# * *Parameters:*
+	#   - +options+ (Hash) options
+	#
+	# * *Options:*
+	#   - +:specifications+ ([CLASP::Specification]) Array of specifications. If not specified, the instance's +specifications+ attribute is used
+	#
+	# === Return
+	# (CLASP::Arguments::OptionArgument) The first unknown option; +nil+ if none found
 	def find_first_unknown options = {}
 
 		option	=	{} if options.nil?
@@ -611,7 +645,10 @@ class Arguments
 	# === Signature
 	#
 	# * *Parameters:*
-	#  - +id+:: (String, CLASP::Flag) The name of a flag, or the flag itself
+	#  - +id+ (String, CLASP::FlagArgument) The name of a flag, or the flag itself
+	#
+	# === Return
+	# (CLASP::Arguments::FlagArgument) The first flag matching +id+; +nil+ if none found
 	def find_flag(id)
 
 		flags.each do |flag|
@@ -628,7 +665,10 @@ class Arguments
 	# === Signature
 	#
 	# * *Parameter:*
-	#  - +id+:: (String, CLASP::Flag) The name of a option, or the option itself
+	#  - +id+ (String, CLASP::OptionArgument) The name of a option, or the option itself
+	#
+	# === Return
+	# (CLASP::Arguments::OptionArgument) The first option matching +id+; +nil+ if none found
 	def find_option(id)
 
 		options.each do |option|
@@ -642,7 +682,9 @@ class Arguments
 	# #################################################################### #
 	# backwards-compatible
 
+	# @!visibility private
 	Flag	=	FlagArgument	# :nodoc:
+	# @!visibility private
 	Option	=	OptionArgument	# :nodoc:
 end # class Arguments
 

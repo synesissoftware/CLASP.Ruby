@@ -5,7 +5,7 @@
 # Purpose:      Command-line interface
 #
 # Created:      27th July 2015
-# Updated:      12th April 2019
+# Updated:      19th April 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -114,17 +114,17 @@ end # module CLI_helpers_
 # === Signature
 #
 # * *Parameters:*
-#   - +specifications+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+.
-#   - +options+:: An options hash, containing any of the following options.
+#   - +specifications+ (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+.
+#   - +options+ An options hash, containing any of the following options.
 #
 # * *Options:*
-#   - +:exit+::                                 a program exit code; <tt>exit()</tt> not called if not specified (or +nil+).
-#   - +:program_name+::                         program name; inferred from <tt>$0</tt> if not specified.
-#   - +:stream+::                               output stream; <tt>$stdout</tt> if not specified.
-#   - +:suppress_blank_lines_between_options+:: does exactly what it says on the tin.
-#   - +:values+::                               appends this string to USAGE line if specified.
-#   - +:flags_and_options+::                    inserts a custom string instead of the default string <tt>'[ ... flags and options ... ]'</tt>.
-#   - +:info_lines+::                           inserts 0+ information lines prior to the usage.
+#   - +:exit+                                 a program exit code; <tt>exit()</tt> not called if not specified (or +nil+).
+#   - +:program_name+                         program name; inferred from <tt>$0</tt> if not specified.
+#   - +:stream+                               output stream; <tt>$stdout</tt> if not specified.
+#   - +:suppress_blank_lines_between_options+ does exactly what it says on the tin.
+#   - +:values+                               appends this string to USAGE line if specified.
+#   - +:flags_and_options+                    inserts a custom string instead of the default string <tt>'[ ... flags and options ... ]'</tt>.
+#   - +:info_lines+                           inserts 0+ information lines prior to the usage.
 def self.show_usage specifications, options={}
 
 	options	||=	{}
@@ -255,19 +255,19 @@ end
 # === Signature
 #
 # * *Parameters:*
-#   - +specifications+:: (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+.
-#   - +options+:: An options hash, containing any of the following options.
+#   - +specifications+ (+Array+) The arguments array. May not be +nil+. Defaults to +ARGV+.
+#   - +options+ An options hash, containing any of the following options.
 #
 # * *Options:*
-#   - +:exit+::                 a program exit code; <tt>exit()</tt> not called if not specified (or +nil+).
-#   - +:program_name+::         program name; inferred from <tt>$0</tt> if not specified.
-#   - +:stream+::               output stream; <tt>$stdout</tt> if not specified.
-#   - +:version+::              an array (of N elements, each of which will be separated by a period '.'), or a string. Must be specified if not +:version_major+.
-#   - +:version_major+::        a number or string. Only considered and must be specified if +:version+ is not.
-#   - +:version_minor+::        a number or string. Only considered if +:version+ is not.
-#   - +:version_revision+::     a number or string. Only considered if +:version+ is not.
-#   - +:version_build+::        a number or string. Only considered if +:version+ is not.
-#   - +:version_prefix+::       optional string to prefix the version number(s).
+#   - +:exit+                 a program exit code; <tt>exit()</tt> not called if not specified (or +nil+).
+#   - +:program_name+         program name; inferred from <tt>$0</tt> if not specified.
+#   - +:stream+               output stream; <tt>$stdout</tt> if not specified.
+#   - +:version+              an array (of N elements, each of which will be separated by a period '.'), or a string. Must be specified if not +:version_major+.
+#   - +:version_major+        a number or string. Only considered and must be specified if +:version+ is not.
+#   - +:version_minor+        a number or string. Only considered if +:version+ is not.
+#   - +:version_revision+     a number or string. Only considered if +:version+ is not.
+#   - +:version_build+        a number or string. Only considered if +:version+ is not.
+#   - +:version_prefix+       optional string to prefix the version number(s).
 def self.show_version specifications, options = {}
 
 	options	||=	{}

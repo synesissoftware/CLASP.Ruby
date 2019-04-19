@@ -65,10 +65,10 @@ class FlagSpecification
 	# === Signature
 	#
 	# * *Parameters*
-	#   - +name+:: (+String+) The name, or long-form, of the flag
-	#   - +aliases+:: (+Array+) 0 or more strings specifying short-form or option-value aliases
-	#   - +help+:: (+String+) The help string, which may be +nil+
-	#   - +extras+:: An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+
+	#   - +name+ (+String+) The name, or long-form, of the flag
+	#   - +aliases+ (+Array+) 0 or more strings specifying short-form or option-value aliases
+	#   - +help+ (+String+) The help string, which may be +nil+
+	#   - +extras+ An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+
 	def initialize(name, aliases, help, extras = nil)
 
 		@name			=	name
@@ -161,14 +161,14 @@ class OptionSpecification
 	# === Signature
 	#
 	# * *Parameters*
-	#   - +name+:: (+String+) The name, or long-form, of the option
-	#   - +aliases+:: (+Array+) 0 or more strings specifying short-form or option-value aliases
-	#   - +help+:: (+String+) The help string, which may be +nil+
-	#   - +values_range+:: (+Array+) 0 or more strings specifying values supported by the option
-	#   - +default_value+:: (+String+) The default value of the option. May be +nil+
-	#   - +required+:: [boolean] Whether the option is required. May be +nil+
-	#   - +required_message+:: [::String] Message to be used when reporting that a required option is missing. May be +nil+ in which case a message of the form "<option-name> not specified; use --help for usage". If begins with the nul character ("\0"), then is used in the place of the <option-name> and placed into the rest of the standard form message
-	#   - +extras+:: An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+
+	#   - +name+ (+String+) The name, or long-form, of the option
+	#   - +aliases+ (+Array+) 0 or more strings specifying short-form or option-value aliases
+	#   - +help+ (+String+) The help string, which may be +nil+
+	#   - +values_range+ (+Array+) 0 or more strings specifying values supported by the option
+	#   - +default_value+ (+String+) The default value of the option. May be +nil+
+	#   - +required+ (boolean) Whether the option is required. May be +nil+
+	#   - +required_message+ (::String) Message to be used when reporting that a required option is missing. May be +nil+ in which case a message of the form "<option-name> not specified; use --help for usage". If begins with the nul character ("\0"), then is used in the place of the <option-name> and placed into the rest of the standard form message
+	#   - +extras+ An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+
 	def initialize(name, aliases, help, values_range, default_value, required, required_message, extras = nil)
 
 		@name				=	name
@@ -301,14 +301,14 @@ end
 # === Signature
 #
 # * *Parameters:*
-#   - +name+:: [::String] The flag name, e.g. '--verbose'
-#   - +options+:: [::Hash] An options hash, containing any of the following options:
+#   - +name+ (::String) The flag name, e.g. '--verbose'
+#   - +options+ (::Hash) An options hash, containing any of the following options:
 #
 # * *Options:*
-#   - +:alias+ [::String] An alias, e.g. '-v'
-#   - +:aliases+ [::Array] An array of aliases, e.g. [ '-v', '-verb' ]. Ignored if +:alias+ is specified
+#   - +:alias+ (::String) An alias, e.g. '-v'
+#   - +:aliases+ (::Array) An array of aliases, e.g. [ '-v', '-verb' ]. Ignored if +:alias+ is specified
 #   - +:extras+ An application-defined object, usually a hash of custom attributes
-#   - +:help+ [::String] A help string
+#   - +:help+ (::String) A help string
 def CLASP.Flag(name, options = {})
 
 	aliases	=	nil
@@ -351,20 +351,20 @@ end
 # === Signature
 #
 # * *Parameters:*
-#   - +name+:: [::String] The flag name, e.g. '--verbose'
-#   - +options+:: [::Hash] An options hash, containing any of the following options:
+#   - +name+ (::String) The flag name, e.g. '--verbose'
+#   - +options+ (::Hash) An options hash, containing any of the following options:
 #
 # * *Options:*
-#   - +:alias+ [::String] An alias, e.g. '-v'
-#   - +:aliases+ [::Array] An array of aliases, e.g. [ '-v', '-verb' ].  Ignored if +:alias+ is specified
+#   - +:alias+ (::String) An alias, e.g. '-v'
+#   - +:aliases+ (::Array) An array of aliases, e.g. [ '-v', '-verb' ].  Ignored if +:alias+ is specified
 #   - +:default_value+ The default value for the option
 #   - +:default+ [DEPRECATED] Alternative to +:default_value+
 #   - +:extras+ An application-defined object, usually a hash of custom attributes
-#   - +:help+ [::String] A help string
-#   - +required+:: [boolean] Whether the option is required. May be +nil+
-#   - +required_message+:: [::String] Message to be used when reporting that a required option is missing. May be +nil+ in which case a message of the form "<option-name> not specified; use --help for usage". If begins with the nul character ("\0"), then is used in the place of the <option-name> and placed into the rest of the standard form message
-#   - +extras+:: An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+.
-#   - +:values_range+ [::Array] An array defining the accepted values for the option
+#   - +:help+ (::String) A help string
+#   - +required+ (boolean) Whether the option is required. May be +nil+
+#   - +required_message+ (::String) Message to be used when reporting that a required option is missing. May be +nil+ in which case a message of the form "<option-name> not specified; use --help for usage". If begins with the nul character ("\0"), then is used in the place of the <option-name> and placed into the rest of the standard form message
+#   - +extras+ An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+.
+#   - +:values_range+ (::Array) An array defining the accepted values for the option
 #   - +:values+ [DEPRECATED] Alternative to +:values_range+
 def CLASP.Option(name, options = {})
 
