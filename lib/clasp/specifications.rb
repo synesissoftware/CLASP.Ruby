@@ -5,7 +5,7 @@
 # Purpose:      Argument specification classes
 #
 # Created:      25th October 2014
-# Updated:      19th April 2019
+# Updated:      20th April 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -92,6 +92,7 @@ class FlagSpecification
 		"{#{name}; aliases=#{aliases.join(', ')}; help='#{help}'; extras=#{extras}}"
 	end
 
+	# @!visibility private
 	def eql? rhs # :nodoc:
 
 		case rhs
@@ -225,6 +226,7 @@ class OptionSpecification
 		"{#{name}; aliases=#{aliases.join(', ')}; values_range=[ #{values_range.join(', ')} ]; default_value='#{default_value}'; help='#{help}'; required?=#{required?}; extras=#{extras}}"
 	end
 
+	# @!visibility private
 	def eql? rhs # :nodoc:
 
 		case rhs

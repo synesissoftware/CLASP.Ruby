@@ -6,7 +6,7 @@
 #               CLASP.Ruby
 #
 # Created:      14th February 2014
-# Updated:      19th April 2019
+# Updated:      20th April 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -104,6 +104,7 @@ class Arguments
 			@name
 		end
 
+		# @!visibility private
 		def eql?(rhs) # :nodoc:
 
 			return false if rhs.nil?
@@ -114,6 +115,7 @@ class Arguments
 			false
 		end
 
+		# @!visibility private
 		def ==(rhs) # :nodoc:
 
 			return false if rhs.nil?
@@ -178,6 +180,7 @@ class Arguments
 		# [DEPRECATED] Use +argument_specification+
 		def argument_alias; @argument_specification; end
 
+		# @!visibility private
 		def eql?(rhs) # :nodoc:
 
 			return false if rhs.nil?
@@ -188,6 +191,7 @@ class Arguments
 			false
 		end
 
+		# @!visibility private
 		def ==(rhs) # :nodoc:
 
 			return false if rhs.nil?

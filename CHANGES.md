@@ -1,5 +1,9 @@
 # **CLASP.Ruby** Changes
 
+## 0.20.1.1 20th April 2019
+
+* ~ documentation improvements
+
 ## 0.20.1 19th April 2019
 
 * ~ fixed (ultimate) resolution of option argument specification
