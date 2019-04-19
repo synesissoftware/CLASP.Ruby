@@ -97,7 +97,7 @@ class FlagSpecification
 		case rhs
 		when self.class
 
-			;
+			return true if equal?(rhs)
 		else
 
 			return false
@@ -230,7 +230,7 @@ class OptionSpecification
 		case rhs
 		when self.class
 
-			;
+			return true if equal?(rhs)
 		else
 
 			return false
@@ -241,7 +241,7 @@ class OptionSpecification
 		return false unless help == rhs.help
 		return false unless values_range == rhs.values_range
 		return false unless default_value == rhs.default_value
-		return false unless required == rhs.required
+		return false unless required? == rhs.required?
 		return false unless required_message == rhs.required_message
 		return false unless extras == rhs.extras
 
