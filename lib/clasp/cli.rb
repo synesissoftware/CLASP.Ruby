@@ -133,10 +133,10 @@ def self.show_usage specifications, options={}
 	raise TypeError, "specifications must be an array or must respond to each, reject and select" unless ::Array === specifications || (specifications.respond_to?(:each) && specifications.respond_to?(:reject) && specifications.respond_to?(:select))
 
 	constants		=	CLI_helpers_::Constants
-	specifications.each { |a| raise ::TypeError, "each element in specifications array must be one of the types #{constants::VALID_ALIAS_TYPES_STRING}" unless constants::VALID_ALIAS_TYPES.any? { |c| c === a } }
+	specifications.each { |s| raise ::TypeError, "each element in specifications array must be one of the types #{constants::VALID_ALIAS_TYPES_STRING}" unless constants::VALID_ALIAS_TYPES.any? { |c| c === s } }
 
 	alias_dups = {}
-	specifications.each { |a| a.aliases.each { |aa| warn "WARNING: alias '#{aa}' is already used for alias '#{a}'" if alias_dups.has_key? aa; alias_dups[aa] = a; } }
+	specifications.each { |s| s.aliases.each { |aa| warn "WARNING: alias '#{aa}' is already used for specification '#{s}'" if alias_dups.has_key? aa; alias_dups[aa] = s; } }
 
 	suppress_blanks	=	options[:suppress_blank_lines_between_options] || ENV['SUPPRESS_BLANK_LINES_BETWEEN_OPTIONS']
 
@@ -178,23 +178,23 @@ def self.show_usage specifications, options={}
 
 	voas			=	{}
 
-	specifications.select { |a| a.name =~ /^-+[a-zA-Z0-3_-]+[=:].+/ }.each do |a|
+	specifications.select { |s| s.name =~ /^-+[a-zA-Z0-3_-]+[=:].+/ }.each do |s|
 
-		a.name =~ /^(-+[a-zA-Z0-3_-]+)[=:](.+)$/
+		s.name =~ /^(-+[a-zA-Z0-3_-]+)[=:](.+)$/
 
 		voas[$1]	=	[] unless voas.has_key? $1
-		voas[$1]	<<	[ a, $2 ]
+		voas[$1]	<<	[ s, $2 ]
 	end
 
 	fas				=	{}
 
-	specifications.select { |a| AliasSpecification === a }.each do |a|
+	specifications.select { |s| AliasSpecification === s }.each do |s|
 
-		fas[a.name]	=	[] unless fas.has_key? $1
-		fas[a.name]	<<	a
+		fas[s.name]	=	[] unless fas.has_key? $1
+		fas[s.name]	<<	s
 	end
 
-	specifications	=	specifications.reject { |a| a.name =~ /^-+[a-zA-Z0-3_-]+[=:].+/ }
+	specifications	=	specifications.reject { |s| s.name =~ /^-+[a-zA-Z0-3_-]+[=:].+/ }
 
 	info_lines.each { |info_line| stream.puts info_line } unless info_lines.empty?
 
@@ -205,40 +205,40 @@ def self.show_usage specifications, options={}
 
 		stream.puts "flags/options:"
 		stream.puts
-		specifications.each do |a|
+		specifications.each do |s|
 
-			case a
+			case s
 			when AliasSpecification
 
 				next
 			when FlagSpecification
 
-				if fas.has_key? a.name
+				if fas.has_key? s.name
 
-					fas[a.name].each do |fa|
+					fas[s.name].each do |fa|
 
 						fa.aliases.each { |al| stream.puts "\t#{al}" }
 					end
 				end
-				a.aliases.each { |al| stream.puts "\t#{al}" }
-				stream.puts "\t#{a.name}"
-				stream.puts "\t\t#{a.help}"
+				s.aliases.each { |al| stream.puts "\t#{al}" }
+				stream.puts "\t#{s.name}"
+				stream.puts "\t\t#{s.help}"
 			when OptionSpecification
 
-				if voas.has_key? a.name
+				if voas.has_key? s.name
 
-					voas[a.name].each do |ar|
+					voas[s.name].each do |ar|
 
 						ar[0].aliases.each { |al| stream.puts "\t#{al} #{ar[0].name}" }
 					end
 				end
-				a.aliases.each { |al| stream.puts "\t#{al} <value>" }
-				stream.puts "\t#{a.name}=<value>"
-				stream.puts "\t\t#{a.help}"
-				unless a.values_range.empty?
+				s.aliases.each { |al| stream.puts "\t#{al} <value>" }
+				stream.puts "\t#{s.name}=<value>"
+				stream.puts "\t\t#{s.help}"
+				unless s.values_range.empty?
 
 					stream.puts "\t\twhere <value> one of:"
-					a.values_range.each { |v| stream.puts "\t\t\t#{v}" }
+					s.values_range.each { |v| stream.puts "\t\t\t#{v}" }
 				end
 			end
 			stream.puts unless suppress_blanks
@@ -276,7 +276,7 @@ def self.show_version specifications, options = {}
 	raise TypeError, "specifications must be an array or must respond to each, reject and select" unless ::Array === specifications || (specifications.respond_to?(:each) && specifications.respond_to?(:reject) && specifications.respond_to?(:select))
 
 	constants		=	CLI_helpers_::Constants
-	specifications.each { |a| raise ::TypeError, "each element in specifications array must be one of the types #{constants::VALID_ALIAS_TYPES_STRING}" unless constants::VALID_ALIAS_TYPES.any? { |c| c === a } }
+	specifications.each { |s| raise ::TypeError, "each element in specifications array must be one of the types #{constants::VALID_ALIAS_TYPES_STRING}" unless constants::VALID_ALIAS_TYPES.any? { |c| c === s } }
 
 	stream			=	options[:stream] || $stdout
 

@@ -1,5 +1,10 @@
 # **CLASP.Ruby** Changes
 
+## 0.19.1.1 19th April 2019
+
+* ~ documentation improvements
+* ~ preparatory refactoring
+
 ## 0.19.1 19th April 2019
 
 * + added missing argument_specification attribute to CLASP::Arguments::FlagArgument and CLASP::Arguments::OptionArgument, along with deprecated backwards-compatible argument_alias
