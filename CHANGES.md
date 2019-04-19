@@ -1,5 +1,10 @@
 # **CLASP.Ruby** Changes
 
+## 0.20.1 19th April 2019
+
+* ~ fixed (ultimate) resolution of option argument specification
+* ~ fixed defect in ``CLASP::Arguments::OptionArgument#==()``
+
 ## 0.20.0 19th April 2019
 
 * + now uses ``CLASP::OptionSpecification#default_value`` (if non-nil) when option is specified without value (e.g. ``"myprog --opt= -f1 -f2"``, ``"myprog --opt"``)
