@@ -491,6 +491,17 @@ class Arguments
 
 								resolved_name	=	"#$1#$2"
 								value			||=	$'
+
+								# now find the underlying (option) specification
+								specifications.each do |t|
+
+									if t.name == resolved_name or t.aliases.include? resolved_name
+
+										argument_spec	=	t
+
+										break
+									end
+								end
 							end
 
 							break

@@ -518,6 +518,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '-o', args.options[0].given_name
 		assert_equal 1, args.options[0].given_hyphens
 		assert_equal Hash.new, args.options[0].extras
+		assert_equal specifications[0], args.options[0].argument_specification
 
 		assert_equal 1, args.values.size
 		assert_equal 'value1', args.values[0]
@@ -541,6 +542,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal Hash.new, args.flags[0].extras
 
 		assert_equal 3, args.options.size
+		assert_equal 2, args.options[0].given_index
 		assert_equal '--option=value', args.options[0].to_s
 		assert_equal '--option', args.options[0].name
 		assert_equal 'o', args.options[0].given_label
@@ -548,6 +550,8 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '-o', args.options[0].given_name
 		assert_equal 1, args.options[0].given_hyphens
 		assert_equal Hash.new, args.options[0].extras
+		assert_equal specifications[0], args.options[0].argument_specification
+		assert_equal 4, args.options[1].given_index
 		assert_equal '--option=special-value', args.options[1].to_s
 		assert_equal '--option', args.options[1].name
 		assert_equal 's', args.options[1].given_label
@@ -555,6 +559,8 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '-s', args.options[1].given_name
 		assert_equal 1, args.options[1].given_hyphens
 		assert_equal Hash.new, args.options[1].extras
+		assert_equal specifications[0], args.options[1].argument_specification
+		assert_equal 5, args.options[2].given_index
 		assert_equal '--option=explicit-value', args.options[2].to_s
 		assert_equal '--option', args.options[2].name
 		assert_equal 's', args.options[2].given_label
@@ -562,6 +568,7 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '-s', args.options[2].given_name
 		assert_equal 1, args.options[2].given_hyphens
 		assert_equal Hash.new, args.options[2].extras
+		assert_equal specifications[0], args.options[2].argument_specification
 
 		assert_equal 1, args.values.size
 		assert_equal 'value1', args.values[0]
