@@ -1,5 +1,9 @@
 # **CLASP.Ruby** Changes
 
+## 0.21.0 28th April 2019
+
+* + added typed values for options
+
 ## 0.20.3 19th April 2019
 
 * ~ fix inconsistency in handling ``default_value`` behaviour

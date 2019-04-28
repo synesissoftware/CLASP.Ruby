@@ -46,7 +46,8 @@
 
 
 
-require File.join(File.dirname(__FILE__), 'specifications.rb')
+require File.join(File.dirname(__FILE__), 'specifications')
+require File.join(File.dirname(__FILE__), 'util', 'value_parser')
 
 require 'yaml'
 
@@ -136,17 +137,40 @@ class Arguments
 	# Class that represents a parsed option
 	class OptionArgument
 
+		include ::CLASP::Util::ValueParser
+
 		# @!visibility private
 		#
 		# [PRIVATE] This method is subject to changed between versions and
 		# should not be called directly from application code
 		def initialize(arg, given_index, given_name, resolved_name, argument_spec, given_hyphens, given_label, value, extras) # :nodoc:
 
-			actual_value			=	value
+			resolved_value			=	nil
 
-			if (value || '').empty? && argument_spec
+			if argument_spec
 
-				actual_value = argument_spec.default_value
+				case constraint = (argument_spec.constraint || {})
+=begin
+				when Proc
+
+					resolved_value = value_from_Proc(constraint, value, arg, given_index, given_name, argument_spec, extras)
+=end
+				when Hash
+
+					if constraint.empty?
+
+						resolved_value	=	(value || '').empty? ? argument_spec.default_value : value
+					else
+
+						resolved_value	=	value_from_Hash(constraint, value, arg, given_index, given_name, argument_spec, extras)
+					end
+				else
+
+					warn "unexpected constraint on argument specification #{argument_spec} when parsing argument '#{arg}'"
+				end
+			else
+
+				resolved_value		=	value
 			end
 
 			@arg					=	arg
@@ -155,7 +179,8 @@ class Arguments
 			@argument_specification	=	argument_spec
 			@given_hyphens			=	given_hyphens
 			@given_label			=	given_label
-			@value					=	actual_value
+			@given_value			=	value
+			@value					=	resolved_value
 			@name					=	resolved_name || given_name
 			@extras					=	extras.nil? ? {} : extras
 		end
@@ -172,7 +197,9 @@ class Arguments
 		attr_reader :given_label
 		# (String) The resolved name of the argument
 		attr_reader :name
-		# (String) The value of the option
+		# (String) The given value of the option
+		attr_reader :given_value
+		# (????) The value of the option, which may be of a type other than string subject to the option specification's constraint
 		attr_reader :value
 		# (Object, Hash) The extras associated with the argument
 		attr_reader :extras
@@ -458,7 +485,7 @@ class Arguments
 		values	=	[]
 
 		forced_value		=	false
-		want_option_value	=	false
+		pending_option		=	nil
 
 		argv.each_with_index do |arg, index|
 
@@ -563,15 +590,22 @@ class Arguments
 
 					if argument_spec and argument_spec.is_a? CLASP::OptionSpecification and not value
 
-						want_option_value = true
-						options << OptionArgument.new(arg, index, given_name, resolved_name, argument_spec, hyphens.size, given_label, nil, argument_spec ? argument_spec.extras : nil)
+						pending_option = {
+
+							arg:			arg,
+							index:			index,
+							given_name:		given_name,
+							resolved_name:	resolved_name,
+							argument_spec:	argument_spec,
+							hyphens_size:	hyphens.size,
+							given_label:	given_label,
+							extras:			argument_spec ? argument_spec.extras : nil,
+						}
 					elsif value
 
-						want_option_value = false
 						options << OptionArgument.new(arg, index, given_name, resolved_name, argument_spec, hyphens.size, given_label, value, argument_spec ? argument_spec.extras : nil)
 					else
 
-						want_option_value = false
 						flags << FlagArgument.new(arg, index, given_name, resolved_name, argument_spec, hyphens.size, given_label, argument_spec ? argument_spec.extras : nil)
 					end
 
@@ -579,20 +613,31 @@ class Arguments
 				end
 			end
 
-			if want_option_value and not forced_value
+			if pending_option
 
-				option	=	options[-1]
-				option.instance_eval("@value='#{arg}'")
-				want_option_value = false
-			else
+				value = forced_value ? nil : arg
 
-				arg		=	arg.dup
-				arg_ix	=	::Integer === index ? index : index.dup
+				options << OptionArgument.new(pending_option[:arg], pending_option[:index], pending_option[:given_name], pending_option[:resolved_name], pending_option[:argument_spec], pending_option[:hyphens_size], pending_option[:given_label], value, pending_option[:extras])
 
-				arg.define_singleton_method(:given_index) { arg_ix }
+				pending_option = nil
 
-				values << arg
+				next unless forced_value
 			end
+
+			arg		=	arg.dup
+			arg_ix	=	::Integer === index ? index : index.dup
+
+			arg.define_singleton_method(:given_index) { arg_ix }
+
+			values << arg
+		end
+
+		if pending_option
+
+			value = nil
+
+			options << OptionArgument.new(pending_option[:arg], pending_option[:index], pending_option[:given_name], pending_option[:resolved_name], pending_option[:argument_spec], pending_option[:hyphens_size], pending_option[:given_label], value, pending_option[:extras])
+
 		end
 
 		return flags, options, values

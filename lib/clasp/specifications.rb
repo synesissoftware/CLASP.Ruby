@@ -69,6 +69,8 @@ class FlagSpecification
 	#   - +aliases+ (+Array+) 0 or more strings specifying short-form or option-value aliases
 	#   - +help+ (+String+) The help string, which may be +nil+
 	#   - +extras+ An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+
+	#
+	# *NOTE:* Users should prefer the +CLASP::Flag()+ method
 	def initialize(name, aliases, help, extras = nil)
 
 		@name			=	name
@@ -169,8 +171,11 @@ class OptionSpecification
 	#   - +default_value+ (+String+) The default value of the option, which will be used in the case where an option is specified without a value. May be +nil+
 	#   - +required+ (boolean) Whether the option is required. May be +nil+
 	#   - +required_message+ (::String) Message to be used when reporting that a required option is missing. May be +nil+ in which case a message of the form "<option-name> not specified; use --help for usage". If begins with the nul character ("\0"), then is used in the place of the <option-name> and placed into the rest of the standard form message
+	#   - +constraint+ (Hash) Constraint to be applied to the parsed values of options matching this specification. NOTE: only integer constraints are supported in the current version
 	#   - +extras+ An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+
-	def initialize(name, aliases, help, values_range, default_value, required, required_message, extras = nil)
+	#
+	# *NOTE:* Users should prefer the +CLASP::Option()+ method
+	def initialize(name, aliases, help, values_range, default_value, required, required_message, constraint, extras = nil)
 
 		@name				=	name
 		@aliases			=	(aliases || []).select { |a| a and not a.empty? }
@@ -179,6 +184,7 @@ class OptionSpecification
 		@default_value		=	default_value
 		@required			=	required
 		@required_message	=	nil
+		@constraint			=	constraint || {}
 		@extras				=	extras || {}
 
 		rm_name				=	nil
@@ -214,16 +220,17 @@ class OptionSpecification
 	attr_reader	:default_value
 	# Indicates whether the option is required
 	def required?; @required; end
-	# The message to be used when reporting that a required option is
-	# missing
+	# The message to be used when reporting that a required option is missing
 	attr_reader	:required_message
+	# The value constraint
+	attr_reader :constraint
 	# The option's extras
 	attr_reader :extras
 
 	# String form of the option
 	def to_s
 
-		"{#{name}; aliases=#{aliases.join(', ')}; values_range=[ #{values_range.join(', ')} ]; default_value='#{default_value}'; help='#{help}'; required?=#{required?}; extras=#{extras}}"
+		"{#{name}; aliases=#{aliases.join(', ')}; values_range=[ #{values_range.join(', ')} ]; default_value='#{default_value}'; help='#{help}'; required?=#{required?}; required_message=#{required_message}; constraint=#{constraint}; extras=#{extras}}"
 	end
 
 	# @!visibility private
@@ -366,6 +373,7 @@ end
 #   - +required+ (boolean) Whether the option is required. May be +nil+
 #   - +required_message+ (::String) Message to be used when reporting that a required option is missing. May be +nil+ in which case a message of the form "<option-name> not specified; use --help for usage". If begins with the nul character ("\0"), then is used in the place of the <option-name> and placed into the rest of the standard form message
 #   - +extras+ An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+.
+#   - +constraint+ (Hash) Constraint to be applied to the parsed values of options matching this specification. NOTE: only integer constraints are supported in the current version
 #   - +:values_range+ (::Array) An array defining the accepted values for the option
 #   - +:values+ [DEPRECATED] Alternative to +:values_range+
 def CLASP.Option(name, options = {})
@@ -376,6 +384,7 @@ def CLASP.Option(name, options = {})
 	default_value	=	nil
 	required		=	false
 	require_message	=	nil
+	constraint		=	nil
 	extras			=	nil
 
 	options.each do |k, v|
@@ -407,6 +416,9 @@ def CLASP.Option(name, options = {})
 			when	:extras
 
 				extras	=	v
+			when	:constraint
+
+				constraint	=	v
 			else
 
 				raise ArgumentError, "invalid option for option: '#{k}' => '#{v}'"
@@ -417,7 +429,7 @@ def CLASP.Option(name, options = {})
 		end
 	end
 
-	CLASP::OptionSpecification.new(name, aliases, help, values_range, default_value, required, require_message, extras)
+	CLASP::OptionSpecification.new(name, aliases, help, values_range, default_value, required, require_message, constraint, extras)
 end
 
 def CLASP.Alias(name, *args)

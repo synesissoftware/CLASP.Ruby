@@ -1,17 +1,17 @@
 
 # ######################################################################## #
-# File:         clasp/clasp.rb
+# File:         clasp/util/exceptions.rb
 #
-# Purpose:      Common 'require file' for CLASP.Ruby library
+# Purpose:      Exception classes
 #
-# Created:      14th February 2014
-# Updated:      11th April 2019
+# Created:      20th April 2019
+# Updated:      28th April 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2014-2019, Matthew Wilson and Synesis Software
+# Copyright (c) 2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -45,18 +45,36 @@
 
 
 
-require 'clasp/arguments'
-require 'clasp/specifications'
-require 'clasp/cli'
-require 'clasp/version'
+=begin
+=end
 
-module CLASP
+module CLASP # :nodoc:
 
-	# TBC (but is a shorthand for calling +Arguments.new()+
-	def self.parse(argv = ARGV, specifications = nil, options = {})
+# Exceptions
+module Exceptions
 
-		return Arguments.new(argv, specifications, options)
-	end
+	# Root exception for CLASP
+	class CLASPException < RuntimeError; end
+
+	# Root exception for value parsing
+	class ValueParserException < CLASPException; end
+
+	# No value specified (and no default value) for an option
+	class MissingValueException < ValueParserException; end
+
+	# Exception class indicating invalid values (as opposed to types)
+	class InvalidValueException < ValueParserException; end
+
+	# The given value could not be recognised as a (properly-formatted) number
+	class InvalidNumberException < InvalidValueException; end
+
+	# The given value could not be recognised as a (properly-formatted) integer
+	class InvalidIntegerException < InvalidNumberException; end
+
+	# The value was a valid integer but is out of range
+	class IntegerOutOfRangeException < InvalidValueException; end
+
+end # module Exceptions
 end # module CLASP
 
 # ############################## end of file ############################# #

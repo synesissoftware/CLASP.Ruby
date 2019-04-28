@@ -51,7 +51,7 @@
 module CLASP
 
 	# Current version of the CLASP.Ruby library
-	VERSION				=	'0.20.3'
+	VERSION				=	'0.21.0'
 
 	private
 	# @!visibility private
