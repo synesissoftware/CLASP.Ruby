@@ -1,5 +1,9 @@
 # **CLASP.Ruby** Changes
 
+## 0.22.0 29th April 2019
+
+* + ``#action`` attribute for flag and option specifications (which is used in **libCLImate.Ruby**, and can be used by any application)
+
 ## 0.21.0 28th April 2019
 
 * + added typed values for options

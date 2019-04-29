@@ -5,7 +5,7 @@
 # Purpose:      Argument specification classes
 #
 # Created:      25th October 2014
-# Updated:      20th April 2019
+# Updated:      29th April 2019
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
@@ -57,8 +57,40 @@ module CLASP
 # ######################################################################## #
 # classes
 
+# @!visibility private
+class SpecificationBase # :nodoc: all
+
+	private
+	# @!visibility private
+	def check_arity_(blk, range, label) # :nodoc:
+
+		raise ArgumentError, "block must be a #{Proc}; #{blk.class} given" unless blk.nil? || Proc === blk
+
+		if blk
+
+			case blk.arity
+			when range
+
+				;
+			else
+
+				msg = "wrong arity for #{label}"
+
+				if $DEBUG
+
+					raise ArgumentError, msg
+				else
+
+					warn msg
+				end
+			end
+		end
+	end
+	public
+end
+
 # A class that represents the specification for a command-line flag
-class FlagSpecification
+class FlagSpecification < SpecificationBase
 
 	# Creates a FlagSpecification instance from the given name, aliases, and help
 	#
@@ -70,13 +102,18 @@ class FlagSpecification
 	#   - +help+ (+String+) The help string, which may be +nil+
 	#   - +extras+ An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+
 	#
+	# * *Block* An optional block that is called when a matching flag argument is found
+	#
 	# *NOTE:* Users should prefer the +CLASP::Flag()+ method
-	def initialize(name, aliases, help, extras = nil)
+	def initialize(name, aliases, help, extras = nil, &blk)
+
+		check_arity_(blk, 0..3, "flag")
 
 		@name			=	name
 		@aliases		=	(aliases || []).select { |a| a and not a.empty? }
 		@help			=	help
 		@extras			=	extras || {}
+		@action			=	blk
 	end
 
 	# The flag's name string
@@ -87,6 +124,17 @@ class FlagSpecification
 	attr_reader	:help
 	# The flag's extras
 	attr_reader :extras
+
+	# (Proc) The procedure
+	attr_reader :action
+
+	# @!visibility private
+	def action=(blk) # :nodoc: all
+
+		check_arity_(blk, 0..3, "flag")
+
+		@action = blk
+	end
 
 	# String form of the flag
 	def to_s
@@ -135,28 +183,38 @@ class FlagSpecification
 	@@Version_	=	self.new('--version', [], 'shows version and terminates')
   public
 	# An instance of FlagSpecification that provides default '--help' information
-	def self.Help(extras = nil)
+	#
+	# If you wish to specify +extras+ or attach a block, you may do so
+	def self.Help(extras = nil, &blk)
 
 		h = @@Help_
 
-		return self.new(h.name, h.aliases, h.help, extras) if extras
+		if extras || blk
+
+			return self.new(h.name, h.aliases, h.help, extras, &blk)
+		end
 
 		h
 	end
 
 	# An instance of FlagSpecification that provides default '--version' information
-	def self.Version(extras = nil)
+	#
+	# If you wish to specify +extras+ or attach a block, you may do so
+	def self.Version(extras = nil, &blk)
 
 		h = @@Version_
 
-		return self.new(h.name, h.aliases, h.help, extras) if extras
+		if extras || blk
+
+			return self.new(h.name, h.aliases, h.help, extras, &blk)
+		end
 
 		h
 	end
 end
 
 # A class that represents the specification for a command-line option
-class OptionSpecification
+class OptionSpecification < SpecificationBase
 
 	# Creates an OptionSpecification instance from the given name, aliases, help,
 	# values_range, and default_value
@@ -174,8 +232,12 @@ class OptionSpecification
 	#   - +constraint+ (Hash) Constraint to be applied to the parsed values of options matching this specification. NOTE: only integer constraints are supported in the current version
 	#   - +extras+ An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+
 	#
+	# * *Block* An optional block that is called when a matching option argument is found
+	#
 	# *NOTE:* Users should prefer the +CLASP::Option()+ method
-	def initialize(name, aliases, help, values_range, default_value, required, required_message, constraint, extras = nil)
+	def initialize(name, aliases, help, values_range, default_value, required, required_message, constraint, extras = nil, &blk)
+
+		check_arity_(blk, 0..3, "option")
 
 		@name				=	name
 		@aliases			=	(aliases || []).select { |a| a and not a.empty? }
@@ -186,6 +248,7 @@ class OptionSpecification
 		@required_message	=	nil
 		@constraint			=	constraint || {}
 		@extras				=	extras || {}
+		@action				=	blk
 
 		rm_name				=	nil
 
@@ -226,6 +289,17 @@ class OptionSpecification
 	attr_reader :constraint
 	# The option's extras
 	attr_reader :extras
+
+	# (Proc) The procedure
+	attr_reader :action
+
+	# @!visibility private
+	def action=(blk) # :nodoc: all
+
+		check_arity_(blk, 0..3, "flag")
+
+		@action = blk
+	end
 
 	# String form of the option
 	def to_s
@@ -318,7 +392,9 @@ end
 #   - +:aliases+ (::Array) An array of aliases, e.g. [ '-v', '-verb' ]. Ignored if +:alias+ is specified
 #   - +:extras+ An application-defined object, usually a hash of custom attributes
 #   - +:help+ (::String) A help string
-def CLASP.Flag(name, options = {})
+#
+# * *Block* An optional block that is called when a matching flag argument is found
+def CLASP.Flag(name, options = {}, &blk)
 
 	aliases	=	nil
 	help	=	nil
@@ -351,7 +427,7 @@ def CLASP.Flag(name, options = {})
 		end
 	end
 
-	CLASP::FlagSpecification.new(name, aliases, help, extras)
+	CLASP::FlagSpecification.new(name, aliases, help, extras, &blk)
 end
 
 # Generator method that obtains a CLASP::OptionSpecification according to the given
@@ -376,7 +452,9 @@ end
 #   - +constraint+ (Hash) Constraint to be applied to the parsed values of options matching this specification. NOTE: only integer constraints are supported in the current version
 #   - +:values_range+ (::Array) An array defining the accepted values for the option
 #   - +:values+ [DEPRECATED] Alternative to +:values_range+
-def CLASP.Option(name, options = {})
+#
+# * *Block* An optional block that is called when a matching option argument is found
+def CLASP.Option(name, options = {}, &blk)
 
 	aliases			=	nil
 	help			=	nil
@@ -429,7 +507,7 @@ def CLASP.Option(name, options = {})
 		end
 	end
 
-	CLASP::OptionSpecification.new(name, aliases, help, values_range, default_value, required, require_message, constraint, extras)
+	CLASP::OptionSpecification.new(name, aliases, help, values_range, default_value, required, require_message, constraint, extras, &blk)
 end
 
 def CLASP.Alias(name, *args)
