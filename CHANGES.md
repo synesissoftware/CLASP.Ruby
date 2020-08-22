@@ -1,5 +1,9 @@
 # **CLASP.Ruby** Changes
 
+## 0.22.0.1 22nd August 2020
+
+* ~ merging branches
+
 ## 25th May 2020
 
 * CHANGES.md : improved markup
