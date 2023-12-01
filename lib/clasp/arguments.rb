@@ -6,12 +6,13 @@
 #               CLASP.Ruby
 #
 # Created:      14th February 2014
-# Updated:      20th April 2019
+# Updated:      24th July 2022
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:       Matthew Wilson
 #
+# Copyright (c) 2019-2022, Matthew Wilson and Synesis Information Systems
 # Copyright (c) 2014-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
@@ -418,7 +419,7 @@ class Arguments
 
 		specifications		=	nil if specifications and specifications.empty?
 
-		flags, options, values = Arguments.parse_(argv, specifications)
+		flags, options, values, double_slash_index = Arguments.parse_(argv, specifications)
 
 		[ flags, options, values ].each do |ar|
 
@@ -455,6 +456,8 @@ class Arguments
 		@options	=	options.freeze
 		@values		=	values.freeze
 
+		@double_slash_index = double_slash_index
+
 		# do argv-mutation, if required
 		if init_opts[:mutate_argv]
 
@@ -484,6 +487,8 @@ class Arguments
 		options	=	[]
 		values	=	[]
 
+		double_slash_index = nil
+
 		forced_value		=	false
 		pending_option		=	nil
 
@@ -495,6 +500,9 @@ class Arguments
 
 					# all subsequent arguments are values
 					forced_value = true
+
+					double_slash_index = index if double_slash_index.nil?
+
 					next
 				end
 
@@ -575,7 +583,7 @@ class Arguments
 							# convert to argv and invoke
 							flags_argv = flag_aliases.map { |s| s.name }
 
-							grp_flags, grp_options, grp_value = Arguments.parse_(flags_argv, specifications)
+							grp_flags, grp_options, grp_value, grp_double_slash_index = Arguments.parse_(flags_argv, specifications)
 
 							grp_flags.map! { |f| FlagArgument.new(arg, index, given_name, f.name, f.argument_specification, hyphens.size, given_label, argument_spec ? argument_spec.extras : nil) }
 							grp_options.map! { |o| OptionArgument.new(arg, index, given_name, o.name, o.argument_specification, hyphens.size, given_label, o.value, argument_spec ? argument_spec.extras : nil) }
@@ -640,7 +648,7 @@ class Arguments
 
 		end
 
-		return flags, options, values
+		return flags, options, values, double_slash_index
 	end
 
 	# ######################
@@ -661,6 +669,9 @@ class Arguments
 
 	# (Array) a frozen array of values
 	attr_reader :values
+
+	# (Integer, +nil+) index of the first '--', if present; +nil+ otherwise
+	attr_reader :double_slash_index
 
 	# (Array) the (possibly mutated) array of arguments instance passed to new
 	attr_reader :argv

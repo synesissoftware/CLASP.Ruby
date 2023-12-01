@@ -17,6 +17,8 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 0, args.options.size
 
 		assert_equal 0, args.values.size
+
+		assert_nil args.double_slash_index
 	end
 
 	def test_one_value
@@ -29,6 +31,8 @@ class Test_Arguments < Test::Unit::TestCase
 
 		assert_equal 1, args.values.size
 		assert_equal 'value1', args.values[0]
+
+		assert_nil args.double_slash_index
 	end
 
 	def test_two_values
@@ -42,6 +46,8 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 2, args.values.size
 		assert_equal 'value1', args.values[0]
 		assert_equal 'val2', args.values[1]
+
+		assert_nil args.double_slash_index
 	end
 
 	def test_ten_values
@@ -58,6 +64,8 @@ class Test_Arguments < Test::Unit::TestCase
 		(0 ... argv.size).each do |n|
 			assert_equal argv[n], args.values[n]
 		end
+
+		assert_nil args.double_slash_index
 	end
 
 	def test_one_flag
@@ -77,6 +85,8 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 0, args.options.size
 
 		assert_equal 0, args.values.size
+
+		assert_nil args.double_slash_index
 	end
 
 	def test_two_flags
@@ -104,6 +114,8 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 0, args.options.size
 
 		assert_equal 0, args.values.size
+
+		assert_nil args.double_slash_index
 	end
 
 	def test_three_flags
@@ -139,6 +151,8 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 0, args.options.size
 
 		assert_equal 0, args.values.size
+
+		assert_nil args.double_slash_index
 	end
 
 	def test_one_option
@@ -159,6 +173,8 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal Hash.new, args.options[0].extras
 
 		assert_equal 0, args.values.size
+
+		assert_nil args.double_slash_index
 	end
 
 	def test_two_options
@@ -186,6 +202,8 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal Hash.new, args.options[1].extras
 
 		assert_equal 0, args.values.size
+
+		assert_nil args.double_slash_index
 	end
 
 	def test_three_options
@@ -221,6 +239,8 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal Hash.new, args.options[2].extras
 
 		assert_equal 0, args.values.size
+
+		assert_nil args.double_slash_index
 	end
 
 	def test_one_flag_and_one_option_and_one_value
@@ -247,6 +267,8 @@ class Test_Arguments < Test::Unit::TestCase
 
 		assert_equal 1, args.values.size
 		assert_equal 'value1', args.values[0]
+
+		assert_nil args.double_slash_index
 	end
 
 	def test_double_hyphen_1
@@ -267,6 +289,8 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 2, args.values.size
 		assert_equal 'value1', args.values[0]
 		assert_equal '-f2', args.values[1]
+
+		assert_equal 2, args.double_slash_index
 	end
 
 	def test_double_hyphen_2
@@ -289,6 +313,8 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal '-f2', args.values[1]
 		assert_equal '--', args.values[2]
 		assert_equal '--option1=v1', args.values[3]
+
+		assert_equal 2, args.double_slash_index
 	end
 
 	def test_double_hyphen_3
@@ -320,6 +346,8 @@ class Test_Arguments < Test::Unit::TestCase
 		assert_equal 2, args.values.size
 		assert_equal 'value1', args.values[0]
 		assert_equal 'value2', args.values[1]
+
+		assert_equal 3, args.double_slash_index
 	end
 
 	def test_flag_specifications_1
@@ -355,6 +383,8 @@ class Test_Arguments < Test::Unit::TestCase
 
 		assert_equal 1, args.values.size
 		assert_equal 'value1', args.values[0]
+
+		assert_nil args.double_slash_index
 	end
 
 	def test_flag_specifications_2
@@ -392,6 +422,8 @@ class Test_Arguments < Test::Unit::TestCase
 
 		assert_equal 1, args.values.size
 		assert_equal 'value1', args.values[0]
+
+		assert_nil args.double_slash_index
 	end
 
 	def test_flag_specifications_3
@@ -436,6 +468,8 @@ class Test_Arguments < Test::Unit::TestCase
 
 		assert_equal 1, args.values.size
 		assert_equal 'value1', args.values[0]
+
+		assert_nil args.double_slash_index
 	end
 
 	def test_option_specifications_1
@@ -463,6 +497,8 @@ class Test_Arguments < Test::Unit::TestCase
 
 		assert_equal 1, args.values.size
 		assert_equal 'value1', args.values[0]
+
+		assert_nil args.double_slash_index
 	end
 
 	def test_option_specifications_2
@@ -492,6 +528,8 @@ class Test_Arguments < Test::Unit::TestCase
 
 		assert_equal 1, args.values.size
 		assert_equal 'value1', args.values[0]
+
+		assert_nil args.double_slash_index
 	end
 
 	def test_option_specifications_3
@@ -522,6 +560,8 @@ class Test_Arguments < Test::Unit::TestCase
 
 		assert_equal 1, args.values.size
 		assert_equal 'value1', args.values[0]
+
+		assert_nil args.double_slash_index
 	end
 
 	def test_option_default_specifications_1
@@ -572,6 +612,8 @@ class Test_Arguments < Test::Unit::TestCase
 
 		assert_equal 1, args.values.size
 		assert_equal 'value1', args.values[0]
+
+		assert_nil args.double_slash_index
 	end
 
 	def test_option_default_specifications_2
@@ -633,6 +675,8 @@ class Test_Arguments < Test::Unit::TestCase
 
 		assert_equal 1, args.values.size
 		assert_equal 'value1', args.values[0]
+
+		assert_nil args.double_slash_index
 	end
 
 	def test_option_default_specifications_3
@@ -694,6 +738,8 @@ class Test_Arguments < Test::Unit::TestCase
 
 		assert_equal 1, args.values.size
 		assert_equal 'value1', args.values[0]
+
+		assert_nil args.double_slash_index
 	end
 end
 
