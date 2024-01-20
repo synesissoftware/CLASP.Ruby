@@ -1,25 +1,33 @@
-# CLASP.Ruby
+# CLASP.Ruby <!-- omit in toc -->
 Command-Line Argument Sorting and Parsing, for Ruby
 
 [![Gem Version](https://badge.fury.io/rb/clasp-ruby.svg)](https://badge.fury.io/rb/clasp-ruby)
 
-## Table of Contents
+## Table of Contents <!-- omit in toc -->
 
-1. [Introduction](#introduction)
-2. [Installation](#installation)
-3. [Components](#components)
-4. [Examples](#examples)
-5. [Project Information](#project-information)
+- [Introduction](#introduction)
+    - [libCLImate.Ruby](#libclimateruby)
+- [Installation](#installation)
+- [Components](#components)
+    - [Command-line parsing](#command-line-parsing)
+    - [Declarative specification of the flags and options for a CLI](#declarative-specification-of-the-flags-and-options-for-a-cli)
+    - [Utility functions for displaying usage and version information](#utility-functions-for-displaying-usage-and-version-information)
+- [Examples](#examples)
+- [Project Information](#project-information)
+    - [Where to get help](#where-to-get-help)
+    - [Contribution guidelines](#contribution-guidelines)
+    - [Related projects](#related-projects)
+    - [License](#license)
 
 ## Introduction
 
-**CLASP** stands for Command-Line Argument Sorting and
-Parsing. The first CLASP library was a C library with a C++ wrapper. There
-have been several implementations in other languages. **CLASP.Ruby** is the
-Ruby version.
+**CLASP** stands for **C**ommand-**L**ine **A**rgument **S**orting and **P**arsing. The first **CLASP** library was a C library with a C++ wrapper (see project [**CLASP**](https://github.com/synesissoftware/CLASP/)). There have been several implementations in other languages (as listed in [Relation projects](#related-projects)). **CLASP.Ruby** is the Ruby version.
 
-All CLASP libraries provide the facilities to **C**ommand **L**ine
-**I**nterface (**CLI**) programs as described in detail below.
+All **CLASP** libraries provide the facilities to **C**ommand **L**ine **I**nterface (**CLI**) programs as described in detail below.
+
+### libCLImate.Ruby
+
+The [**libCLImate.Ruby**](https://github.com/synesissoftware/libCLImate.Ruby) library is implemented in terms of **CLASP.Ruby** but provides a higher-level abstration as well as several utility functions and the facility to fully specify command-line arguments declaratively in the `__END__` section of a source file. More information and examples provided in the [**libCLImate.Ruby**](https://github.com/synesissoftware/libCLImate.Ruby) project.
 
 ## Installation
 
