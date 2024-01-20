@@ -6,13 +6,13 @@
 #               gem)
 #
 # Created:      10th June 2016
-# Updated:      10th June 2016
+# Updated:      20th January 2024
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2016, Matthew Wilson and Synesis Software
+# Copyright (c) 2016-2024, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -50,6 +50,6 @@ require 'clasp'
 # Backwards-compatible alias for the CLASP library's CLASP module
 Clasp = CLASP
 
-# ############################## end of file ############################# #
 
+# ############################## end of file ############################# #
 

@@ -25,6 +25,6 @@ puts args.values[0].given_index  # => 1
 puts args.values[1]              # => outfile
 puts args.values[1].given_index  # => 3
 
-# ############################## end of file ############################# #
 
+# ############################## end of file ############################# #
 

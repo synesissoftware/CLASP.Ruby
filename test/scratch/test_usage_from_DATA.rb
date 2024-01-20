@@ -4,7 +4,7 @@ $:.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib')
 
 require 'clasp'
 
-Arguments	=	CLASP::Arguments.load(ARGV, DATA)
+Arguments = CLASP::Arguments.load(ARGV, DATA)
 
 puts
 puts '*' * 40

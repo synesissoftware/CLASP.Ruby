@@ -5,13 +5,13 @@
 # Purpose:      Version for CLASP.Ruby library
 #
 # Created:      16th November 2014
-# Updated:      26th June 2022
+# Updated:      20th January 2024
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2019-2022, Matthew Wilson and Synesis Information Systems
+# Copyright (c) 2019-2024, Matthew Wilson and Synesis Information Systems
 # Copyright (c) 2014-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
@@ -51,22 +51,22 @@
 
 module CLASP
 
-	# Current version of the CLASP.Ruby library
-	VERSION				=	'0.23.0'
+    # Current version of the CLASP.Ruby library
+    VERSION             =   '0.23.0.1'
 
-	private
-	# @!visibility private
-	VERSION_PARTS_		=	VERSION.split(/[.]/).collect { |n| n.to_i } # :nodoc:
-	public
-	# Major version of the CLASP.Ruby library
-	VERSION_MAJOR		=	VERSION_PARTS_[0] # :nodoc:
-	# Minor version of the CLASP.Ruby library
-	VERSION_MINOR		=	VERSION_PARTS_[1] # :nodoc:
-	# Revision version of the CLASP.Ruby library
-	VERSION_REVISION	=	VERSION_PARTS_[2] # :nodoc:
+    private
+    # @!visibility private
+    VERSION_PARTS_      =   VERSION.split(/[.]/).collect { |n| n.to_i } # :nodoc:
+    public
+    # Major version of the CLASP.Ruby library
+    VERSION_MAJOR       =   VERSION_PARTS_[0] # :nodoc:
+    # Minor version of the CLASP.Ruby library
+    VERSION_MINOR       =   VERSION_PARTS_[1] # :nodoc:
+    # Revision version of the CLASP.Ruby library
+    VERSION_REVISION    =   VERSION_PARTS_[2] # :nodoc:
 
 end # module CLASP
 
-# ############################## end of file ############################# #
 
+# ############################## end of file ############################# #
 

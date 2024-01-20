@@ -26,7 +26,7 @@ All CLASP libraries provide the facilities to **C**ommand **L**ine
 Install via **gem** as in:
 
 ```
-	gem install clasp-ruby
+    gem install clasp-ruby
 ```
 
 or add it to your `Gemfile`.
@@ -50,7 +50,7 @@ All **CLASP** libraries discriminate between three types of command-line argumen
 For example, in the command line
 
 ```
-	myprog --all -c --opt1=val1 infile outfile
+    myprog --all -c --opt1=val1 infile outfile
 ```
 
 there are:
@@ -62,25 +62,25 @@ there are:
 *Flags* and *options* may have alias. If the alias for `--all` is `-a` and the alias for `--opt1` is `-o` then the following command-line is exactly equivalent to the previous one:
 
 ```
-	myprog -a -c -o val1 infile outfile
+    myprog -a -c -o val1 infile outfile
 ```
 
 One-letter *flags* may be combined. Hence, the following command-line is exactly equivalent to the previous ones:
 
 ```
-	myprog -ac -o val1 infile outfile
+    myprog -ac -o val1 infile outfile
 ```
 
 Option aliases may specify a value. If the alias `-v1` means `--opt1=val1` then the following command-line is exactly equivalent to the previous ones:
 
 ```
-	myprog -ac -v1 infile outfile
+    myprog -ac -v1 infile outfile
 ```
 
 Option aliases that are one letter may be combined with one-letter flags. If the alias `-v` means `--opt1=val1` then the following command-line is exactly equivalent to the previous ones:
 
 ```
-	myprog -acv infile outfile
+    myprog -acv infile outfile
 ```
 
 UNIX standard arguments confer specific meanings:
@@ -104,14 +104,14 @@ PROGRAM_VERSION = '0.1.2'
 
 Specifications = [
 
-	CLASP.Flag('--all', alias: '-a', help: 'processes all item types'),
-	CLASP.Flag('-c', help: 'count the processed items'),
-	CLASP.Option('--opt1', alias: '-o', help: 'an option of some kind', values_range: %w{ val1, val2 }),
-	CLASP.Flag('--opt1=val1', alias: '-v'),
+    CLASP.Flag('--all', alias: '-a', help: 'processes all item types'),
+    CLASP.Flag('-c', help: 'count the processed items'),
+    CLASP.Option('--opt1', alias: '-o', help: 'an option of some kind', values_range: %w{ val1, val2 }),
+    CLASP.Flag('--opt1=val1', alias: '-v'),
 
-	# see next section for why these two are here
-	CLASP::Flag.Help,
-	CLASP::Flag.Version,
+    # see next section for why these two are here
+    CLASP::Flag.Help,
+    CLASP::Flag.Version,
 ]
 
 # assuming the command-line `myprog -acv infile outfile`
@@ -139,25 +139,25 @@ There are aspects common to all CLI programs, such as responding to `--help` and
 
 Args.flags.each do |f|
 
-	case f.name
-	when CLASP::Flag.Help.name
+    case f.name
+    when CLASP::Flag.Help.name
 
-		CLASP.show_usage(Specifications, exit: 0, values: '<input-file> <output-file>')
-	when CLASP::Flag.Version.name
+        CLASP.show_usage(Specifications, exit: 0, values: '<input-file> <output-file>')
+    when CLASP::Flag.Version.name
 
-		CLASP.show_version(Specifications, exit: 0, version: PROGRAM_VERSION)
-	when '--all'
+        CLASP.show_version(Specifications, exit: 0, version: PROGRAM_VERSION)
+    when '--all'
 
-		# do something appropriate to `--all`
+        # do something appropriate to `--all`
 
-	. . .
+    . . .
 
 ```
 
 Given the command
 
 ```
-	./cr-example.rb --help
+    ./cr-example.rb --help
 ```
 
 then the program will output the following
@@ -167,32 +167,32 @@ USAGE: cr-example.rb [ ... flags and options ... ] <input-file> <output-file>
 
 flags/options:
 
-	-a
-	--all
-		processes all item types
+    -a
+    --all
+        processes all item types
 
-	-c
-		count the processed items
+    -c
+        count the processed items
 
-	-v --opt1=val1
-	-o <value>
-	--opt1=<value>
-		an option of some kind where <value> one of:
-			val1,
-			val2
+    -v --opt1=val1
+    -o <value>
+    --opt1=<value>
+        an option of some kind where <value> one of:
+            val1,
+            val2
 
-	--help
-		shows this help and terminates
+    --help
+        shows this help and terminates
 
-	--version
-		shows version and terminates
+    --version
+        shows version and terminates
 
 ```
 
 and given the command
 
 ```
-	./cr-example.rb --version
+    ./cr-example.rb --version
 ```
 
 then the program will output the following
@@ -238,4 +238,7 @@ Projects in which **CLASP.Ruby** is used include:
 ### License
 
 **CLASP.Ruby** is released under the 3-clause BSD license. See LICENSE for details.
+
+
+<!-- ########################### end of file ########################### -->
 

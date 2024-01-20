@@ -5,13 +5,13 @@
 # Purpose:      Top-level source for CLASP.ruby library
 #
 # Created:      13th October 2014
-# Updated:      10th June 2016
+# Updated:      20th January 2024
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2014-2016, Matthew Wilson and Synesis Software
+# Copyright (c) 2014-2024, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -46,6 +46,7 @@
 
 # clasp.rb -> clasp/clasp.rb
 require 'clasp/clasp'
+
 
 # ############################## end of file ############################# #
 

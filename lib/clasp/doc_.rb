@@ -5,13 +5,13 @@
 # Purpose:      Documentation of the CLASP.Ruby modules
 #
 # Created:      11th June 2016
-# Updated:      19th April 2019
+# Updated:      20th January 2024
 #
 # Home:         http://github.com/synesissoftware/xqsr3
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2016-2019, Matthew Wilson and Synesis Software
+# Copyright (c) 2016-2024, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -163,6 +163,6 @@ module CLASP
 
 end # module CLASP
 
-# ############################## end of file ############################# #
 
+# ############################## end of file ############################# #
 

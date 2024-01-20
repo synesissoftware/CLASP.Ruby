@@ -6,15 +6,15 @@ require 'clasp'
 
 Specifications = [
 
-	CLASP.Flag('--version', alias: '-v', help: 'shows the program version and quits'),
+    CLASP.Flag('--version', alias: '-v', help: 'shows the program version and quits'),
 
-	CLASP.Option('--verbosity', help: 'the verbosity', values: [ 'silent', 'quiet', 'succinct', 'chatty', 'verbose' ]),
-	CLASP.Option('--length', alias: '-l', help: 'specifies the length'),
-	CLASP.Flag('--verbosity=succinct', aliases: [ '--succinct', '-s' ]),
-	CLASP.Flag('--verbosity=verbose', aliases: [ '--verbose', '-v' ]),
+    CLASP.Option('--verbosity', help: 'the verbosity', values: [ 'silent', 'quiet', 'succinct', 'chatty', 'verbose' ]),
+    CLASP.Option('--length', alias: '-l', help: 'specifies the length'),
+    CLASP.Flag('--verbosity=succinct', aliases: [ '--succinct', '-s' ]),
+    CLASP.Flag('--verbosity=verbose', aliases: [ '--verbose', '-v' ]),
 ]
 
-Arguments	=	CLASP::Arguments.new(ARGV, Specifications)
+Arguments = CLASP::Arguments.new(ARGV, Specifications)
 
 puts
 puts '*' * 40
