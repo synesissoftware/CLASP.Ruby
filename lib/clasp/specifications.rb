@@ -5,13 +5,13 @@
 # Purpose:      Argument specification classes
 #
 # Created:      25th October 2014
-# Updated:      29th April 2019
+# Updated:      20th January 2024
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2014-2019, Matthew Wilson and Synesis Software
+# Copyright (c) 2014-2024, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -446,10 +446,10 @@ end
 #   - +:default+ [DEPRECATED] Alternative to +:default_value+
 #   - +:extras+ An application-defined object, usually a hash of custom attributes
 #   - +:help+ (::String) A help string
-#   - +required+ (boolean) Whether the option is required. May be +nil+
-#   - +required_message+ (::String) Message to be used when reporting that a required option is missing. May be +nil+ in which case a message of the form "<option-name> not specified; use --help for usage". If begins with the nul character ("\0"), then is used in the place of the <option-name> and placed into the rest of the standard form message
-#   - +extras+ An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+.
-#   - +constraint+ (Hash) Constraint to be applied to the parsed values of options matching this specification. NOTE: only integer constraints are supported in the current version
+#   - +:required+ (boolean) Whether the option is required. May be +nil+
+#   - +:required_message+ (::String) Message to be used when reporting that a required option is missing. May be +nil+ in which case a message of the form "<option-name> not specified; use --help for usage". If begins with the nul character ("\0"), then is used in the place of the <option-name> and placed into the rest of the standard form message
+#   - +:extras+ An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+.
+#   - +:constraint+ (Hash) Constraint to be applied to the parsed values of options matching this specification. NOTE: only integer constraints are supported in the current version
 #   - +:values_range+ (::Array) An array defining the accepted values for the option
 #   - +:values+ [DEPRECATED] Alternative to +:values_range+
 #
