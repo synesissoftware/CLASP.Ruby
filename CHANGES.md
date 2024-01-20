@@ -1,5 +1,16 @@
 # **CLASP.Ruby** Changes
 
+## 0.23.0.1 - 1st December 2023
+
+* added attribute `CLASP::Arguments#double_slash_index`
+* updated dependencies
+
+
+## 0.22.1 - 26th June 2022
+
+* updated dependencies
+
+
 ## 0.22.0.1 - 22nd August 2020
 
 * merging branches, to clear up last two changes
