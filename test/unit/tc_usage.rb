@@ -10,101 +10,158 @@ require 'stringio'
 
 class Test_Usage < Test::Unit::TestCase
 
-	def test_empty_default
+    def test_empty_default
 
-		specifications	=	[]
+        specifications = []
 
-		stream	=	StringIO.new
+        stream = StringIO.new
 
-		CLASP.show_usage specifications, stream: stream, program_name: 'myprog'
+        CLASP.show_usage specifications, stream: stream, program_name: 'myprog'
 
-		assert_equal "USAGE: myprog [ ... flags and options ... ]\n\n", stream.string
-	end
+        expected = <<EOF_output
+USAGE: myprog [ ... flags and options ... ]
 
-	def test_empty_all
+EOF_output
+        actual = stream.string
 
-		specifications	=	[]
+        assert_equal expected, actual
+    end
 
-		stream	=	StringIO.new
+    def test_empty_all
 
-		CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: ''
+        specifications = []
 
-		assert_equal "USAGE: myprog\n\n", stream.string
-	end
+        stream = StringIO.new
 
-	def test_empty_all_with_info_line_of_one_string
+        CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: ''
 
-		specifications	=	[]
+        expected = <<EOF_output
+USAGE: myprog
 
-		stream	=	StringIO.new
+EOF_output
+        actual = stream.string
 
-		info	=	'myprog version'.freeze
+        assert_equal expected, actual
+    end
 
-		CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: '', info_lines: info
+    def test_empty_all_with_info_line_of_one_string
 
-		assert_equal "myprog version\nUSAGE: myprog\n\n", stream.string
-	end
+        specifications = []
 
-	def test_empty_all_with_info_lines
+        stream  =   StringIO.new
 
-		specifications	=	[]
+        info    =   'myprog version'.freeze
 
-		stream	=	StringIO.new
+        CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: '', info_lines: info
 
-		info_lines	=	[
+        expected = <<EOF_output
+myprog version
+USAGE: myprog
 
-			'Synesis Software My Program',
-			'version 1',
-		].freeze
+EOF_output
+        actual = stream.string
 
-		CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: '', info_lines: info_lines
+        assert_equal expected, actual
+    end
 
-		assert_equal "Synesis Software My Program\nversion 1\nUSAGE: myprog\n\n", stream.string
-	end
+    def test_empty_all_with_info_lines
 
-	def test_empty_all_with_info_lines_including_version
+        specifications = []
 
-		specifications	=	[]
+        stream = StringIO.new
 
-		stream	=	StringIO.new
+        info_lines = [
 
-		info_lines	=	[
+            'Synesis Software My Program',
+            'version 1',
+        ].freeze
 
-			'Synesis Software My Program',
-			:version
-		].freeze
+        CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: '', info_lines: info_lines
 
-		CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: '', info_lines: info_lines, version: [ 1, 0, 1], version_prefix: 'v'
+        expected = <<EOF_output
+Synesis Software My Program
+version 1
+USAGE: myprog
 
-		assert_equal "Synesis Software My Program\nmyprog v1.0.1\nUSAGE: myprog\n\n", stream.string
-	end
+EOF_output
+        actual = stream.string
 
-	def test_one_alias_default
+        assert_equal expected, actual
+    end
 
-		specifications	=	[
+    def test_empty_all_with_info_lines_including_version
 
-			CLASP::Flag.Version
-		]
+        specifications = []
 
-		stream	=	StringIO.new
+        stream = StringIO.new
 
-		CLASP.show_usage specifications, stream: stream, program_name: 'myprog'
+        info_lines = [
 
-		assert_equal "USAGE: myprog [ ... flags and options ... ]\n\nflags/options:\n\n\t--version\n\t\t#{CLASP::Flag.Version.help}\n\n", stream.string
-	end
+            'Synesis Software My Program',
+            :version
+        ].freeze
 
-	def test_one_alias_all
+        CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: '', info_lines: info_lines, version: [ 1, 0, 1], version_prefix: 'v'
 
-		specifications	=	[
+        expected = <<EOF_output
+Synesis Software My Program
+myprog v1.0.1
+USAGE: myprog
 
-			CLASP::Flag.Version
-		]
+EOF_output
+        actual = stream.string
 
-		stream	=	StringIO.new
+        assert_equal expected, actual
+    end
 
-		CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: ''
+    def test_one_alias_default
 
-		assert_equal "USAGE: myprog\n\nflags/options:\n\n\t--version\n\t\t#{CLASP::Flag.Version.help}\n\n", stream.string
-	end
+        specifications = [
+
+            CLASP::Flag.Version
+        ]
+
+        stream = StringIO.new
+
+        CLASP.show_usage specifications, stream: stream, program_name: 'myprog'
+
+        expected = <<EOF_output
+USAGE: myprog [ ... flags and options ... ]
+
+flags/options:
+
+\t--version
+\t\t#{CLASP::Flag.Version.help}
+
+EOF_output
+        actual = stream.string
+
+        assert_equal expected, actual
+    end
+
+    def test_one_alias_all
+
+        specifications = [
+
+            CLASP::Flag.Version
+        ]
+
+        stream = StringIO.new
+
+        CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: ''
+
+        expected = <<EOF_output
+USAGE: myprog
+
+flags/options:
+
+\t--version
+\t\t#{CLASP::Flag.Version.help}
+
+EOF_output
+        actual = stream.string
+
+        assert_equal expected, actual
+    end
 end
 

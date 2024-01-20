@@ -26,9 +26,9 @@ Flag_Chatty = CLASP.Flag('--verbosity=chatty', alias: '-c')
 
 Specifications = [
 
-	Flag_Debug,
-	Option_Verbosity,
-	Flag_Chatty,
+    Flag_Debug,
+    Option_Verbosity,
+    Flag_Chatty,
 
     CLASP::FlagSpecification.Help,
     CLASP::FlagSpecification.Version,
@@ -51,12 +51,12 @@ end
 
 if (opt = args.find_option('--verbosity'))
 
-	$stdout.puts "verbosity is specified as: #{opt.value}"
+    $stdout.puts "verbosity is specified as: #{opt.value}"
 end
 
 if args.flags.include?('--debug')
 
-	$stdout.puts 'Debug mode is specified'
+    $stdout.puts 'Debug mode is specified'
 end
 
 
@@ -65,7 +65,7 @@ end
 
 if (unused = args.find_first_unknown())
 
-	$stderr.puts "#{args.program_name}: unrecognised flag/option: #{unused}"
+    $stderr.puts "#{args.program_name}: unrecognised flag/option: #{unused}"
 
     exit 1
 end

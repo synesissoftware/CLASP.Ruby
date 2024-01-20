@@ -2,7 +2,7 @@
 #
 # executes all other tests
 
-this_dir	=	File.expand_path(File.dirname(__FILE__))
+this_dir = File.expand_path(File.dirname(__FILE__))
 
 # all tc_*rb in current directory
 Dir[File.join(this_dir, 'tc_*rb')].each { |file| require file }

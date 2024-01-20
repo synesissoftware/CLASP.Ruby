@@ -43,7 +43,7 @@ end
 
 if (unused = args.find_first_unknown())
 
-	$stderr.puts "#{args.program_name}: unrecognised flag/option: #{unused}"
+    $stderr.puts "#{args.program_name}: unrecognised flag/option: #{unused}"
 
     exit 1
 end

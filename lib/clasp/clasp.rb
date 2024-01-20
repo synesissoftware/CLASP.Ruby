@@ -5,13 +5,13 @@
 # Purpose:      Common 'require file' for CLASP.Ruby library
 #
 # Created:      14th February 2014
-# Updated:      11th April 2019
+# Updated:      20th January 2024
 #
 # Home:         http://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:       Matthew Wilson
 #
-# Copyright (c) 2014-2019, Matthew Wilson and Synesis Software
+# Copyright (c) 2014-2024, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -52,13 +52,13 @@ require 'clasp/version'
 
 module CLASP
 
-	# TBC (but is a shorthand for calling +Arguments.new()+
-	def self.parse(argv = ARGV, specifications = nil, options = {})
+    # TBC (but is a shorthand for calling +Arguments.new()+
+    def self.parse(argv = ARGV, specifications = nil, options = {})
 
-		return Arguments.new(argv, specifications, options)
-	end
+        return Arguments.new(argv, specifications, options)
+    end
 end # module CLASP
 
-# ############################## end of file ############################# #
 
+# ############################## end of file ############################# #
 

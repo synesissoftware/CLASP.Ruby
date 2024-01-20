@@ -35,9 +35,9 @@ Flag_Chatty = CLASP.Flag('--verbosity=chatty', alias: '-c')
 
 Specifications = [
 
-	Flag_Debug,
-	Option_Verbosity,
-	Flag_Chatty,
+    Flag_Debug,
+    Option_Verbosity,
+    Flag_Chatty,
 
     CLASP::FlagSpecification.Help,
     CLASP::FlagSpecification.Version,
@@ -60,12 +60,12 @@ end
 
 if (opt = args.find_option('--verbosity'))
 
-	$stdout.puts "verbosity is specified as: #{opt.value}"
+    $stdout.puts "verbosity is specified as: #{opt.value}"
 end
 
 if args.flags.include?('--debug')
 
-	$stdout.puts 'Debug mode is specified'
+    $stdout.puts 'Debug mode is specified'
 end
 
 
@@ -74,7 +74,7 @@ end
 
 if (unused = args.find_first_unknown())
 
-	$stderr.puts "#{args.program_name}: unrecognised flag/option: #{unused}"
+    $stderr.puts "#{args.program_name}: unrecognised flag/option: #{unused}"
 
     exit 1
 end
@@ -120,25 +120,25 @@ USAGE: flag_and_option_specifications.rb [ ... flags and options ... ]
 
 flags/options:
 
-	-d
-	--debug
-		runs in Debug mode
+    -d
+    --debug
+        runs in Debug mode
 
-	-c --verbosity=chatty
-	-v <value>
-	--verbosity=<value>
-		specifies the verbosity
-		where <value> one of:
-			terse	*default*
-			quiet
-			silent
-			chatty
+    -c --verbosity=chatty
+    -v <value>
+    --verbosity=<value>
+        specifies the verbosity
+        where <value> one of:
+            terse   *default*
+            quiet
+            silent
+            chatty
 
-	--help
-		shows this help and terminates
+    --help
+        shows this help and terminates
 
-	--version
-		shows version and terminates
+    --version
+        shows version and terminates
 ```
 
 ### Specify flags and options in long-form

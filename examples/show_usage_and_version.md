@@ -52,7 +52,7 @@ end
 
 if (unused = args.find_first_unknown())
 
-	$stderr.puts "#{args.program_name}: unrecognised flag/option: #{unused}"
+    $stderr.puts "#{args.program_name}: unrecognised flag/option: #{unused}"
 
     sys.exit(1)
 end
@@ -102,11 +102,11 @@ USAGE: show_usage_and_version.rb [ ... flags and options ... ]
 
 flags/options:
 
-	--help
-		Shows usage and terminates
+    --help
+        Shows usage and terminates
 
-	--version
-		Shows version and terminates
+    --version
+        Shows version and terminates
 ```
 
 ### Show version

@@ -11,31 +11,31 @@ PROGRAM_VERSION = '0.1.2'
 
 Specifications = [
 
-	CLASP.Flag('--all', alias: '-a', help: 'processes all item types'),
-	CLASP.Flag('-c', help: 'count the processed items'),
-	CLASP.Option('--opt1', alias: '-o', help: 'an option of some kind', values_range: %w{ val1, val2 }),
-	CLASP.Flag('--opt1=val1', alias: '-v'),
+    CLASP.Flag('--all', alias: '-a', help: 'processes all item types'),
+    CLASP.Flag('-c', help: 'count the processed items'),
+    CLASP.Option('--opt1', alias: '-o', help: 'an option of some kind', values_range: %w{ val1, val2 }),
+    CLASP.Flag('--opt1=val1', alias: '-v'),
 
-	# see next section for why these two are here
-	CLASP::Flag.Help,
-	CLASP::Flag.Version,
+    # see next section for why these two are here
+    CLASP::Flag.Help,
+    CLASP::Flag.Version,
 ]
 
 Args = CLASP::Arguments.new(ARGV, Specifications)
 
 Args.flags.each do |f|
 
-	case f.name
-	when CLASP::Flag.Help.name
+    case f.name
+    when CLASP::Flag.Help.name
 
-		CLASP.show_usage(Specifications, exit: 0, values: '<input-file> <output-file>')
-	when CLASP::Flag.Version.name
+        CLASP.show_usage(Specifications, exit: 0, values: '<input-file> <output-file>')
+    when CLASP::Flag.Version.name
 
-		CLASP.show_version(Specifications, exit: 0, version: PROGRAM_VERSION)
-	when '--all'
+        CLASP.show_version(Specifications, exit: 0, version: PROGRAM_VERSION)
+    when '--all'
 
-		;
-	end
+        ;
+    end
 end
 
 puts Args.flags.size
