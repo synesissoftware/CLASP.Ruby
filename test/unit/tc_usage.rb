@@ -18,7 +18,13 @@ class Test_Usage < Test::Unit::TestCase
 
 		CLASP.show_usage specifications, stream: stream, program_name: 'myprog'
 
-		assert_equal "USAGE: myprog [ ... flags and options ... ]\n\n", stream.string
+		expected = <<EOF_output
+USAGE: myprog [ ... flags and options ... ]
+
+EOF_output
+		actual = stream.string
+
+		assert_equal expected, actual
 	end
 
 	def test_empty_all
@@ -29,7 +35,13 @@ class Test_Usage < Test::Unit::TestCase
 
 		CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: ''
 
-		assert_equal "USAGE: myprog\n\n", stream.string
+		expected = <<EOF_output
+USAGE: myprog
+
+EOF_output
+		actual = stream.string
+
+		assert_equal expected, actual
 	end
 
 	def test_empty_all_with_info_line_of_one_string
@@ -42,7 +54,14 @@ class Test_Usage < Test::Unit::TestCase
 
 		CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: '', info_lines: info
 
-		assert_equal "myprog version\nUSAGE: myprog\n\n", stream.string
+		expected = <<EOF_output
+myprog version
+USAGE: myprog
+
+EOF_output
+		actual = stream.string
+
+		assert_equal expected, actual
 	end
 
 	def test_empty_all_with_info_lines
@@ -59,7 +78,15 @@ class Test_Usage < Test::Unit::TestCase
 
 		CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: '', info_lines: info_lines
 
-		assert_equal "Synesis Software My Program\nversion 1\nUSAGE: myprog\n\n", stream.string
+		expected = <<EOF_output
+Synesis Software My Program
+version 1
+USAGE: myprog
+
+EOF_output
+		actual = stream.string
+
+		assert_equal expected, actual
 	end
 
 	def test_empty_all_with_info_lines_including_version
@@ -76,7 +103,15 @@ class Test_Usage < Test::Unit::TestCase
 
 		CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: '', info_lines: info_lines, version: [ 1, 0, 1], version_prefix: 'v'
 
-		assert_equal "Synesis Software My Program\nmyprog v1.0.1\nUSAGE: myprog\n\n", stream.string
+		expected = <<EOF_output
+Synesis Software My Program
+myprog v1.0.1
+USAGE: myprog
+
+EOF_output
+		actual = stream.string
+
+		assert_equal expected, actual
 	end
 
 	def test_one_alias_default
@@ -90,7 +125,18 @@ class Test_Usage < Test::Unit::TestCase
 
 		CLASP.show_usage specifications, stream: stream, program_name: 'myprog'
 
-		assert_equal "USAGE: myprog [ ... flags and options ... ]\n\nflags/options:\n\n\t--version\n\t\t#{CLASP::Flag.Version.help}\n\n", stream.string
+		expected = <<EOF_output
+USAGE: myprog [ ... flags and options ... ]
+
+flags/options:
+
+\t--version
+\t\t#{CLASP::Flag.Version.help}
+
+EOF_output
+		actual = stream.string
+
+		assert_equal expected, actual
 	end
 
 	def test_one_alias_all
@@ -104,7 +150,18 @@ class Test_Usage < Test::Unit::TestCase
 
 		CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: ''
 
-		assert_equal "USAGE: myprog\n\nflags/options:\n\n\t--version\n\t\t#{CLASP::Flag.Version.help}\n\n", stream.string
+		expected = <<EOF_output
+USAGE: myprog
+
+flags/options:
+
+\t--version
+\t\t#{CLASP::Flag.Version.help}
+
+EOF_output
+		actual = stream.string
+
+		assert_equal expected, actual
 	end
 end
 
