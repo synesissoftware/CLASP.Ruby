@@ -10,122 +10,122 @@ require 'stringio'
 
 class Test_Usage < Test::Unit::TestCase
 
-    def test_empty_default
+  def test_empty_default
 
-        specifications = []
+    specifications = []
 
-        stream = StringIO.new
+    stream = StringIO.new
 
-        CLASP.show_usage specifications, stream: stream, program_name: 'myprog'
+    CLASP.show_usage specifications, stream: stream, program_name: 'myprog'
 
-        expected = <<EOF_output
+    expected = <<EOF_output
 USAGE: myprog [ ... flags and options ... ]
 
 EOF_output
-        actual = stream.string
+    actual = stream.string
 
-        assert_equal expected, actual
-    end
+    assert_equal expected, actual
+  end
 
-    def test_empty_all
+  def test_empty_all
 
-        specifications = []
+    specifications = []
 
-        stream = StringIO.new
+    stream = StringIO.new
 
-        CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: ''
+    CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: ''
 
-        expected = <<EOF_output
+    expected = <<EOF_output
 USAGE: myprog
 
 EOF_output
-        actual = stream.string
+    actual = stream.string
 
-        assert_equal expected, actual
-    end
+    assert_equal expected, actual
+  end
 
-    def test_empty_all_with_info_line_of_one_string
+  def test_empty_all_with_info_line_of_one_string
 
-        specifications = []
+    specifications = []
 
-        stream  =   StringIO.new
+    stream  = StringIO.new
 
-        info    =   'myprog version'.freeze
+    info    = 'myprog version'.freeze
 
-        CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: '', info_lines: info
+    CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: '', info_lines: info
 
-        expected = <<EOF_output
+    expected = <<EOF_output
 myprog version
 USAGE: myprog
 
 EOF_output
-        actual = stream.string
+    actual = stream.string
 
-        assert_equal expected, actual
-    end
+    assert_equal expected, actual
+  end
 
-    def test_empty_all_with_info_lines
+  def test_empty_all_with_info_lines
 
-        specifications = []
+    specifications = []
 
-        stream = StringIO.new
+    stream = StringIO.new
 
-        info_lines = [
+    info_lines = [
 
-            'Synesis Software My Program',
-            'version 1',
-        ].freeze
+        'Synesis Software My Program',
+        'version 1',
+    ].freeze
 
-        CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: '', info_lines: info_lines
+    CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: '', info_lines: info_lines
 
-        expected = <<EOF_output
+    expected = <<EOF_output
 Synesis Software My Program
 version 1
 USAGE: myprog
 
 EOF_output
-        actual = stream.string
+    actual = stream.string
 
-        assert_equal expected, actual
-    end
+    assert_equal expected, actual
+  end
 
-    def test_empty_all_with_info_lines_including_version
+  def test_empty_all_with_info_lines_including_version
 
-        specifications = []
+    specifications = []
 
-        stream = StringIO.new
+    stream = StringIO.new
 
-        info_lines = [
+    info_lines = [
 
-            'Synesis Software My Program',
-            :version
-        ].freeze
+      'Synesis Software My Program',
+      :version
+    ].freeze
 
-        CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: '', info_lines: info_lines, version: [ 1, 0, 1], version_prefix: 'v'
+    CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: '', info_lines: info_lines, version: [ 1, 0, 1], version_prefix: 'v'
 
-        expected = <<EOF_output
+    expected = <<EOF_output
 Synesis Software My Program
 myprog v1.0.1
 USAGE: myprog
 
 EOF_output
-        actual = stream.string
+    actual = stream.string
 
-        assert_equal expected, actual
-    end
+    assert_equal expected, actual
+  end
 
-    def test_one_alias_default
+  def test_one_alias_default
 
-        specifications = [
+    specifications = [
 
-            CLASP::Flag.Version
-        ]
+      CLASP::Flag.Version
+    ]
 
-        stream = StringIO.new
+    stream = StringIO.new
 
-        CLASP.show_usage specifications, stream: stream, program_name: 'myprog'
+    CLASP.show_usage specifications, stream: stream, program_name: 'myprog'
 
-        expected = <<EOF_output
+    expected = <<EOF_output
 USAGE: myprog [ ... flags and options ... ]
 
 flags/options:
@@ -134,23 +134,23 @@ flags/options:
 \t\t#{CLASP::Flag.Version.help}
 
 EOF_output
-        actual = stream.string
+    actual = stream.string
 
-        assert_equal expected, actual
-    end
+    assert_equal expected, actual
+  end
 
-    def test_one_alias_all
+  def test_one_alias_all
 
-        specifications = [
+    specifications = [
 
-            CLASP::Flag.Version
-        ]
+        CLASP::Flag.Version
+    ]
 
-        stream = StringIO.new
+    stream = StringIO.new
 
-        CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: ''
+    CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: ''
 
-        expected = <<EOF_output
+    expected = <<EOF_output
 USAGE: myprog
 
 flags/options:
@@ -159,9 +159,9 @@ flags/options:
 \t\t#{CLASP::Flag.Version.help}
 
 EOF_output
-        actual = stream.string
+    actual = stream.string
 
-        assert_equal expected, actual
-    end
+    assert_equal expected, actual
+  end
 end
 

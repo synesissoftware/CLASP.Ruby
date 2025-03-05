@@ -12,10 +12,10 @@ ProgramVersion = [ 0, 0, 1 ]
 
 InfoLines = [
 
-    'CLASP.Ruby examples',
-    :version,
-    "Illustrates use of CLASP.Ruby's use of flags, options, and aliases",
-    '',
+  'CLASP.Ruby examples',
+  :version,
+  "Illustrates use of CLASP.Ruby's use of flags, options, and aliases",
+  '',
 ]
 
 # Specify specifications, parse, and checking standard flags
@@ -26,24 +26,24 @@ Flag_Chatty = CLASP.Flag('--verbosity=chatty', alias: '-c')
 
 Specifications = [
 
-    Flag_Debug,
-    Option_Verbosity,
-    Flag_Chatty,
+  Flag_Debug,
+  Option_Verbosity,
+  Flag_Chatty,
 
-    CLASP::FlagSpecification.Help,
-    CLASP::FlagSpecification.Version,
+  CLASP::FlagSpecification.Help,
+  CLASP::FlagSpecification.Version,
 ]
 
 args = CLASP::Arguments.new ARGV, Specifications
 
 if args.flags.include?(CLASP::FlagSpecification.Help)
 
-    CLASP.show_usage(Specifications, exit_code: 0, version: ProgramVersion, stream: $stdout, info_lines: InfoLines, default_indicator: '*default*')
+  CLASP.show_usage(Specifications, exit_code: 0, version: ProgramVersion, stream: $stdout, info_lines: InfoLines, default_indicator: '*default*')
 end
 
 if args.flags.include?('--version')
 
-    CLASP.show_version(Specifications, exit_code: 0, version: ProgramVersion, stream: $stdout)
+  CLASP.show_version(Specifications, exit_code: 0, version: ProgramVersion, stream: $stdout)
 end
 
 
@@ -51,12 +51,12 @@ end
 
 if (opt = args.find_option('--verbosity'))
 
-    $stdout.puts "verbosity is specified as: #{opt.value}"
+  $stdout.puts "verbosity is specified as: #{opt.value}"
 end
 
 if args.flags.include?('--debug')
 
-    $stdout.puts 'Debug mode is specified'
+  $stdout.puts 'Debug mode is specified'
 end
 
 
@@ -65,9 +65,9 @@ end
 
 if (unused = args.find_first_unknown())
 
-    $stderr.puts "#{args.program_name}: unrecognised flag/option: #{unused}"
+  $stderr.puts "#{args.program_name}: unrecognised flag/option: #{unused}"
 
-    exit 1
+  exit 1
 end
 
 

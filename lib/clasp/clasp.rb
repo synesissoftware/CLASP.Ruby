@@ -1,17 +1,18 @@
 
 # ######################################################################## #
-# File:         clasp/clasp.rb
+# File:     clasp/clasp.rb
 #
-# Purpose:      Common 'require file' for CLASP.Ruby library
+# Purpose:  Common 'require file' for CLASP.Ruby library
 #
-# Created:      14th February 2014
-# Updated:      20th January 2024
+# Created:  14th February 2014
+# Updated:  6th March 2025
 #
-# Home:         http://github.com/synesissoftware/CLASP.Ruby
+# Home:     http://github.com/synesissoftware/CLASP.Ruby
 #
-# Author:       Matthew Wilson
+# Author:   Matthew Wilson
 #
-# Copyright (c) 2014-2024, Matthew Wilson and Synesis Software
+# Copyright (c) 2019-2025, Matthew Wilson and Synesis Information Systems
+# Copyright (c) 2014-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -50,13 +51,16 @@ require 'clasp/specifications'
 require 'clasp/cli'
 require 'clasp/version'
 
+=begin
+=end
+
 module CLASP
 
-    # TBC (but is a shorthand for calling +Arguments.new()+
-    def self.parse(argv = ARGV, specifications = nil, options = {})
+  # TBC (but is a shorthand for calling +Arguments.new()+
+  def self.parse(argv = ARGV, specifications = nil, options = {})
 
-        return Arguments.new(argv, specifications, options)
-    end
+    return Arguments.new(argv, specifications, options)
+  end
 end # module CLASP
 
 

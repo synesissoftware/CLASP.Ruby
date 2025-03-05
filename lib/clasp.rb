@@ -1,17 +1,18 @@
 
 # ######################################################################## #
-# File:         clasp.rb
+# File:     clasp.rb
 #
-# Purpose:      Top-level source for CLASP.ruby library
+# Purpose:  Top-level source for CLASP.ruby library
 #
-# Created:      13th October 2014
-# Updated:      20th January 2024
+# Created:  13th October 2014
+# Updated:  6th March 2025
 #
-# Home:         http://github.com/synesissoftware/CLASP.Ruby
+# Home:     http://github.com/synesissoftware/CLASP.Ruby
 #
-# Author:       Matthew Wilson
+# Author:   Matthew Wilson
 #
-# Copyright (c) 2014-2024, Matthew Wilson and Synesis Software
+# Copyright (c) 2019-2025, Matthew Wilson and Synesis Information Systems
+# Copyright (c) 2014-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
