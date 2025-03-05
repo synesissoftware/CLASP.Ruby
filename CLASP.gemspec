@@ -4,7 +4,7 @@
 # Purpose:  Gemspec for CLASP.Ruby library
 #
 # Created:  22nd June 2015
-# Updated:  20th January 2024
+# Updated:  6th March 2025
 #
 # ######################################################################### #
 
@@ -34,6 +34,6 @@ END_DESC
 
     spec.required_ruby_version = [ '>= 1.9.3', '< 4' ]
 
-    spec.add_development_dependency 'xqsr3', [ '~> 0.38' ]
+    spec.add_development_dependency 'xqsr3', [ '~> 0.39' ]
 end
 
