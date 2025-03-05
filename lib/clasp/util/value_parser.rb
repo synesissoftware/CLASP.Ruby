@@ -62,8 +62,6 @@ module ValueParser # :nodoc: all
 
     def self.is_integer? type
 
-      h = {}
-
       return true if Integer == type
       return true if :integer == type
 
@@ -91,7 +89,7 @@ module ValueParser # :nodoc: all
         begin
 
           return Integer(def_value)
-        rescue ArgumentError => x
+        rescue ArgumentError => _x
 
           msg = "default value '#{def_value}' specified for option '#{argument_spec.name}' that requires the value to be an integer"
 
@@ -108,7 +106,7 @@ module ValueParser # :nodoc: all
       begin
 
         v = Integer(value)
-      rescue ArgumentError => x
+      rescue ArgumentError => _x
 
         msg = "value '#{value}' specified for option '#{argument_spec.name}' that requires the value to be an integer"
 

@@ -93,7 +93,7 @@ class Test_TypedOptionValues < Test::Unit::TestCase
       assert_equal specifications[0], opt.argument_specification
       assert_equal '--level', opt.name
       assert_equal '-100', opt.given_value
-      assert_equal -100, opt.value
+      assert_equal(-100, opt.value)
     end
 
     # with explicit value 123456789

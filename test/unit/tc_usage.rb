@@ -97,8 +97,8 @@ EOF_output
 
     info_lines = [
 
-        'Synesis Software My Program',
-        :version
+      'Synesis Software My Program',
+      :version
     ].freeze
 
     CLASP.show_usage specifications, stream: stream, program_name: 'myprog', flags_and_options: '', info_lines: info_lines, version: [ 1, 0, 1], version_prefix: 'v'
@@ -109,23 +109,23 @@ myprog v1.0.1
 USAGE: myprog
 
 EOF_output
-        actual = stream.string
+    actual = stream.string
 
-        assert_equal expected, actual
-    end
+    assert_equal expected, actual
+  end
 
-    def test_one_alias_default
+  def test_one_alias_default
 
-        specifications = [
+    specifications = [
 
-            CLASP::Flag.Version
-        ]
+      CLASP::Flag.Version
+    ]
 
-        stream = StringIO.new
+    stream = StringIO.new
 
-        CLASP.show_usage specifications, stream: stream, program_name: 'myprog'
+    CLASP.show_usage specifications, stream: stream, program_name: 'myprog'
 
-        expected = <<EOF_output
+    expected = <<EOF_output
 USAGE: myprog [ ... flags and options ... ]
 
 flags/options:

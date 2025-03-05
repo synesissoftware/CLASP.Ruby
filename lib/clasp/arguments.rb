@@ -582,7 +582,7 @@ class Arguments
                             # convert to argv and invoke
                             flags_argv = flag_aliases.map { |s| s.name }
 
-                            grp_flags, grp_options, grp_value, grp_double_slash_index = Arguments.parse_(flags_argv, specifications)
+                            grp_flags, grp_options, grp_value, _grp_double_slash_index = Arguments.parse_(flags_argv, specifications)
 
                             grp_flags.map! { |f| FlagArgument.new(arg, index, given_name, f.name, f.argument_specification, hyphens.size, given_label, argument_spec ? argument_spec.extras : nil) }
                             grp_options.map! { |o| OptionArgument.new(arg, index, given_name, o.name, o.argument_specification, hyphens.size, given_label, o.value, argument_spec ? argument_spec.extras : nil) }
