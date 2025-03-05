@@ -1,17 +1,18 @@
 
 # ######################################################################## #
-# File:         clasp/cli.rb
+# File:     clasp/cli.rb
 #
-# Purpose:      Command-line interface
+# Purpose:  Command-line interface
 #
-# Created:      27th July 2015
-# Updated:      20th January 2024
+# Created:  27th July 2015
+# Updated:  6th March 2025
 #
-# Home:         http://github.com/synesissoftware/CLASP.Ruby
+# Home:     http://github.com/synesissoftware/CLASP.Ruby
 #
-# Author:       Matthew Wilson
+# Author:   Matthew Wilson
 #
-# Copyright (c) 2015-2024, Matthew Wilson and Synesis Software
+# Copyright (c) 2019-2025, Matthew Wilson and Synesis Information Systems
+# Copyright (c) 2015-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -65,45 +66,45 @@ module CLASP
 # @!visibility private
 module CLI_helpers_ # :nodoc: all
 
-    # @!visibility private
-    module Constants # :nodoc: all
-
-        # @!visibility private
-        VALID_ALIAS_TYPES           =   [ FlagSpecification, OptionSpecification, AliasSpecification ]
-        # @!visibility private
-        VALID_ALIAS_TYPES_STRING    =   VALID_ALIAS_TYPES[0...-1].join(', ') + ', or ' + VALID_ALIAS_TYPES[-1].to_s
-    end # module Constants
+  # @!visibility private
+  module Constants # :nodoc: all
 
     # @!visibility private
-    def self.generate_version_string_ options # :nodoc:
+    VALID_ALIAS_TYPES         = [ FlagSpecification, OptionSpecification, AliasSpecification ]
+    # @!visibility private
+    VALID_ALIAS_TYPES_STRING  = VALID_ALIAS_TYPES[0...-1].join(', ') + ', or ' + VALID_ALIAS_TYPES[-1].to_s
+  end # module Constants
 
-        program_name    =   options[:program_name] || File.basename($0)
+  # @!visibility private
+  def self.generate_version_string_ options # :nodoc:
 
-        version_prefix  =   options[:version_prefix]
+    program_name    = options[:program_name] || File.basename($0)
 
-        if options[:version]
+    version_prefix  = options[:version_prefix]
 
-            case    options[:version]
-            when    ::Array
-                version =   options[:version].join('.')
-            else
-                version = options[:version]
-            end
-        else
+    if options[:version]
 
-            version_major   =   options[:version_major] or raise ArgumentError, "options must specify :version or :version_major [ + :version_minor [ + :version_revision [ + :version_build ]]]"
-            version_minor   =   options[:version_minor]
-            version_rev     =   options[:version_revision]
-            version_build   =   options[:version_build]
+      case  options[:version]
+      when  ::Array
+        version = options[:version].join('.')
+      else
+        version = options[:version]
+      end
+    else
 
-            version         =   version_major.to_s
-            version         +=  ".#{version_minor}" if version_minor
-            version         +=  ".#{version_rev}" if version_rev
-            version         +=  ".#{version_build}" if version_build
-        end
+      version_major =   options[:version_major] or raise ArgumentError, "options must specify :version or :version_major [ + :version_minor [ + :version_revision [ + :version_build ]]]"
+      version_minor =   options[:version_minor]
+      version_rev   =   options[:version_revision]
+      version_build =   options[:version_build]
 
-        "#{program_name} #{version_prefix}#{version}"
+      version       =   version_major.to_s
+      version       +=  ".#{version_minor}" if version_minor
+      version       +=  ".#{version_rev}" if version_rev
+      version       +=  ".#{version_build}" if version_build
     end
+
+    "#{program_name} #{version_prefix}#{version}"
+  end
 end # module CLI_helpers_
 
 
@@ -134,142 +135,142 @@ end # module CLI_helpers_
 #   - +:default_indicator+ (String) a string placed after the matching value in the listing of an option's range of values. Defaults to "(default)". If +nil+ default is used. If empty string no indication given
 def self.show_usage specifications, options={}
 
-    options ||= {}
+  options ||= {}
 
-    raise ArgumentError, "specifications may not be nil" if specifications.nil?
-    raise TypeError, "specifications must be an array or must respond to each, reject and select" unless ::Array === specifications || (specifications.respond_to?(:each) && specifications.respond_to?(:reject) && specifications.respond_to?(:select))
+  raise ArgumentError, "specifications may not be nil" if specifications.nil?
+  raise TypeError, "specifications must be an array or must respond to each, reject and select" unless ::Array === specifications || (specifications.respond_to?(:each) && specifications.respond_to?(:reject) && specifications.respond_to?(:select))
 
-    constants = CLI_helpers_::Constants
+  constants = CLI_helpers_::Constants
 
-    specifications.each { |s| raise ::TypeError, "each element in specifications array must be one of the types #{constants::VALID_ALIAS_TYPES_STRING}" unless constants::VALID_ALIAS_TYPES.any? { |c| c === s } }
+  specifications.each { |s| raise ::TypeError, "each element in specifications array must be one of the types #{constants::VALID_ALIAS_TYPES_STRING}" unless constants::VALID_ALIAS_TYPES.any? { |c| c === s } }
 
-    alias_dups = {}
-    specifications.each { |s| s.aliases.each { |aa| warn "WARNING: alias '#{aa}' is already used for specification '#{s}'" if alias_dups.has_key? aa; alias_dups[aa] = s; } }
+  alias_dups = {}
+  specifications.each { |s| s.aliases.each { |aa| warn "WARNING: alias '#{aa}' is already used for specification '#{s}'" if alias_dups.has_key? aa; alias_dups[aa] = s; } }
 
-    suppress_blanks =   options[:suppress_blank_lines_between_options] || ENV['SUPPRESS_BLANK_LINES_BETWEEN_OPTIONS']
+  suppress_blanks = options[:suppress_blank_lines_between_options] || ENV['SUPPRESS_BLANK_LINES_BETWEEN_OPTIONS']
 
-    stream          =   options[:stream] || $stdout
-    program_name    =   options[:program_name] || File.basename($0)
+  stream        = options[:stream] || $stdout
+  program_name  = options[:program_name] || File.basename($0)
 
-    info_lines      =   options[:info_lines]
-    case info_lines
-    when ::Array
+  info_lines    = options[:info_lines]
+  case info_lines
+  when ::Array
 
-        ;
-    when ::NilClass
+    ;
+  when ::NilClass
 
-        info_lines  =   []
+    info_lines  = []
+  else
+
+    info_lines  = [ info_lines ] unless [ :each, :empty? ].all? { |m| info_lines.respond_to? m }
+  end
+  info_lines  = info_lines.map do |line|
+
+    case line
+    when :version
+
+      CLI_helpers_.generate_version_string_ options
     else
 
-        info_lines  =   [ info_lines ] unless [ :each, :empty? ].all? { |m| info_lines.respond_to? m }
+      line
     end
-    info_lines      =   info_lines.map do |line|
+  end
 
-        case line
-        when :version
+  values            = options[:values] || ''
+  values            = " #{values}" if !values.empty? && ' ' != values[0]
 
-            CLI_helpers_.generate_version_string_ options
-        else
+  flags_and_options = options[:flags_and_options] || ' [ ... flags and options ... ]'
+  flags_and_options = " #{flags_and_options}" if !flags_and_options.empty? && ' ' != flags_and_options[0]
 
-            line
-        end
-    end
+  default_indicator = options[:default_indicator] || '(default)'
+  default_indicator = nil if default_indicator.empty?
 
-    values              =   options[:values] || ''
-    values              =   " #{values}" if !values.empty? && ' ' != values[0]
+  # sift the specifications to sort out which are value-option
+  # specifications (VOAs)
 
-    flags_and_options   =   options[:flags_and_options] || ' [ ... flags and options ... ]'
-    flags_and_options   =   " #{flags_and_options}" if !flags_and_options.empty? && ' ' != flags_and_options[0]
+  voas = {}
 
-    default_indicator   =   options[:default_indicator] || '(default)'
-    default_indicator   =   nil if default_indicator.empty?
+  specifications.select { |s| s.name =~ /^-+[a-zA-Z0-3_-]+[=:].+/ }.each do |s|
 
-    # sift the specifications to sort out which are value-option
-    # specifications (VOAs)
+    s.name =~ /^(-+[a-zA-Z0-3_-]+)[=:](.+)$/
 
-    voas = {}
+    voas[$1]  =   [] unless voas.has_key? $1
+    voas[$1]  <<  [ s, $2 ]
+  end
 
-    specifications.select { |s| s.name =~ /^-+[a-zA-Z0-3_-]+[=:].+/ }.each do |s|
+  fas = {}
 
-        s.name =~ /^(-+[a-zA-Z0-3_-]+)[=:](.+)$/
+  specifications.select { |s| AliasSpecification === s }.each do |s|
 
-        voas[$1]   =    [] unless voas.has_key? $1
-        voas[$1]   <<   [ s, $2 ]
-    end
+    fas[s.name] =   [] unless fas.has_key? $1
+    fas[s.name] <<  s
+  end
 
-    fas = {}
+  specifications  = specifications.reject { |s| s.name =~ /^-+[a-zA-Z0-3_-]+[=:].+/ }
 
-    specifications.select { |s| AliasSpecification === s }.each do |s|
+  info_lines.each { |info_line| stream.puts info_line } unless info_lines.empty?
 
-        fas[s.name]   =   [] unless fas.has_key? $1
-        fas[s.name]   <<   s
-    end
+  stream.puts "USAGE: #{program_name}#{flags_and_options}#{values}"
+  stream.puts
 
-    specifications   =   specifications.reject { |s| s.name =~ /^-+[a-zA-Z0-3_-]+[=:].+/ }
+  unless specifications.empty?
 
-    info_lines.each { |info_line| stream.puts info_line } unless info_lines.empty?
-
-    stream.puts "USAGE: #{program_name}#{flags_and_options}#{values}"
+    stream.puts "flags/options:"
     stream.puts
+    specifications.each do |s|
 
-    unless specifications.empty?
+      case s
+      when AliasSpecification
 
-        stream.puts "flags/options:"
-        stream.puts
-        specifications.each do |s|
+        next
+      when FlagSpecification
 
-            case s
-            when AliasSpecification
+        if fas.has_key? s.name
 
-                next
-            when FlagSpecification
+          fas[s.name].each do |fa|
 
-                if fas.has_key? s.name
-
-                    fas[s.name].each do |fa|
-
-                        fa.aliases.each { |al| stream.puts "\t#{al}" }
-                    end
-                end
-                s.aliases.each { |al| stream.puts "\t#{al}" }
-                stream.puts "\t#{s.name}"
-                stream.puts "\t\t#{s.help}"
-            when OptionSpecification
-
-                if voas.has_key? s.name
-
-                    voas[s.name].each do |ar|
-
-                        ar[0].aliases.each { |al| stream.puts "\t#{al} #{ar[0].name}" }
-                    end
-                end
-                s.aliases.each { |al| stream.puts "\t#{al} <value>" }
-                stream.puts "\t#{s.name}=<value>"
-                stream.puts "\t\t#{s.help}"
-                unless s.values_range.empty?
-
-                    d = s.default_value
-
-                    stream.puts "\t\twhere <value> one of:"
-                    s.values_range.each do |v|
-
-                        if default_indicator && v == d
-
-                            stream.puts "\t\t\t#{v}\t#{default_indicator}"
-                        else
-
-                            stream.puts "\t\t\t#{v}"
-                        end
-                    end
-                end
-            end
-            stream.puts unless suppress_blanks
+            fa.aliases.each { |al| stream.puts "\t#{al}" }
+          end
         end
+        s.aliases.each { |al| stream.puts "\t#{al}" }
+        stream.puts "\t#{s.name}"
+        stream.puts "\t\t#{s.help}"
+      when OptionSpecification
+
+        if voas.has_key? s.name
+
+          voas[s.name].each do |ar|
+
+            ar[0].aliases.each { |al| stream.puts "\t#{al} #{ar[0].name}" }
+          end
+        end
+        s.aliases.each { |al| stream.puts "\t#{al} <value>" }
+        stream.puts "\t#{s.name}=<value>"
+        stream.puts "\t\t#{s.help}"
+        unless s.values_range.empty?
+
+          d = s.default_value
+
+          stream.puts "\t\twhere <value> one of:"
+          s.values_range.each do |v|
+
+            if default_indicator && v == d
+
+              stream.puts "\t\t\t#{v}\t#{default_indicator}"
+            else
+
+              stream.puts "\t\t\t#{v}"
+            end
+          end
+        end
+      end
+      stream.puts unless suppress_blanks
     end
+  end
 
-    exit_code = options[:exit_code] || options[:exit]
+  exit_code = options[:exit_code] || options[:exit]
 
-    exit exit_code if exit_code
+  exit exit_code if exit_code
 end
 
 # Displays version for the program according to the given specifications and options
@@ -292,24 +293,24 @@ end
 #   - +:version_prefix+       optional string to prefix the version number(s).
 def self.show_version specifications, options = {}
 
-    options ||= {}
+  options ||= {}
 
-    raise ArgumentError, "specifications may not be nil" if specifications.nil?
-    raise TypeError, "specifications must be an array or must respond to each, reject and select" unless ::Array === specifications || (specifications.respond_to?(:each) && specifications.respond_to?(:reject) && specifications.respond_to?(:select))
+  raise ArgumentError, "specifications may not be nil" if specifications.nil?
+  raise TypeError, "specifications must be an array or must respond to each, reject and select" unless ::Array === specifications || (specifications.respond_to?(:each) && specifications.respond_to?(:reject) && specifications.respond_to?(:select))
 
-    constants = CLI_helpers_::Constants
+  constants = CLI_helpers_::Constants
 
-    specifications.each { |s| raise ::TypeError, "each element in specifications array must be one of the types #{constants::VALID_ALIAS_TYPES_STRING}" unless constants::VALID_ALIAS_TYPES.any? { |c| c === s } }
+  specifications.each { |s| raise ::TypeError, "each element in specifications array must be one of the types #{constants::VALID_ALIAS_TYPES_STRING}" unless constants::VALID_ALIAS_TYPES.any? { |c| c === s } }
 
-    stream = options[:stream] || $stdout
+  stream = options[:stream] || $stdout
 
-    version_string = CLI_helpers_.generate_version_string_ options
+  version_string = CLI_helpers_.generate_version_string_ options
 
-    stream.puts version_string
+  stream.puts version_string
 
-    exit_code = options[:exit_code] || options[:exit]
+  exit_code = options[:exit_code] || options[:exit]
 
-    exit exit_code if exit_code
+  exit exit_code if exit_code
 end
 
 

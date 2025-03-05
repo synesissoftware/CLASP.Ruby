@@ -1,18 +1,18 @@
 
 # ######################################################################## #
-# File:         clasp/old_module.rb
+# File:     clasp/old_module.rb
 #
-# Purpose:      Introduces old module Clasp (which clashes with an existing
-#               gem)
+# Purpose:  Introduces old module Clasp (which clashes with an existing gem)
 #
-# Created:      10th June 2016
-# Updated:      20th January 2024
+# Created:  10th June 2016
+# Updated:  6th March 2025
 #
-# Home:         http://github.com/synesissoftware/CLASP.Ruby
+# Home:     http://github.com/synesissoftware/CLASP.Ruby
 #
-# Author:       Matthew Wilson
+# Author:   Matthew Wilson
 #
-# Copyright (c) 2016-2024, Matthew Wilson and Synesis Software
+# Copyright (c) 2019-2025, Matthew Wilson and Synesis Information Systems
+# Copyright (c) 2016-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without

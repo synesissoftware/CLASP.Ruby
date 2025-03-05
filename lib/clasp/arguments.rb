@@ -1,18 +1,17 @@
 
 # ######################################################################## #
-# File:         clasp/arguments.rb
+# File:     clasp/arguments.rb
 #
-# Purpose:      Definition of the Arguments class, the main class in
-#               CLASP.Ruby
+# Purpose:  Definition of the Arguments class, the main class in CLASP.Ruby
 #
-# Created:      14th February 2014
-# Updated:      20th January 2024
+# Created:  14th February 2014
+# Updated:  6th March 2025
 #
-# Home:         http://github.com/synesissoftware/CLASP.Ruby
+# Home:     http://github.com/synesissoftware/CLASP.Ruby
 #
-# Author:       Matthew Wilson
+# Author:   Matthew Wilson
 #
-# Copyright (c) 2019-2024, Matthew Wilson and Synesis Information Systems
+# Copyright (c) 2019-2025, Matthew Wilson and Synesis Information Systems
 # Copyright (c) 2014-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
@@ -72,14 +71,14 @@ class Arguments
         # should not be called directly from application code
         def initialize(arg, given_index, given_name, resolved_name, argument_spec, given_hyphens, given_label, extras) # :nodoc:
 
-            @arg                    =   arg
-            @given_index            =   given_index
-            @given_name             =   given_name
-            @argument_specification =   argument_spec
-            @given_hyphens          =   given_hyphens
-            @given_label            =   given_label
-            @name                   =   resolved_name || given_name
-            @extras                 =   extras.nil? ? {} : extras
+            @arg                    = arg
+            @given_index            = given_index
+            @given_name             = given_name
+            @argument_specification = argument_spec
+            @given_hyphens          = given_hyphens
+            @given_label            = given_label
+            @name                   = resolved_name || given_name
+            @extras                 = extras.nil? ? {} : extras
         end
 
         # (Integer) The command-line index of the argument
@@ -160,10 +159,10 @@ class Arguments
 
                     if constraint.empty?
 
-                        resolved_value  =   (value || '').empty? ? argument_spec.default_value : value
+                        resolved_value  = (value || '').empty? ? argument_spec.default_value : value
                     else
 
-                        resolved_value  =   value_from_Hash(constraint, value, arg, given_index, given_name, argument_spec, extras)
+                        resolved_value  = value_from_Hash(constraint, value, arg, given_index, given_name, argument_spec, extras)
                     end
                 else
 
@@ -171,19 +170,19 @@ class Arguments
                 end
             else
 
-                resolved_value      =   value
+                resolved_value      = value
             end
 
-            @arg                    =   arg
-            @given_index            =   given_index
-            @given_name             =   given_name
-            @argument_specification =   argument_spec
-            @given_hyphens          =   given_hyphens
-            @given_label            =   given_label
-            @given_value            =   value
-            @value                  =   resolved_value
-            @name                   =   resolved_name || given_name
-            @extras                 =   extras.nil? ? {} : extras
+            @arg                    = arg
+            @given_index            = given_index
+            @given_name             = given_name
+            @argument_specification = argument_spec
+            @given_hyphens          = given_hyphens
+            @given_label            = given_label
+            @given_value            = value
+            @value                  = resolved_value
+            @name                   = resolved_name || given_name
+            @extras                 = extras.nil? ? {} : extras
         end
 
         # (Integer) The command-line index of the argument
@@ -300,12 +299,12 @@ class Arguments
             end
         end
 
-        specs   =   []
+        specs   = []
 
-        _clasp  =   h['clasp'] or raise ArgumentError, "missing top-level 'clasp' element in load configuration"
+        _clasp  = h['clasp'] or raise ArgumentError, "missing top-level 'clasp' element in load configuration"
         ::Hash === _clasp or raise ArgumentError, "top-level 'clasp' element must be a #{::Hash}"
 
-        _specs  =   (_clasp['arg-specs'] || _clasp['specifications'] || _clasp['aliases']) or raise ArgumentError, "missing element 'clasp/specifications'"
+        _specs  = (_clasp['arg-specs'] || _clasp['specifications'] || _clasp['aliases']) or raise ArgumentError, "missing element 'clasp/specifications'"
         ::Array === _specs or raise ArgumentError, "top-level 'specifications' element must be a #{::Hash}"
 
         _specs.each do |_spec|
@@ -327,9 +326,9 @@ class Arguments
                             warn "flag specification missing required 'name' field"
                         else
 
-                            _alias      =   _details['alias']
-                            _aliases    =   _details['aliases']
-                            _help       =   _details['help'] || _details['description']
+                            _alias    = _details['alias']
+                            _aliases  = _details['aliases']
+                            _help     = _details['help'] || _details['description']
 
                             specs << CLASP.Flag(_name, alias: _alias, aliases: _aliases, help: _help)
                         end
@@ -342,13 +341,13 @@ class Arguments
                             warn "option specification missing required 'name' field"
                         else
 
-                            _alias              =   _details['alias']
-                            _aliases            =   _details['aliases']
-                            _default_value      =   _details['default_value'] || _details['default']
-                            _help               =   _details['help'] || _details['description']
-                            _required           =   _details['required']
-                            _required_message   =   _details['required_message']
-                            _values_range       =   _details['values_range'] || _details['values']
+                            _alias            = _details['alias']
+                            _aliases          = _details['aliases']
+                            _default_value    = _details['default_value'] || _details['default']
+                            _help             = _details['help'] || _details['description']
+                            _required         = _details['required']
+                            _required_message = _details['required_message']
+                            _values_range     = _details['values_range'] || _details['values']
 
                             specs << CLASP.Option(_name, alias: _alias, aliases: _aliases, default_value: _default_value, help: _help, required: _required, required_message: _required_message, values_range: _values_range)
                         end
@@ -361,8 +360,8 @@ class Arguments
                             warn "alias specification missing required 'resolved' field"
                         else
 
-                            _alias      =   _details['alias']
-                            _aliases    =   _details['aliases']
+                            _alias    = _details['alias']
+                            _aliases  = _details['aliases']
 
                             unless _alias || _aliases
 
@@ -404,20 +403,20 @@ class Arguments
 
         # have to do this name-swap, as 'options' has CLASP-specific
         # meaning
-        init_opts, options  =   options.dup, nil
+        init_opts, options  = options.dup, nil
 
         init_opts[:mutate_argv] = true unless init_opts.has_key? :mutate_argv
 
-        @program_name       =   init_opts[:program_name] || Arguments.derive_program_name_
+        @program_name       = init_opts[:program_name] || Arguments.derive_program_name_
 
-        @argv               =   argv
-        argv                =   argv.dup
-        @argv_original_copy =   argv.dup.freeze
+        @argv               = argv
+        argv                = argv.dup
+        @argv_original_copy = argv.dup.freeze
 
-        @specifications     =   specifications
-        @aliases            =   @specifications
+        @specifications     = specifications
+        @aliases            = @specifications
 
-        specifications      =   nil if specifications and specifications.empty?
+        specifications      = nil if specifications and specifications.empty?
 
         flags, options, values, double_slash_index = Arguments.parse_(argv, specifications)
 
@@ -430,31 +429,31 @@ class Arguments
 
                 def to_s
 
-                    s   =   ''
+                    s =   ''
 
-                    s   +=  '['
-                    s   +=  self.map { |v| %Q<"#{v}"> }.join(', ')
-                    s   +=  ']'
+                    s +=  '['
+                    s +=  self.map { |v| %Q<"#{v}"> }.join(', ')
+                    s +=  ']'
 
                     s
                 end
 
                 def inspect
 
-                    s   =   ''
+                    s =   ''
 
-                    s   +=  "#<#{self.class}:0x#{(object_id << 1).to_s(16)} ["
-                    s   +=  self.map { |v| v.inspect }.join(', ')
-                    s   +=  "]>"
+                    s +=  "#<#{self.class}:0x#{(object_id << 1).to_s(16)} ["
+                    s +=  self.map { |v| v.inspect }.join(', ')
+                    s +=  "]>"
 
                     s
                 end
             end
         end
 
-        @flags      =   flags.freeze
-        @options    =   options.freeze
-        @values     =   values.freeze
+        @flags    = flags.freeze
+        @options  = options.freeze
+        @values   = values.freeze
 
         @double_slash_index = double_slash_index
 
@@ -483,14 +482,14 @@ class Arguments
     # @!visibility private
     def self.parse_(argv, specifications) # :nodoc:
 
-        flags   =   []
-        options =   []
-        values  =   []
+        flags   = []
+        options = []
+        values  = []
 
         double_slash_index = nil
 
-        forced_value    =   false
-        pending_option  =   nil
+        forced_value    = false
+        pending_option  = nil
 
         argv.each_with_index do |arg, index|
 
@@ -509,27 +508,27 @@ class Arguments
                 # do regex test to see if option/flag/value
                 if arg =~ /^(-+)([^=]+)/
 
-                    hyphens         =   $1
-                    given_label     =   $2
-                    given_name      =   "#$1#$2"
-                    value           =   ($' and not $'.empty?) ? $'[1 ... $'.size] : nil
-                    argument_spec   =   nil
-                    resolved_name   =   nil
+                    hyphens       = $1
+                    given_label   = $2
+                    given_name    = "#$1#$2"
+                    value         = ($' and not $'.empty?) ? $'[1 ... $'.size] : nil
+                    argument_spec = nil
+                    resolved_name = nil
 
                     (specifications || []).each do |s|
 
                         if s.name == given_name or s.aliases.include? given_name
 
-                            argument_spec   =   s
-                            resolved_name   =   s.name
+                            argument_spec = s
+                            resolved_name = s.name
 
                             # need to check whether the alias is a default-option
                             # and, if so, expand out its name and value, and replace
                             # the name and (if none previously specified) the value
                             if resolved_name =~ /^(-+)([^=]+)=/
 
-                                resolved_name   =   "#$1#$2"
-                                value           ||= $'
+                                resolved_name =   "#$1#$2"
+                                value         ||= $'
 
                                 # now find the underlying (option) specification
                                 specifications.each do |t|
@@ -554,9 +553,9 @@ class Arguments
                         flag_aliases = []
                         given_label[0 ... given_label.size].each_char do |c|
 
-                            new_flag    =   "-#{c.chr}"
+                            new_flag    = "-#{c.chr}"
 
-                            flag_alias  =   nil
+                            flag_alias  = nil
 
                             # special case where the flag's actual name is short form and found here
                             flag_alias  ||= specifications.detect { |s| s.is_a?(CLASP::FlagSpecification) && s.name == new_flag }
@@ -566,11 +565,11 @@ class Arguments
 
                             if not flag_alias
 
-                                flag_aliases   =   nil
+                                flag_aliases =   nil
                                 break
                             else
 
-                                flag_aliases   <<  flag_alias
+                                flag_aliases <<  flag_alias
                             end
                         end
 
@@ -632,8 +631,8 @@ class Arguments
                 next unless forced_value
             end
 
-            arg     =   arg.dup
-            arg_ix  =   ::Integer === index ? index : index.dup
+            arg     = arg.dup
+            arg_ix  = ::Integer === index ? index : index.dup
 
             arg.define_singleton_method(:given_index) { arg_ix }
 
@@ -761,9 +760,9 @@ class Arguments
     # backwards-compatible
 
     # @!visibility private
-    Flag    =   FlagArgument    # :nodoc:
+    Flag    = FlagArgument    # :nodoc:
     # @!visibility private
-    Option  =   OptionArgument  # :nodoc:
+    Option  = OptionArgument  # :nodoc:
 end # class Arguments
 
 

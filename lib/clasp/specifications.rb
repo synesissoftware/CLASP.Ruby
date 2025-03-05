@@ -1,17 +1,18 @@
 
 # ######################################################################## #
-# File:         clasp/specifications.rb
+# File:     clasp/specifications.rb
 #
-# Purpose:      Argument specification classes
+# Purpose:  Argument specification classes
 #
-# Created:      25th October 2014
-# Updated:      20th January 2024
+# Created:  25th October 2014
+# Updated:  6th March 2025
 #
-# Home:         http://github.com/synesissoftware/CLASP.Ruby
+# Home:     http://github.com/synesissoftware/CLASP.Ruby
 #
-# Author:       Matthew Wilson
+# Author:   Matthew Wilson
 #
-# Copyright (c) 2014-2024, Matthew Wilson and Synesis Software
+# Copyright (c) 2019-2025, Matthew Wilson and Synesis Information Systems
+# Copyright (c) 2014-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -61,319 +62,319 @@ module CLASP
 # @!visibility private
 class SpecificationBase # :nodoc: all
 
-    private
-    # @!visibility private
-    def check_arity_(blk, range, label) # :nodoc:
+  private
+  # @!visibility private
+  def check_arity_(blk, range, label) # :nodoc:
 
-        raise ArgumentError, "block must be a #{Proc}; #{blk.class} given" unless blk.nil? || Proc === blk
+    raise ArgumentError, "block must be a #{Proc}; #{blk.class} given" unless blk.nil? || Proc === blk
 
-        if blk
+    if blk
 
-            case blk.arity
-            when range
+      case blk.arity
+      when range
 
-                ;
-            else
+        ;
+      else
 
-                msg = "wrong arity for #{label}"
+        msg = "wrong arity for #{label}"
 
-                if $DEBUG
+        if $DEBUG
 
-                    raise ArgumentError, msg
-                else
+          raise ArgumentError, msg
+        else
 
-                    warn msg
-                end
-            end
+          warn msg
         end
+      end
     end
-    public
+  end
+  public
 end
 
 # A class that represents the specification for a command-line flag
 class FlagSpecification < SpecificationBase
 
-    # Creates a FlagSpecification instance from the given name, aliases, and help
-    #
-    # === Signature
-    #
-    # * *Parameters*
-    #   - +name+ (+String+) The name, or long-form, of the flag
-    #   - +aliases+ (+Array+) 0 or more strings specifying short-form or option-value aliases
-    #   - +help+ (+String+) The help string, which may be +nil+
-    #   - +extras+ An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+
-    #
-    # * *Block* An optional block that is called when a matching flag argument is found
-    #
-    # *NOTE:* Users should prefer the +CLASP::Flag()+ method
-    def initialize(name, aliases, help, extras = nil, &blk)
+  # Creates a FlagSpecification instance from the given name, aliases, and help
+  #
+  # === Signature
+  #
+  # * *Parameters*
+  #   - +name+ (+String+) The name, or long-form, of the flag
+  #   - +aliases+ (+Array+) 0 or more strings specifying short-form or option-value aliases
+  #   - +help+ (+String+) The help string, which may be +nil+
+  #   - +extras+ An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+
+  #
+  # * *Block* An optional block that is called when a matching flag argument is found
+  #
+  # *NOTE:* Users should prefer the +CLASP::Flag()+ method
+  def initialize(name, aliases, help, extras = nil, &blk)
 
-        check_arity_(blk, 0..3, "flag")
+    check_arity_(blk, 0..3, "flag")
 
-        @name       =   name
-        @aliases    =   (aliases || []).select { |a| a and not a.empty? }
-        @help       =   help
-        @extras     =   extras || {}
-        @action     =   blk
+    @name     = name
+    @aliases  = (aliases || []).select { |a| a and not a.empty? }
+    @help     = help
+    @extras   = extras || {}
+    @action   = blk
+  end
+
+  # The flag's name string
+  attr_reader :name
+  # The flag's aliases array
+  attr_reader :aliases
+  # The flag's help string
+  attr_reader :help
+  # The flag's extras
+  attr_reader :extras
+
+  # (Proc) The procedure
+  attr_reader :action
+
+  # @!visibility private
+  def action=(blk) # :nodoc: all
+
+    check_arity_(blk, 0..3, "flag")
+
+    @action = blk
+  end
+
+  # String form of the flag
+  def to_s
+
+    "{#{name}; aliases=#{aliases.join(', ')}; help='#{help}'; extras=#{extras}}"
+  end
+
+  # @!visibility private
+  def eql? rhs # :nodoc:
+
+    case rhs
+    when self.class
+
+      return true if equal?(rhs)
+    else
+
+      return false
     end
 
-    # The flag's name string
-    attr_reader :name
-    # The flag's aliases array
-    attr_reader :aliases
-    # The flag's help string
-    attr_reader :help
-    # The flag's extras
-    attr_reader :extras
+    return false unless name == rhs.name
+    return false unless aliases == rhs.aliases
+    return false unless help == rhs.help
+    return false unless extras == rhs.extras
 
-    # (Proc) The procedure
-    attr_reader :action
+    return true
+  end
 
-    # @!visibility private
-    def action=(blk) # :nodoc: all
+  # Compares instance against another FlagSpecification or against a name (String)
+  def == rhs
 
-        check_arity_(blk, 0..3, "flag")
+    case rhs
+    when self.class
 
-        @action = blk
+      return self.eql? rhs
+    when String
+
+      return name == rhs
+    else
+
+      false
+    end
+  end
+
+private
+  @@Help_     = self.new('--help', [], 'shows this help and terminates')
+  @@Version_  = self.new('--version', [], 'shows version and terminates')
+public
+  # An instance of FlagSpecification that provides default '--help' information
+  #
+  # If you wish to specify +extras+ or attach a block, you may do so
+  def self.Help(extras = nil, &blk)
+
+    h = @@Help_
+
+    if extras || blk
+
+      return self.new(h.name, h.aliases, h.help, extras, &blk)
     end
 
-    # String form of the flag
-    def to_s
+    h
+  end
 
-        "{#{name}; aliases=#{aliases.join(', ')}; help='#{help}'; extras=#{extras}}"
+  # An instance of FlagSpecification that provides default '--version' information
+  #
+  # If you wish to specify +extras+ or attach a block, you may do so
+  def self.Version(extras = nil, &blk)
+
+    h = @@Version_
+
+    if extras || blk
+
+      return self.new(h.name, h.aliases, h.help, extras, &blk)
     end
 
-    # @!visibility private
-    def eql? rhs # :nodoc:
-
-        case rhs
-        when self.class
-
-            return true if equal?(rhs)
-        else
-
-            return false
-        end
-
-        return false unless name == rhs.name
-        return false unless aliases == rhs.aliases
-        return false unless help == rhs.help
-        return false unless extras == rhs.extras
-
-        return true
-    end
-
-    # Compares instance against another FlagSpecification or against a name (String)
-    def == rhs
-
-        case rhs
-        when self.class
-
-            return self.eql? rhs
-        when String
-
-            return name == rhs
-        else
-
-            false
-        end
-    end
-
-  private
-    @@Help_     =   self.new('--help', [], 'shows this help and terminates')
-    @@Version_  =   self.new('--version', [], 'shows version and terminates')
-  public
-    # An instance of FlagSpecification that provides default '--help' information
-    #
-    # If you wish to specify +extras+ or attach a block, you may do so
-    def self.Help(extras = nil, &blk)
-
-        h = @@Help_
-
-        if extras || blk
-
-            return self.new(h.name, h.aliases, h.help, extras, &blk)
-        end
-
-        h
-    end
-
-    # An instance of FlagSpecification that provides default '--version' information
-    #
-    # If you wish to specify +extras+ or attach a block, you may do so
-    def self.Version(extras = nil, &blk)
-
-        h = @@Version_
-
-        if extras || blk
-
-            return self.new(h.name, h.aliases, h.help, extras, &blk)
-        end
-
-        h
-    end
+    h
+  end
 end
 
 # A class that represents the specification for a command-line option
 class OptionSpecification < SpecificationBase
 
-    # Creates an OptionSpecification instance from the given name, aliases, help,
-    # values_range, and default_value
-    #
-    # === Signature
-    #
-    # * *Parameters*
-    #   - +name+ (+String+) The name, or long-form, of the option
-    #   - +aliases+ (+Array+) 0 or more strings specifying short-form or option-value aliases
-    #   - +help+ (+String+) The help string, which may be +nil+
-    #   - +values_range+ (+Array+) 0 or more strings specifying values supported by the option
-    #   - +default_value+ (+String+) The default value of the option, which will be used in the case where an option is specified without a value. May be +nil+
-    #   - +required+ (boolean) Whether the option is required. May be +nil+
-    #   - +required_message+ (::String) Message to be used when reporting that a required option is missing. May be +nil+ in which case a message of the form "<option-name> not specified; use --help for usage". If begins with the nul character ("\0"), then is used in the place of the <option-name> and placed into the rest of the standard form message
-    #   - +constraint+ (Hash) Constraint to be applied to the parsed values of options matching this specification. NOTE: only integer constraints are supported in the current version
-    #   - +extras+ An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+
-    #
-    # * *Block* An optional block that is called when a matching option argument is found
-    #
-    # *NOTE:* Users should prefer the +CLASP::Option()+ method
-    def initialize(name, aliases, help, values_range, default_value, required, required_message, constraint, extras = nil, &blk)
+  # Creates an OptionSpecification instance from the given name, aliases, help,
+  # values_range, and default_value
+  #
+  # === Signature
+  #
+  # * *Parameters*
+  #   - +name+ (+String+) The name, or long-form, of the option
+  #   - +aliases+ (+Array+) 0 or more strings specifying short-form or option-value aliases
+  #   - +help+ (+String+) The help string, which may be +nil+
+  #   - +values_range+ (+Array+) 0 or more strings specifying values supported by the option
+  #   - +default_value+ (+String+) The default value of the option, which will be used in the case where an option is specified without a value. May be +nil+
+  #   - +required+ (boolean) Whether the option is required. May be +nil+
+  #   - +required_message+ (::String) Message to be used when reporting that a required option is missing. May be +nil+ in which case a message of the form "<option-name> not specified; use --help for usage". If begins with the nul character ("\0"), then is used in the place of the <option-name> and placed into the rest of the standard form message
+  #   - +constraint+ (Hash) Constraint to be applied to the parsed values of options matching this specification. NOTE: only integer constraints are supported in the current version
+  #   - +extras+ An application-defined additional parameter. If +nil+, it is assigned an empty +Hash+
+  #
+  # * *Block* An optional block that is called when a matching option argument is found
+  #
+  # *NOTE:* Users should prefer the +CLASP::Option()+ method
+  def initialize(name, aliases, help, values_range, default_value, required, required_message, constraint, extras = nil, &blk)
 
-        check_arity_(blk, 0..3, "option")
+    check_arity_(blk, 0..3, "option")
 
-        @name               =   name
-        @aliases            =   (aliases || []).select { |a| a and not a.empty? }
-        @help               =   help
-        @values_range       =   values_range || []
-        @default_value      =   default_value
-        @required           =   required
-        @required_message   =   nil
-        @constraint         =   constraint || {}
-        @extras             =   extras || {}
-        @action             =   blk
+    @name             = name
+    @aliases          = (aliases || []).select { |a| a and not a.empty? }
+    @help             = help
+    @values_range     = values_range || []
+    @default_value    = default_value
+    @required         = required
+    @required_message = nil
+    @constraint       = constraint || {}
+    @extras           = extras || {}
+    @action           = blk
 
-        rm_name             =   nil
+    rm_name           = nil
 
-        if required_message
+    if required_message
 
-            if "\0" == required_message[0]
+      if "\0" == required_message[0]
 
-                rm_name = required_message[1..-1]
-            end
-        else
+          rm_name = required_message[1..-1]
+      end
+    else
 
-            rm_name = "'#{name}'"
-        end
-
-        if rm_name
-
-            required_message = "#{rm_name} not specified; use --help for usage"
-        end
-
-        @required_message = required_message
+      rm_name = "'#{name}'"
     end
 
-    # The option's name string
-    attr_reader :name
-    # The option's aliases array
-    attr_reader :aliases
-    # The option's help string
-    attr_reader :help
-    # The range of values supported by the option
-    attr_reader :values_range
-    # The default value of the option
-    attr_reader :default_value
-    # Indicates whether the option is required
-    def required?; @required; end
-    # The message to be used when reporting that a required option is missing
-    attr_reader :required_message
-    # The value constraint
-    attr_reader :constraint
-    # The option's extras
-    attr_reader :extras
+    if rm_name
 
-    # (Proc) The procedure
-    attr_reader :action
-
-    # @!visibility private
-    def action=(blk) # :nodoc: all
-
-        check_arity_(blk, 0..3, "flag")
-
-        @action = blk
+      required_message = "#{rm_name} not specified; use --help for usage"
     end
 
-    # String form of the option
-    def to_s
+    @required_message = required_message
+  end
 
-        "{#{name}; aliases=#{aliases.join(', ')}; values_range=[ #{values_range.join(', ')} ]; default_value='#{default_value}'; help='#{help}'; required?=#{required?}; required_message=#{required_message}; constraint=#{constraint}; extras=#{extras}}"
+  # The option's name string
+  attr_reader :name
+  # The option's aliases array
+  attr_reader :aliases
+  # The option's help string
+  attr_reader :help
+  # The range of values supported by the option
+  attr_reader :values_range
+  # The default value of the option
+  attr_reader :default_value
+  # Indicates whether the option is required
+  def required?; @required; end
+  # The message to be used when reporting that a required option is missing
+  attr_reader :required_message
+  # The value constraint
+  attr_reader :constraint
+  # The option's extras
+  attr_reader :extras
+
+  # (Proc) The procedure
+  attr_reader :action
+
+  # @!visibility private
+  def action=(blk) # :nodoc: all
+
+    check_arity_(blk, 0..3, "flag")
+
+    @action = blk
+  end
+
+  # String form of the option
+  def to_s
+
+    "{#{name}; aliases=#{aliases.join(', ')}; values_range=[ #{values_range.join(', ')} ]; default_value='#{default_value}'; help='#{help}'; required?=#{required?}; required_message=#{required_message}; constraint=#{constraint}; extras=#{extras}}"
+  end
+
+  # @!visibility private
+  def eql? rhs # :nodoc:
+
+    case rhs
+    when self.class
+
+      return true if equal?(rhs)
+    else
+
+      return false
     end
 
-    # @!visibility private
-    def eql? rhs # :nodoc:
+    return false unless name == rhs.name
+    return false unless aliases == rhs.aliases
+    return false unless help == rhs.help
+    return false unless values_range == rhs.values_range
+    return false unless default_value == rhs.default_value
+    return false unless required? == rhs.required?
+    return false unless required_message == rhs.required_message
+    return false unless extras == rhs.extras
 
-        case rhs
-        when self.class
+    return true
+  end
 
-            return true if equal?(rhs)
-        else
+  # Compares instance against another OptionSpecification or against a name (String)
+  def == rhs
 
-            return false
-        end
+    case rhs
+    when self.class
 
-        return false unless name == rhs.name
-        return false unless aliases == rhs.aliases
-        return false unless help == rhs.help
-        return false unless values_range == rhs.values_range
-        return false unless default_value == rhs.default_value
-        return false unless required? == rhs.required?
-        return false unless required_message == rhs.required_message
-        return false unless extras == rhs.extras
+      return self.eql? rhs
+    when String
 
-        return true
+      return name == rhs
+    else
+
+      false
     end
-
-    # Compares instance against another OptionSpecification or against a name (String)
-    def == rhs
-
-        case rhs
-        when self.class
-
-            return self.eql? rhs
-        when String
-
-            return name == rhs
-        else
-
-            false
-        end
-    end
+  end
 end
 
 # A class that represents an explicit alias for a flag or an option
 class AliasSpecification
 
-    def initialize(name, aliases)
+  def initialize(name, aliases)
 
-        @name       =   name
-        @aliases    =   (aliases || []).select { |a| a and not a.empty? }
-        @extras     =   nil
-        @help       =   nil
-    end
+    @name     = name
+    @aliases  = (aliases || []).select { |a| a and not a.empty? }
+    @extras   = nil
+    @help     = nil
+  end
 
-    # The alias' name string
-    attr_reader :name
-    # The alias' aliases array
-    attr_reader :aliases
-    # The flag's help string
-    attr_reader :help
-    # The flag's extras
-    attr_reader :extras
+  # The alias' name string
+  attr_reader :name
+  # The alias' aliases array
+  attr_reader :aliases
+  # The flag's help string
+  attr_reader :help
+  # The flag's extras
+  attr_reader :extras
 
-    # String form of the option
-    def to_s
+  # String form of the option
+  def to_s
 
-        "{#{name}; aliases=#{aliases.join(', ')}}"
-    end
+    "{#{name}; aliases=#{aliases.join(', ')}}"
+  end
 end
 
 
@@ -398,38 +399,39 @@ end
 # * *Block* An optional block that is called when a matching flag argument is found
 def CLASP.Flag(name, options = {}, &blk)
 
-    aliases =   nil
-    help    =   nil
-    extras  =   nil
+  aliases = nil
+  help    = nil
+  extras  = nil
 
-    options.each do |k, v|
+  options.each do |k, v|
 
-        case    k
-        when    Symbol
-            case    k
-            when    :alias
+    case  k
+    when  Symbol
 
-                aliases = [ v ] if v
-            when    :aliases
+      case  k
+      when  :alias
 
-                aliases = v unless aliases
-            when    :help
+        aliases = [ v ] if v
+      when  :aliases
 
-                help = v
-            when    :extras
+        aliases = v unless aliases
+      when  :help
 
-                extras = v
-            else
+        help = v
+      when  :extras
 
-                raise ArgumentError, "invalid option for flag: '#{k}' => '#{v}'"
-            end
-        else
+        extras = v
+      else
 
-            raise ArgumentError, "invalid option type for flag: '#{k}' (#{k.class}) => '#{v}'"
-        end
+        raise ArgumentError, "invalid option for flag: '#{k}' => '#{v}'"
+      end
+    else
+
+      raise ArgumentError, "invalid option type for flag: '#{k}' (#{k.class}) => '#{v}'"
     end
+  end
 
-    CLASP::FlagSpecification.new(name, aliases, help, extras, &blk)
+  CLASP::FlagSpecification.new(name, aliases, help, extras, &blk)
 end
 
 # Generator method that obtains a CLASP::OptionSpecification according to the given
@@ -458,88 +460,89 @@ end
 # * *Block* An optional block that is called when a matching option argument is found
 def CLASP.Option(name, options = {}, &blk)
 
-    aliases         =   nil
-    help            =   nil
-    values_range    =   nil
-    default_value   =   nil
-    required        =   false
-    require_message =   nil
-    constraint      =   nil
-    extras          =   nil
+  aliases         = nil
+  help            = nil
+  values_range    = nil
+  default_value   = nil
+  required        = false
+  require_message = nil
+  constraint      = nil
+  extras          = nil
 
-    options.each do |k, v|
+  options.each do |k, v|
 
-        case    k
-        when    Symbol
-            case    k
-            when    :alias
+    case  k
+    when  Symbol
 
-                aliases = [ v ] if v
-            when    :aliases
+      case  k
+      when  :alias
 
-                aliases = v unless aliases
-            when    :help
+        aliases = [ v ] if v
+      when  :aliases
 
-                help = v
-            when    :values_range, :values
+        aliases = v unless aliases
+      when  :help
 
-                values_range = v
-            when    :default_value, :default
+        help = v
+      when  :values_range, :values
 
-                default_value = v
-            when    :required
+        values_range = v
+      when  :default_value, :default
 
-                required = v
-            when    :required_message
+        default_value = v
+      when  :required
 
-                require_message = v
-            when    :extras
+        required = v
+      when  :required_message
 
-                extras = v
-            when    :constraint
+        require_message = v
+      when  :extras
 
-                constraint = v
-            else
+        extras = v
+      when  :constraint
 
-                raise ArgumentError, "invalid option for option: '#{k}' => '#{v}'"
-            end
-        else
+        constraint = v
+      else
 
-            raise ArgumentError, "invalid option type for option: '#{k}' (#{k.class}) => '#{v}'"
-        end
+        raise ArgumentError, "invalid option for option: '#{k}' => '#{v}'"
+      end
+    else
+
+      raise ArgumentError, "invalid option type for option: '#{k}' (#{k.class}) => '#{v}'"
     end
+  end
 
-    CLASP::OptionSpecification.new(name, aliases, help, values_range, default_value, required, require_message, constraint, extras, &blk)
+  CLASP::OptionSpecification.new(name, aliases, help, values_range, default_value, required, require_message, constraint, extras, &blk)
 end
 
 def CLASP.Alias(name, *args)
 
-    options =   args.pop if args[-1].is_a?(::Hash)
-    options ||= {}
+  options =   args.pop if args[-1].is_a?(::Hash)
+  options ||= {}
 
-    if options[:alias]
+  if options[:alias]
 
-        aliases = [ options[:alias] ]
-    elsif options[:aliases]
+    aliases = [ options[:alias] ]
+  elsif options[:aliases]
 
-        aliases = options[:aliases]
-    else
+    aliases = options[:aliases]
+  else
 
-        aliases = args
-    end
+    aliases = args
+  end
 
-    CLASP::AliasSpecification.new name, aliases
+  CLASP::AliasSpecification.new name, aliases
 end
 
 
 # ######################################################################## #
 # backwards-compatible
 
-Alias       =   AliasSpecification
-Flag        =   FlagSpecification
-FlagAlias   =   FlagSpecification
-Option      =   OptionSpecification
-OptionAlias =   OptionSpecification
+Alias       = AliasSpecification
+Flag        = FlagSpecification
+FlagAlias   = FlagSpecification
+Option      = OptionSpecification
+OptionAlias = OptionSpecification
 
 
 # ######################################################################## #
