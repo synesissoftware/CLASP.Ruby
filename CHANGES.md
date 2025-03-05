@@ -1,6 +1,13 @@
 # **CLASP.Ruby** Changes
 
 
+## 0.23.1 - 6th March 2025
+
+* warnings;
+* dependencies updated;
+* layout (to 2-space indents);
+
+
 ## 0.23.0.2 - 20th January 2024
 
 * simplifying tests using heredocs
