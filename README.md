@@ -1,7 +1,12 @@
 # CLASP.Ruby <!-- omit in toc -->
 Command-Line Argument Sorting and Parsing, for Ruby
 
+![Language](https://img.shields.io/badge/Ruby-CC342D?style=flat&logo=ruby&logoColor=white)
+[![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![Gem Version](https://badge.fury.io/rb/clasp-ruby.svg)](https://badge.fury.io/rb/clasp-ruby)
+[![Gem Downloads](https://img.shields.io/gem/dt/clasp-ruby.svg)](https://rubygems.org/gems/clasp-ruby)
+[![GitHub release](https://img.shields.io/github/v/release/synesissoftware/CLASP.Ruby.svg)](https://github.com/synesissoftware/CLASP.Ruby/releases/latest)
+[![Last Commit](https://img.shields.io/github/last-commit/synesissoftware/CLASP.Ruby)](https://github.com/synesissoftware/CLASP.Ruby/commits/master)
 
 ## Table of Contents <!-- omit in toc -->
 
