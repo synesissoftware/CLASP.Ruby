@@ -165,7 +165,7 @@ Args.flags.each do |f|
 Given the command
 
 ```
-    ./cr-example.rb --help
+./cr-example.rb --help
 ```
 
 then the program will output the following
@@ -200,7 +200,7 @@ flags/options:
 and given the command
 
 ```
-    ./cr-example.rb --version
+./cr-example.rb --version
 ```
 
 then the program will output the following
