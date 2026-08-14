@@ -13,8 +13,7 @@
 
 ## Packaging improvements
 
-* \<none>
-
+* [ ] Rename gemspec so the filename stem matches `spec.name` (`CLASP.gemspec` → **clasp-ruby.gemspec**);
 
 
 <!-- ########################### end of file ########################### -->
