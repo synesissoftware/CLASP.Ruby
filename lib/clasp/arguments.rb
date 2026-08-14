@@ -1,11 +1,11 @@
-
+# frozen_string_literal: true
 # ######################################################################## #
 # File:     clasp/arguments.rb
 #
 # Purpose:  Definition of the Arguments class, the main class in CLASP.Ruby
 #
 # Created:  14th February 2014
-# Updated:  6th March 2025
+# Updated:  15th August 2026
 #
 # Home:     http://github.com/synesissoftware/CLASP.Ruby
 #

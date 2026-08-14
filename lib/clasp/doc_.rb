@@ -1,11 +1,11 @@
-
+# frozen_string_literal: true
 # ######################################################################## #
 # File:         lib/xqsr3/doc_.rb
 #
 # Purpose:      Documentation of the CLASP.Ruby modules
 #
 # Created:      11th June 2016
-# Updated:      20th January 2024
+# Updated:      15th August 2026
 #
 # Home:         http://github.com/synesissoftware/xqsr3
 #

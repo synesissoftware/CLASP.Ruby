@@ -1,11 +1,11 @@
-
+# frozen_string_literal: true
 # ######################################################################## #
 # File:     clasp/cli.rb
 #
 # Purpose:  Command-line interface
 #
 # Created:  27th July 2015
-# Updated:  6th March 2025
+# Updated:  15th August 2026
 #
 # Home:     http://github.com/synesissoftware/CLASP.Ruby
 #
