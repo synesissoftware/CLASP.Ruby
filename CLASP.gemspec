@@ -37,6 +37,13 @@ END_DESC
 
   spec.required_ruby_version = [ '>= 1.9.3', '< 4' ]
 
+  spec.metadata = {
+    'bug_tracker_uri' => 'https://github.com/synesissoftware/CLASP.Ruby/issues',
+    'changelog_uri' => 'https://github.com/synesissoftware/CLASP.Ruby/blob/master/CHANGES.md',
+    'homepage_uri' => 'https://github.com/synesissoftware/CLASP.Ruby',
+    'source_code_uri' => 'https://github.com/synesissoftware/CLASP.Ruby',
+  }
+
   spec.add_development_dependency "xqsr3", [ '>= 0.39.5', '< 1.0' ]
 end
 
