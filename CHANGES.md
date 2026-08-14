@@ -1,4 +1,4 @@
-# **CLASP.Ruby** Changes
+# CLASP.Ruby - Changes <!-- omit in toc -->
 
 
 ## 0.23.1 - 6th March 2025
