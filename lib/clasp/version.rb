@@ -5,13 +5,13 @@
 # Purpose:  Version for CLASP.Ruby library
 #
 # Created:  16th November 2014
-# Updated:  6th March 2025
+# Updated:  15th August 2026
 #
 # Home:     http://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:   Matthew Wilson
 #
-# Copyright (c) 2019-2025, Matthew Wilson and Synesis Information Systems
+# Copyright (c) 2019-2026, Matthew Wilson and Synesis Information Systems
 # Copyright (c) 2014-2019, Matthew Wilson and Synesis Software
 # All rights reserved.
 #
@@ -52,7 +52,7 @@
 module CLASP
 
     # Current version of the CLASP.Ruby library
-    VERSION           = '0.23.1'
+    VERSION           = '0.23.2'
 
     private
     # @!visibility private

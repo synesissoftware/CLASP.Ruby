@@ -1,6 +1,11 @@
 # CLASP.Ruby - Changes <!-- omit in toc -->
 
 
+## 0.23.2 - 15th August 2026
+
+T.B.C.
+
+
 ## 0.23.1 - 6th March 2025
 
 * warnings;
