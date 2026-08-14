@@ -97,6 +97,16 @@
 * `CLASP::FlagSpecification` and `CLASP::OptionSpecification` classes now compare against name (`String`) in `==()`;
 
 
+## 0.18.2 - 12th April 2019
+
+* documentation improvements;
+
+
+## 0.18.1 - 11th April 2019
+
+* completed [aA]lias(|es) => [sS]pecification(|s);
+
+
 ## 0.18.0 - 10th April 2019
 
 * changed `*Alias` classes to `*Specification`;
@@ -113,5 +123,179 @@
 * minor adjustment to test case such that the library now compatible with Ruby 1.9.3+;
 
 
-<!-- ########################### end of file ########################### -->
+## 0.16.0 - 19th March 2019
 
+* added #program_name attribute and #find_flag() and #find_option() methods to CLASP::Arguments class; + added examples;
+
+
+## 0.15.2 - 19th March 2019
+
+* fixed subtle defect (due to overloading of term 'options');
+
+
+## 0.15.1 - 19th March 2019
+
+* tagged release;
+
+
+## 0.15.0 - 27th February 2019
+
+* removed the ImmutableArray class, and associated unit-tests; ~ changed the 'flags', 'options', 'values' arrays to frozen Array instances;
+
+
+## 0.14.5 - 27th February 2019
+
+* fixed a freeze vulnerability;
+
+
+## 0.14.3 - 8th January 2019
+
+* fix;
+
+
+## 0.14.1.1 - 19th October 2018
+
+* dependencies;
+
+
+## 0.14.1 - 1st October 2018
+
+* 0.14;
+
+
+## 0.13.4 - 1st October 2018
+
+* minor mods;
+
+
+## 0.13.3 - 2nd March 2018
+
+* merge;
+
+
+## 0.13.2 - 1st March 2018
+
+* fixed defect in CLASP.show_usage() and CLASP.show_version() parameter checking, which failed to permit new CLASP::Alias type in aliases array;
+
+
+## 0.13.1 - 7th February 2018
+
+* fix;
+
+
+## 0.12.2 - 7th February 2018
+
+* tagged release;
+
+
+## 0.12.1 - 1st January 2018
+
+* added required_message;
+
+
+## 0.11.4 - 1st January 2018
+
+* more tests, prior to adding support for required? attribute;
+
+
+## 0.11.3 - 1st January 2018
+
+* minor improvements to documentation for Flag() & Option() creator methods;
+
+
+## 0.11.2 - 22nd June 2017
+
+* fixed debug-visible warnings;
+
+
+## 0.11.1 - 1st January 2018
+
+* tagged release;
+
+
+## 0.10.3 - 1st January 2018
+
+* tagged release;
+
+
+## 0.10.2 - 11th June 2016
+
+* added generate_rdoc.rb;
+
+
+## 0.10.1 - 10th June 2016
+
+* Clasp module alias now moved to separate file, therefore separate require;
+
+
+## 0.9.2 - 9th June 2016
+
+* added build_gem.sh;
+
+
+## 0.9.1 - 4th June 2016
+
+* merge;
+
+
+## 0.7.8 - 4th June 2016
+
+* changed syntax form of options to opt: from :opt =>;
+
+
+## 0.7.7 - 3rd June 2016
+
+* layout;
+
+
+## 0.7.5 - 5th February 2018
+
+* tagged release;
+
+
+## 0.7.4 - 5th February 2018
+
+* tagged release;
+
+
+## 0.7.3 - 5th February 2018
+
+* tagged release;
+
+
+## 0.7.2 - 5th February 2018
+
+* tagged release;
+
+
+## 0.7.1 - 5th February 2018
+
+* tagged release;
+
+
+## 0.6.10 - 5th February 2018
+
+* merge;
+
+
+## 0.6.9 - 5th February 2018
+
+* tagged release;
+
+
+## 0.6.8 - 5th February 2018
+
+* tagged release;
+
+
+## 0.6.7 - 5th February 2018
+
+* tagged release;
+
+
+## 0.6.5 - 5th February 2018
+
+* tagged release;
+
+
+<!-- ########################### end of file ########################### -->
