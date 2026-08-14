@@ -1,13 +1,14 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    xqsr3 (0.39.3)
+    xqsr3 (0.39.4.1)
 
 PLATFORMS
-  x86_64-darwin-20
+  arm64-darwin-25
+  ruby
 
 DEPENDENCIES
-  xqsr3 (~> 0.38)
+  xqsr3 (~> 0.39, >= 0.39.4)
 
 BUNDLED WITH
-   2.3.17
+   2.6.9
