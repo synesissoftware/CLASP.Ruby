@@ -1,4 +1,4 @@
-# CLASP.Ruby Example - **flag_and_option_specifications**
+# CLASP.Ruby - Example - **flag_and_option_specifications**
 
 ## Summary
 
