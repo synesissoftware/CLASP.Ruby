@@ -1,6 +1,18 @@
 # CLASP.Ruby - Changes <!-- omit in toc -->
 
 
+## 0.23.3 - 19th August 2026
+
+* renamed **CLASP.gemspec** to **clasp-ruby.gemspec** so the filename stem matches `spec.name`;
+* **clasp-ruby.gemspec**: `required_ruby_version` is the range `>= 1.9.3` (dropped `< 4`); **Gemfile.lock** and **.ruby-version** excluded from `spec.files`; `spec.summary` matches the README tagline; packaged **AUTHORS**, **CHANGES**, **CONTRIBUTING**, **EXAMPLES**, **FAQ**, **INSTALL**, **NEWS**, **SECURITY**, **TODO**;
+* **Gemfile** sets `lockfile false` when Bundler supports it; stop tracking **Gemfile.lock**;
+* CI uses `bundler-cache: false` and explicit `bundle install`; **Warnings** job on Ruby **3.4**; `gem build clasp-ruby.gemspec`;
+* updated **run_all_unit_tests.sh** (from https://github.com/synesissoftware/misc-dev-scripts) to skip **tput** when **$TERM** is unset or stdout is not a TTY;
+* **README.md**: tagline before badges; dropped Downloads / GitHub-release badges; Dependencies (Efferent / Afferent);
+* **EXAMPLES.md** example links are repo-relative (`./examples/…`); catalogued remaining example programs;
+* library source **Home:** URLs now use `https`;
+
+
 ## 0.23.2 - 15th August 2026
 
 * added `# frozen_string_literal: true` to all **lib/** sources;

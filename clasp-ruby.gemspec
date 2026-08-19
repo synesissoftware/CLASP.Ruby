@@ -1,12 +1,12 @@
-# ######################################################################### #
-# File:     CLASP.gemspec
+# ######################################################################## #
+# File:     clasp-ruby.gemspec
 #
 # Purpose:  Gemspec for CLASP.Ruby library
 #
 # Created:  22nd June 2015
-# Updated:  15th August 2026
+# Updated:  19th August 2026
 #
-# ######################################################################### #
+# ######################################################################## #
 
 
 $:.unshift File.join(File.dirname(__FILE__), 'lib')
@@ -17,8 +17,8 @@ require 'clasp/version'
 Gem::Specification.new do |spec|
 
   spec.name         = 'clasp-ruby'
+  spec.summary      = 'Command-Line Argument Sorting and Parsing, for Ruby'
   spec.version      = CLASP::VERSION
-  spec.summary      = 'CLASP.Ruby'
   spec.description  = <<END_DESC
 Command-Line Argument Sorting and Parsing library that provides a powerful abstraction of command-line interpretation facilities.
 
@@ -33,9 +33,8 @@ END_DESC
   ]
   spec.homepage     = 'https://github.com/synesissoftware/CLASP.Ruby'
   spec.license      = 'BSD-3-Clause'
-  spec.files        = Dir[ 'Rakefile', '{bin,examples,lib,man,spec,test}/**/*', 'README*', 'LICENSE*' ] & `git ls-files -z`.split("\0")
 
-  spec.required_ruby_version = [ '>= 1.9.3', '< 4' ]
+  spec.required_ruby_version = [ '>= 1.9.3' ]
 
   spec.metadata = {
     'bug_tracker_uri' => 'https://github.com/synesissoftware/CLASP.Ruby/issues',
@@ -43,6 +42,26 @@ END_DESC
     'homepage_uri' => 'https://github.com/synesissoftware/CLASP.Ruby',
     'source_code_uri' => 'https://github.com/synesissoftware/CLASP.Ruby',
   }
+
+  spec.files = Dir[
+    'Rakefile',
+    '{bin,examples,lib,man,spec,test}/**/*',
+    'AUTHORS*',
+    'CHANGES*',
+    'CONTRIBUTING*',
+    'EXAMPLES*',
+    'FAQ*',
+    'INSTALL*',
+    'LICENSE*',
+    'NEWS*',
+    'README*',
+    'SECURITY*',
+    'TODO*',
+  ] & `git ls-files -z`.split("\0")
+  spec.files -= [
+    '.ruby-version',
+    'Gemfile.lock',
+  ]
 
   spec.add_development_dependency "xqsr3", [ '>= 0.39.5', '< 1.0' ]
 end
