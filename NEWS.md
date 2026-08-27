@@ -2,6 +2,7 @@
 
 | Date               | News Item                                                                                  |
 | ------------------ | ------------------------------------------------------------------------------------------ |
+| 27th August 2026   | [**CLASP.Ruby** 0.23.3](https://github.com/synesissoftware/CLASP.Ruby/releases/tag/0.23.3) |
 | 15th August 2026   | [**CLASP.Ruby** 0.23.2](https://github.com/synesissoftware/CLASP.Ruby/releases/tag/0.23.2) |
 | 6th March 2025     | **CLASP.Ruby** 0.23.1 released                                                             |
 | 20th January 2024  | **CLASP.Ruby** 0.23.0.2 released                                                           |

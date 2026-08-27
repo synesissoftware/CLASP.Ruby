@@ -7,7 +7,7 @@
 # Created:  20th April 2019
 # Updated:  15th August 2026
 #
-# Home:     http://github.com/synesissoftware/CLASP.Ruby
+# Home:     https://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:   Matthew Wilson
 #

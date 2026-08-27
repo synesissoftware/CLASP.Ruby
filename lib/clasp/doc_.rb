@@ -7,7 +7,7 @@
 # Created:      11th June 2016
 # Updated:      15th August 2026
 #
-# Home:         http://github.com/synesissoftware/xqsr3
+# Home:         https://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:       Matthew Wilson
 #
