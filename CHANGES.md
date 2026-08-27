@@ -1,7 +1,7 @@
 # CLASP.Ruby - Changes <!-- omit in toc -->
 
 
-## 0.23.3 - 19th August 2026
+## 0.23.3 - 27th August 2026
 
 * renamed **CLASP.gemspec** to **clasp-ruby.gemspec** so the filename stem matches `spec.name`;
 * **clasp-ruby.gemspec**: `required_ruby_version` is the range `>= 1.9.3` (dropped `< 4`); **Gemfile.lock** and **.ruby-version** excluded from `spec.files`; `spec.summary` matches the README tagline; packaged **AUTHORS**, **CHANGES**, **CONTRIBUTING**, **EXAMPLES**, **FAQ**, **INSTALL**, **NEWS**, **SECURITY**, **TODO**;

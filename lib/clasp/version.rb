@@ -5,7 +5,7 @@
 # Purpose:  Version for CLASP.Ruby library
 #
 # Created:  16th November 2014
-# Updated:  19th August 2026
+# Updated:  27th August 2026
 #
 # Home:     https://github.com/synesissoftware/CLASP.Ruby
 #
