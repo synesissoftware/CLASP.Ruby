@@ -1,19 +1,22 @@
-
 # directories (by name)
 
 /.bzr/
 /.bundle/
 /.config/
-/.git/
 /.svn/
+/.yardoc/
+
+/_yardoc/
 
 /InstalledFiles/
 /build/
 /coverage/
 /doc/
 /lib/bundler/man/
+/old-gems/
 /pkg/
 /rdoc/
+/scratch/
 /spec/reports/
 /test/tmp/
 /test/version_tmp/
@@ -25,28 +28,23 @@
 # files (by name)
 
 .DS_Store
-.bundle
-.config
 .repl_history
 .ruby-version
 .rvmrc
-.yardoc
-_yardoc
 
-InstalledFiles
-coverage
-pkg
-rdoc
+/spec/examples.txt
 
 # files (by pattern)
 
 *~
 *.*~
 .dat*
+*.b64
+*.bridgesupport
 *.gem
 *.rbc
 *.scc
 *.suo
 *.swp
+*.tmp
 *.zip
-

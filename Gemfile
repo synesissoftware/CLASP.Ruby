@@ -2,7 +2,15 @@
 
 source "https://rubygems.org"
 
-git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
+gemspec
 
-gem 'xqsr3', '~> 0.38'
+# rake 13 requires Ruby >= 2.3
+if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("2.3")
 
+  gem "rake", '~> 13.0'
+else
+
+  gem "rake", '~> 12.3'
+end
+
+gem "test-unit", '~> 3.0'
