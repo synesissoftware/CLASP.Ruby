@@ -1,13 +1,13 @@
-
+# frozen_string_literal: true
 # ######################################################################## #
 # File:     clasp/clasp.rb
 #
 # Purpose:  Common 'require file' for CLASP.Ruby library
 #
 # Created:  14th February 2014
-# Updated:  6th March 2025
+# Updated:  15th August 2026
 #
-# Home:     http://github.com/synesissoftware/CLASP.Ruby
+# Home:     https://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:   Matthew Wilson
 #

@@ -1,13 +1,13 @@
-
+# frozen_string_literal: true
 # ######################################################################## #
 # File:     clasp.rb
 #
 # Purpose:  Top-level source for CLASP.ruby library
 #
 # Created:  13th October 2014
-# Updated:  6th March 2025
+# Updated:  15th August 2026
 #
-# Home:     http://github.com/synesissoftware/CLASP.Ruby
+# Home:     https://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:   Matthew Wilson
 #

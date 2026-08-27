@@ -1,40 +1,56 @@
 # CLASP.Ruby <!-- omit in toc -->
+
 Command-Line Argument Sorting and Parsing, for Ruby
 
+![Language](https://img.shields.io/badge/Ruby-CC342D?style=flat&logo=ruby&logoColor=white)
+[![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![Gem Version](https://badge.fury.io/rb/clasp-ruby.svg)](https://badge.fury.io/rb/clasp-ruby)
+[![Last Commit](https://img.shields.io/github/last-commit/synesissoftware/CLASP.Ruby)](https://github.com/synesissoftware/CLASP.Ruby/commits/master)
+[![Ruby](https://github.com/synesissoftware/CLASP.Ruby/actions/workflows/ruby.yml/badge.svg)](https://github.com/synesissoftware/CLASP.Ruby/actions/workflows/ruby.yml)
+
 
 ## Table of Contents <!-- omit in toc -->
 
 - [Introduction](#introduction)
-    - [libCLImate.Ruby](#libclimateruby)
+  - [libCLImate.Ruby](#libclimateruby)
 - [Installation](#installation)
 - [Components](#components)
-    - [Command-line parsing](#command-line-parsing)
-    - [Declarative specification of the flags and options for a CLI](#declarative-specification-of-the-flags-and-options-for-a-cli)
-    - [Utility functions for displaying usage and version information](#utility-functions-for-displaying-usage-and-version-information)
+  - [Command-line parsing](#command-line-parsing)
+  - [Declarative specification of the flags and options for a CLI](#declarative-specification-of-the-flags-and-options-for-a-cli)
+  - [Utility functions for displaying usage and version information](#utility-functions-for-displaying-usage-and-version-information)
 - [Examples](#examples)
 - [Project Information](#project-information)
-    - [Where to get help](#where-to-get-help)
-    - [Contribution guidelines](#contribution-guidelines)
-    - [Related projects](#related-projects)
-    - [License](#license)
+  - [Where to get help](#where-to-get-help)
+  - [Contribution guidelines](#contribution-guidelines)
+  - [Dependencies](#dependencies)
+    - [Efferent (fan-out)](#efferent-fan-out)
+      - [Runtime Dependencies (aka "Normal Dependencies")](#runtime-dependencies-aka-normal-dependencies)
+      - [Development Dependencies](#development-dependencies)
+    - [Afferent (fan-in)](#afferent-fan-in)
+      - [Runtime dependents](#runtime-dependents)
+      - [Development dependents](#development-dependents)
+  - [Related projects](#related-projects)
+  - [License](#license)
+
 
 ## Introduction
 
-**CLASP** stands for **C**ommand-**L**ine **A**rgument **S**orting and **P**arsing. The first **CLASP** library was a C library with a C++ wrapper (see project [**CLASP**](https://github.com/synesissoftware/CLASP/)). There have been several implementations in other languages (as listed in [Relation projects](#related-projects)). **CLASP.Ruby** is the Ruby version.
+**CLASP** stands for **C**ommand-**L**ine **A**rgument **S**orting and **P**arsing. The first **CLASP** library was a C library with a C++ wrapper (see project [**CLASP**](https://github.com/synesissoftware/CLASP/)). There have been several implementations in other languages (as listed in [Related projects](#related-projects)). **CLASP.Ruby** is the Ruby version.
 
 All **CLASP** libraries provide the facilities to **C**ommand **L**ine **I**nterface (**CLI**) programs as described in detail below.
 
+
 ### libCLImate.Ruby
 
-The [**libCLImate.Ruby**](https://github.com/synesissoftware/libCLImate.Ruby) library is implemented in terms of **CLASP.Ruby** but provides a higher-level abstration as well as several utility functions and the facility to fully specify command-line arguments declaratively in the `__END__` section of a source file. More information and examples provided in the [**libCLImate.Ruby**](https://github.com/synesissoftware/libCLImate.Ruby) project.
+The [**libCLImate.Ruby**](https://github.com/synesissoftware/libCLImate.Ruby) library is implemented in terms of **CLASP.Ruby** but provides a higher-level abstraction as well as several utility functions and the facility to fully specify command-line arguments declaratively in the `__END__` section of a source file. More information and examples provided in the [**libCLImate.Ruby**](https://github.com/synesissoftware/libCLImate.Ruby) project.
+
 
 ## Installation
 
 Install via **gem** as in:
 
 ```
-    gem install clasp-ruby
+gem install clasp-ruby
 ```
 
 or add it to your `Gemfile`.
@@ -45,7 +61,9 @@ Use via **require**, as in:
 require 'clasp'
 ```
 
+
 ## Components
+
 
 ### Command-line parsing
 
@@ -97,6 +115,7 @@ UNIX standard arguments confer specific meanings:
  * `--version` means that the program should show the version information and terminate;
  * `--` means that all subsequent arguments should be treated as values, regardless of any hyphen-prefixes or embedded `=` signs.
 
+
 ### Declarative specification of the flags and options for a CLI
 
 To support such above special processing, CLASP libraries provide facilities
@@ -139,6 +158,7 @@ puts Args.values[1]                 # => "outfile"
 
 ```
 
+
 ### Utility functions for displaying usage and version information
 
 There are aspects common to all CLI programs, such as responding to `--help` and `--version`. All **CLASP** libraries provide facilities to assist the programmer: **CLASP.Ruby** provides the two module methods CLASP.show_usage() and CLASP.show_version(), as shown in the following code extending the example above:
@@ -165,7 +185,7 @@ Args.flags.each do |f|
 Given the command
 
 ```
-    ./cr-example.rb --help
+./cr-example.rb --help
 ```
 
 then the program will output the following
@@ -200,7 +220,7 @@ flags/options:
 and given the command
 
 ```
-    ./cr-example.rb --version
+./cr-example.rb --version
 ```
 
 then the program will output the following
@@ -209,44 +229,81 @@ then the program will output the following
 cr-example.rb 0.1.2
 ```
 
+
 ## Examples
 
 Examples are provided in the ```examples``` directory, along with a markdown description for each. A detailed list TOC of them is provided in [EXAMPLES.md](./EXAMPLES.md).
 
+
 ## Project Information
+
 
 ### Where to get help
 
 [GitHub Page](https://github.com/synesissoftware/CLASP.Ruby "GitHub Page")
 
+
 ### Contribution guidelines
 
 Defect reports, feature requests, and pull requests are welcome on https://github.com/synesissoftware/CLASP.Ruby.
+
+
+### Dependencies
+
+
+#### Efferent (fan-out)
+
+Libraries upon which **CLASP.Ruby** depends:
+
+
+##### Runtime Dependencies (aka "Normal Dependencies")
+
+* \<none>;
+
+
+##### Development Dependencies
+
+* [**rake**](https://rubygems.org/gems/rake);
+* [**test-unit**](https://rubygems.org/gems/test-unit);
+* [**xqsr3**](https://github.com/synesissoftware/xqsr3);
+
+
+#### Afferent (fan-in)
+
+Projects that depend on **CLASP.Ruby**:
+
+
+##### Runtime dependents
+
+* [**libCLImate.Ruby**](https://github.com/synesissoftware/libCLImate.Ruby);
+* [**oss-src-tools**](https://github.com/mwsis/oss-src-tools);
+
+
+##### Development dependents
+
+* \<none>;
+
 
 ### Related projects
 
 **CLASP.Ruby** is inspired by the [C/C++ CLASP library](https://github.com/synesissoftware/CLASP), which is documented in the articles:
 
- * _An Introduction to CLASP_, Matthew Wilson, [CVu](http://accu.org/index.php/journals/c77/), January 2012;
- * _[Anatomy of a CLI Program written in C](http://synesis.com.au/publishing/software-anatomies/anatomy-of-a-cli-program-written-in-c.html)_, Matthew Wilson, [CVu](http://accu.org/index.php/journals/c77/), September 2012; and
- * _[Anatomy of a CLI Program written in C++](http://synesis.com.au/publishing/software-anatomies/anatomy-of-a-cli-program-written-in-c++.html)_, Matthew Wilson, [CVu](http://accu.org/index.php/journals/c77/), September 2015.
+* _An Introduction to CLASP_, Matthew Wilson, [CVu](http://accu.org/index.php/journals/c77/), January 2012;
+* _[Anatomy of a CLI Program written in C](http://synesis.com.au/publishing/software-anatomies/anatomy-of-a-cli-program-written-in-c.html)_, Matthew Wilson, [CVu](http://accu.org/index.php/journals/c77/), September 2012; and
+* _[Anatomy of a CLI Program written in C++](http://synesis.com.au/publishing/software-anatomies/anatomy-of-a-cli-program-written-in-c++.html)_, Matthew Wilson, [CVu](http://accu.org/index.php/journals/c77/), September 2015;
 
 Other CLASP libraries include:
 
-* [**CLASP**](https://github.com/synesissoftware/CLASP/)
-* [**CLASP.Go**](https://github.com/synesissoftware/CLASP.Go/)
-* [**CLASP.js**](https://github.com/synesissoftware/CLASP.js/)
-* [**CLASP.NET**](https://github.com/synesissoftware/CLASP.NET/)
-* [**CLASP.Python**](https://github.com/synesissoftware/CLASP.Python/)
+* [**CLASP**](https://github.com/synesissoftware/CLASP/);
+* [**CLASP.Go**](https://github.com/synesissoftware/CLASP.Go/);
+* [**CLASP.js**](https://github.com/synesissoftware/CLASP.js/);
+* [**CLASP.NET**](https://github.com/synesissoftware/CLASP.NET/);
+* [**CLASP.Python**](https://github.com/synesissoftware/CLASP.Python/);
 
-Projects in which **CLASP.Ruby** is used include:
-
-* [**libCLImate.Ruby**](https://github.com/synesissoftware/libCLImate.Ruby)
 
 ### License
 
-**CLASP.Ruby** is released under the 3-clause BSD license. See LICENSE for details.
+**CLASP.Ruby** is released under the 3-clause BSD license. See [LICENSE](./LICENSE) for details.
 
 
 <!-- ########################### end of file ########################### -->
-

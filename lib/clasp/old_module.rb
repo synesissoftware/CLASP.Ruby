@@ -1,13 +1,13 @@
-
+# frozen_string_literal: true
 # ######################################################################## #
 # File:     clasp/old_module.rb
 #
 # Purpose:  Introduces old module Clasp (which clashes with an existing gem)
 #
 # Created:  10th June 2016
-# Updated:  6th March 2025
+# Updated:  15th August 2026
 #
-# Home:     http://github.com/synesissoftware/CLASP.Ruby
+# Home:     https://github.com/synesissoftware/CLASP.Ruby
 #
 # Author:   Matthew Wilson
 #

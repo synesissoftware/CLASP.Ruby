@@ -1,4 +1,4 @@
-# CLASP.Ruby Example - **flag_and_option_specifications**
+# CLASP.Ruby - Example - **flag_and_option_specifications**
 
 ## Summary
 
@@ -21,10 +21,10 @@ ProgramVersion = [ 0, 0, 1 ]
 
 InfoLines = [
 
-    'CLASP.Ruby examples',
-    :version,
-    "Illustrates use of CLASP.Ruby's use of flags, options, and aliases",
-    '',
+  'CLASP.Ruby examples',
+  :version,
+  "Illustrates use of CLASP.Ruby's use of flags, options, and aliases",
+  '',
 ]
 
 # Specify specifications, parse, and checking standard flags
@@ -35,24 +35,24 @@ Flag_Chatty = CLASP.Flag('--verbosity=chatty', alias: '-c')
 
 Specifications = [
 
-    Flag_Debug,
-    Option_Verbosity,
-    Flag_Chatty,
+  Flag_Debug,
+  Option_Verbosity,
+  Flag_Chatty,
 
-    CLASP::FlagSpecification.Help,
-    CLASP::FlagSpecification.Version,
+  CLASP::FlagSpecification.Help,
+  CLASP::FlagSpecification.Version,
 ]
 
 args = CLASP::Arguments.new ARGV, Specifications
 
 if args.flags.include?(CLASP::FlagSpecification.Help)
 
-    CLASP.show_usage(Specifications, exit_code: 0, version: ProgramVersion, stream: $stdout, info_lines: InfoLines, default_indicator: '*default*')
+  CLASP.show_usage(Specifications, exit_code: 0, version: ProgramVersion, stream: $stdout, info_lines: InfoLines, default_indicator: '*default*')
 end
 
 if args.flags.include?('--version')
 
-    CLASP.show_version(Specifications, exit_code: 0, version: ProgramVersion, stream: $stdout)
+  CLASP.show_version(Specifications, exit_code: 0, version: ProgramVersion, stream: $stdout)
 end
 
 
@@ -60,12 +60,12 @@ end
 
 if (opt = args.find_option('--verbosity'))
 
-    $stdout.puts "verbosity is specified as: #{opt.value}"
+  $stdout.puts "verbosity is specified as: #{opt.value}"
 end
 
 if args.flags.include?('--debug')
 
-    $stdout.puts 'Debug mode is specified'
+  $stdout.puts 'Debug mode is specified'
 end
 
 
@@ -74,9 +74,9 @@ end
 
 if (unused = args.find_first_unknown())
 
-    $stderr.puts "#{args.program_name}: unrecognised flag/option: #{unused}"
+  $stderr.puts "#{args.program_name}: unrecognised flag/option: #{unused}"
 
-    exit 1
+  exit 1
 end
 ```
 
@@ -87,13 +87,13 @@ end
 If executed with no arguments
 
 ```
-    ruby examples/flag_and_option_specifications.rb
+ruby examples/flag_and_option_specifications.rb
 ```
 
 or (in a Unix shell):
 
 ```
-    ./examples/flag_and_option_specifications.rb
+./examples/flag_and_option_specifications.rb
 ```
 
 it gives the output:
@@ -106,7 +106,7 @@ it gives the output:
 If executed with the arguments
 
 ```
-    ruby examples/flag_and_option_specifications.rb --help
+ruby examples/flag_and_option_specifications.rb --help
 ```
 
 it gives the output:
@@ -146,7 +146,7 @@ flags/options:
 If executed with the arguments
 
 ```
-    ruby examples/flag_and_option_specifications.rb --debug --verbosity=silent
+ruby examples/flag_and_option_specifications.rb --debug --verbosity=silent
 ```
 
 it gives the output:
@@ -161,7 +161,7 @@ Debug mode is specified
 If executed with the arguments
 
 ```
-    ruby examples/flag_and_option_specifications.rb -v silent -d
+ruby examples/flag_and_option_specifications.rb -v silent -d
 ```
 
 it gives the (same) output:
@@ -176,7 +176,7 @@ Debug mode is specified
 If executed with the arguments
 
 ```
-    ruby examples/flag_and_option_specifications.rb -c -d
+ruby examples/flag_and_option_specifications.rb -c -d
 ```
 
 it gives the output:
@@ -191,7 +191,7 @@ Debug mode is specified
 If executed with the arguments
 
 ```
-    ruby examples/flag_and_option_specifications.rb -dc
+ruby examples/flag_and_option_specifications.rb -dc
 ```
 
 it gives the (same) output:
@@ -206,7 +206,7 @@ Debug mode is specified
 If executed with the arguments
 
 ```
-    ruby examples/flag_and_option_specifications.rb -d --verbosity=
+ruby examples/flag_and_option_specifications.rb -d --verbosity=
 ```
 
 it gives the output:
