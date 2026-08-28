@@ -4,7 +4,7 @@
 # Purpose:  Gemspec for CLASP.Ruby library
 #
 # Created:  22nd June 2015
-# Updated:  19th August 2026
+# Updated:  28th August 2026
 #
 # ######################################################################## #
 
@@ -12,6 +12,9 @@
 $:.unshift File.join(File.dirname(__FILE__), 'lib')
 
 require 'clasp/version'
+
+
+PROJECT_URL = 'https://github.com/synesissoftware/CLASP.Ruby'
 
 
 Gem::Specification.new do |spec|
@@ -31,16 +34,16 @@ END_DESC
   spec.email        = [
     'matthew@synesis.com.au',
   ]
-  spec.homepage     = 'https://github.com/synesissoftware/CLASP.Ruby'
+  spec.homepage     = PROJECT_URL
   spec.license      = 'BSD-3-Clause'
 
   spec.required_ruby_version = [ '>= 1.9.3' ]
 
   spec.metadata = {
-    'bug_tracker_uri' => 'https://github.com/synesissoftware/CLASP.Ruby/issues',
-    'changelog_uri' => 'https://github.com/synesissoftware/CLASP.Ruby/blob/master/CHANGES.md',
-    'homepage_uri' => 'https://github.com/synesissoftware/CLASP.Ruby',
-    'source_code_uri' => 'https://github.com/synesissoftware/CLASP.Ruby',
+    'bug_tracker_uri' => "#{PROJECT_URL}/issues",
+    'changelog_uri' => "#{PROJECT_URL}/blob/master/CHANGES.md",
+    'homepage_uri' => PROJECT_URL,
+    'source_code_uri' => PROJECT_URL,
   }
 
   spec.files = Dir[
