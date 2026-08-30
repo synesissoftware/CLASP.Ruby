@@ -1,6 +1,11 @@
 # CLASP.Ruby - Changes <!-- omit in toc -->
 
 
+## 0.23.4 - 30th August 2026
+
+* corrected shared project URL metadata in **clasp-ruby.gemspec**;
+
+
 ## 0.23.3 - 27th August 2026
 
 * renamed **CLASP.gemspec** to **clasp-ruby.gemspec** so the filename stem matches `spec.name`;
